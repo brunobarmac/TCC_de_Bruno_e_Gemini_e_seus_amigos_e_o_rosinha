@@ -1,0 +1,405 @@
+<!-- ================================================
+     ARQUIVO: questoes-favoritas.html
+     LOCALIZAÇÃO: d:\TCC\html\questoes-favoritas.html
+     DESCRIÇÃO: Página onde o usuário pode ver e gerenciar suas questões favoritas
+     FUNCIONALIDADE:
+       - Lista de questões marcadas como favoritas
+       - Navegação consistente com o restante do site
+       - Seletor multilíngue de idioma
+       - Links de retorno e rodapé
+       - Todos os textos traduzíveis com i18next
+     ================================================ -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões Favoritas - StudyPro</title>
+    <meta name="description" content="Veja as questões que você salvou como favoritas no StudyPro.">
+    <!-- fontes e ícones comuns -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/questoes-favoritas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+</head>
+<body>
+    <!--
+    ================================================================================
+    SEÇÃO: HEADER - CABEÇALHO PRINCIPAL
+    Contém logo, seletor de idioma e botão de retorno
+    ================================================================================
+    -->
+    <header>
+        <!--
+        CABEÇALHO PRINCIPAL
+        Estrutura superior da página com elementos de navegação global
+        -->
+        <div class="main-header">
+            <!--
+            LOGO DA APLICAÇÃO
+            Identidade visual consistente em todas as páginas
+            Emoji de cérebro representa o foco em aprendizado
+            -->
+            <div class="logo">
+                <span class="brain">🧠</span> StudyPro
+            </div>
+
+            <!--
+            CONTROLES DO CABEÇALHO DIREITO
+            Agrupa seletor de idioma e botão de navegação
+            -->
+            <div class="header-right">
+                <!--
+                DROPDOWN DE SELEÇÃO DE IDIOMA
+                Permite alternar entre português, inglês e espanhol
+                Salva preferência do usuário no localStorage
+                -->
+                <div class="language-dropdown">
+                    <button class="lang-btn" id="lang-toggle">
+                        <span id="current-lang">PT</span>
+                        <span class="arrow">▶</span>
+                    </button>
+                    <ul class="lang-menu" id="lang-menu">
+                        <li><button class="lang-option" data-lang="pt">PT</button></li>
+                        <li><button class="lang-option" data-lang="en">EN</button></li>
+                        <li><button class="lang-option" data-lang="es">ES</button></li>
+                    </ul>
+                </div>
+
+                <!--
+                BOTÃO DE RETORNO
+                Link para página inicial com ícone e texto traduzível
+                Mantém consistência de navegação
+                -->
+                <a href="../index.html" class="btn back-btn" data-i18n="voltar">Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <!--
+    ================================================================================
+    SEÇÃO: NAVEGAÇÃO SECUNDÁRIA
+    Menu de navegação entre as principais seções do aplicativo
+    ================================================================================
+    -->
+    <nav class="nav-buttons">
+        <!--
+        BOTÕES DE NAVEGAÇÃO
+        Links para todas as seções principais do aplicativo
+        Cada botão tem ícone Font Awesome e texto traduzível
+        Classe 'active' pode ser aplicada dinamicamente se necessário
+        -->
+        <a href="questionario.html" class="nav-btn" data-i18n="questionario"><i class="fas fa-question-circle"></i> Questionário</a>
+        <a href="questoes-favoritas.html" class="nav-btn" data-i18n="questoes-favoritas"><i class="fas fa-star"></i> Questões favoritas</a>
+        <a href="desempenho.html" class="nav-btn" data-i18n="desempenho"><i class="fas fa-chart-line"></i> Desempenho</a>
+        <a href="sala-trofeus.html" class="nav-btn" data-i18n="sala-trofeus"><i class="fas fa-trophy"></i> Sala de Troféus</a>
+        <a href="tutorial-ia.html" class="nav-btn" data-i18n="tutorial-ia"><i class="fas fa-robot"></i> Tutorial IA</a>
+    </nav>
+
+    <!--
+    ================================================================================
+    SEÇÃO: CONTEÚDO PRINCIPAL
+    Área central da página com título, descrição e lista de favoritos
+    ================================================================================
+    -->
+    <main>
+        <!--
+        TÍTULO DA PÁGINA
+        Cabeçalho principal explicando propósito da página
+        Texto traduzível para suporte multilíngue
+        -->
+        <h1 data-i18n="favoritas-title">Suas Questões Favoritas</h1>
+
+        <!--
+        DESCRIÇÃO EXPLICATIVA
+        Texto descritivo sobre a funcionalidade da página
+        Orienta usuário sobre o que encontrar na seção
+        -->
+        <p data-i18n="favoritas-desc">Aqui estão todas as questões que você marcou para revisar mais tarde.</p>
+
+        <!--
+        CONTAINER DA LISTA DE FAVORITOS
+        Área onde os cards de questões favoritas serão renderizados dinamicamente
+        JavaScript popula este container com dados do localStorage
+        -->
+        <div class="favorites-list" id="favorites-list">
+            <!-- cards gerados dinamicamente pelo JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> StudyPro. Todos os direitos reservados.</p>
+        <p>
+            <a href="#" data-i18n="privacy">Política de Privacidade</a> |
+            <a href="#" data-i18n="terms">Termos de Uso</a> |
+            <a href="#" data-i18n="contact">Contato</a>
+        </p>
+    </footer>
+
+    <!--
+    ================================================================================
+    SEÇÃO: JAVASCRIPT - FUNCIONALIDADES DINÂMICAS
+    Gerenciamento de questões favoritas e interatividade da página
+    ================================================================================
+    -->
+    <script>
+        <!--
+        ===== CONFIGURAÇÃO INICIAL E VARIÁVEIS GLOBAIS =====
+        Carregamento de dados persistentes do localStorage
+        Estado da aplicação para gerenciamento de favoritos
+        -->
+        let favorites = JSON.parse(localStorage.getItem('studyPro_favorites') || '[]'); // Array de questões favoritas
+
+        <!--
+        ===== INICIALIZAÇÃO DO SISTEMA DE TRADUÇÃO (i18next) =====
+        Configuração completa do sistema multilíngue
+        Suporte a português, inglês e espanhol com recursos específicos da página
+        Callback para carregamento inicial dos dados após tradução
+        -->
+        i18next.init({
+            lng: localStorage.getItem('studyPro_lang') || 'pt', // Idioma salvo ou padrão português
+            debug: false, // Modo debug desabilitado para produção
+            resources: {
+                // ===== RECURSOS DE TRADUÇÃO EM PORTUGUÊS =====
+                pt: { translation: {
+                    "voltar": "Voltar",
+                    "questionario": "Questionário",
+                    "questoes-favoritas": "Questões favoritas",
+                    "desempenho": "Desempenho",
+                    "sala-trofeus": "Sala de Troféus",
+                    "tutorial-ia": "Tutorial IA",
+                    "favoritas-title": "Suas Questões Favoritas",
+                    "favoritas-desc": "Aqui estão todas as questões que você marcou para revisar mais tarde.",
+                    "remover": "Remover",
+                    "nenhuma-favorita": "Você ainda não favoritou nenhuma questão.",
+                    "favoritar-dica": "Para favoritar uma questão, clique no coração durante o questionário.",
+                    "privacy": "Política de Privacidade",
+                    "terms": "Termos de Uso",
+                    "contact": "Contato"
+                }},
+                // ===== RECURSOS DE TRADUÇÃO EM INGLÊS =====
+                en: { translation: {
+                    "voltar": "Back",
+                    "questionario": "Questionnaire",
+                    "questoes-favoritas": "Favorite Questions",
+                    "desempenho": "Performance",
+                    "sala-trofeus": "Trophy Room",
+                    "tutorial-ia": "AI Tutorial",
+                    "favoritas-title": "Your Favorite Questions",
+                    "favoritas-desc": "Here are all the questions you marked to review later.",
+                    "remover": "Remove",
+                    "nenhuma-favorita": "You haven't favorited any questions yet.",
+                    "favoritar-dica": "To favorite a question, click the heart during the questionnaire.",
+                    "privacy": "Privacy Policy",
+                    "terms": "Terms of Use",
+                    "contact": "Contact"
+                }},
+                // ===== RECURSOS DE TRADUÇÃO EM ESPANHOL =====
+                es: { translation: {
+                    "voltar": "Volver",
+                    "questionario": "Cuestionario",
+                    "questoes-favoritas": "Preguntas favoritas",
+                    "desempenho": "Rendimiento",
+                    "sala-trofeus": "Sala de Trofeos",
+                    "tutorial-ia": "Tutorial IA",
+                    "favoritas-title": "Tus Preguntas Favoritas",
+                    "favoritas-desc": "Aquí están todas las preguntas que marcaste para revisar más tarde.",
+                    "remover": "Remover",
+                    "nenhuma-favorita": "Aún no has marcado ninguna pregunta como favorita.",
+                    "favoritar-dica": "Para marcar una pregunta como favorita, haz clic en el corazón durante el cuestionario.",
+                    "privacy": "Política de Privacidad",
+                    "terms": "Términos de Uso",
+                    "contact": "Contacto"
+                }}
+            }
+        }, function(err, t) {
+            // Callback executado após inicialização das traduções
+            updateTranslations(); // Atualiza textos da interface
+            loadFavorites(); // Carrega lista de favoritos
+        });
+
+        <!--
+        ===== FUNÇÕES PRINCIPAIS =====
+        Conjunto de funções para manipulação de favoritos e atualização da interface
+        -->
+
+        <!--
+        FUNÇÃO: ATUALIZAR TRADUÇÕES
+        Percorre todos os elementos com data-i18n e atualiza seu conteúdo
+        Chamada sempre que o idioma é alterado
+        -->
+        function updateTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = i18next.t(key);
+            });
+        }
+
+        <!--
+        FUNÇÃO: CARREGAR FAVORITOS
+        Função principal que carrega e exibe todas as questões favoritas
+        Recupera dados do localStorage e cria elementos HTML dinâmicos
+        Trata casos especiais como lista vazia
+        -->
+        function loadFavorites() {
+            // Recarrega dados mais recentes do localStorage
+            favorites = JSON.parse(localStorage.getItem('studyPro_favorites') || '[]');
+            const favoritesList = document.getElementById('favorites-list');
+
+            <!--
+            CASO ESPECIAL: LISTA VAZIA
+            Quando não há favoritos, mostra mensagem explicativa com ícone
+            Orienta usuário sobre como favoritar questões
+            -->
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = `
+                    <div class="no-favorites">
+                        <i class="fas fa-star-half-alt"></i>
+                        <h3 data-i18n="nenhuma-favorita">Você ainda não favoritou nenhuma questão.</h3>
+                        <p data-i18n="favoritar-dica">Para favoritar uma questão, clique no coração durante o questionário.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            <!--
+            RENDERIZAÇÃO DOS FAVORITOS
+            Para cada questão favorita, cria um card completo com:
+            - Cabeçalho com assunto/fase e botão de remoção
+            - Texto da pergunta
+            - Opções de resposta (destacando a correta)
+            - Explicação da resposta
+            -->
+            favoritesList.innerHTML = ''; // Limpa conteúdo anterior
+
+            favorites.forEach((favorite, index) => {
+                const favoriteCard = document.createElement('div');
+                favoriteCard.className = 'favorite-item';
+
+                // Estrutura HTML do card de favorito
+                favoriteCard.innerHTML = `
+                    <!-- CABEÇALHO DO CARD -->
+                    <div class="favorite-header">
+                        <span class="favorite-subject">${favorite.subject} - Fase ${favorite.phase}</span>
+                        <button class="btn-remove" onclick="removeFavorite(${index})" data-i18n="remover">Remover</button>
+                    </div>
+
+                    <!-- TEXTO DA PERGUNTA -->
+                    <div class="favorite-question">${favorite.question}</div>
+
+                    <!-- OPÇÕES DE RESPOSTA -->
+                    <div class="favorite-options">
+                        ${favorite.options.map((option, optIndex) =>
+                            // Destaca a opção correta com classe CSS
+                            `<div class="option ${optIndex === favorite.correct ? 'correct' : ''}">${option}</div>`
+                        ).join('')}
+                    </div>
+
+                    <!-- EXPLICAÇÃO DA RESPOSTA -->
+                    <div class="favorite-explanation">
+                        <strong>Explicação:</strong> ${favorite.explanation}
+                    </div>
+                `;
+
+                favoritesList.appendChild(favoriteCard);
+            });
+        }
+
+        <!--
+        FUNÇÃO: REMOVER FAVORITO
+        Remove uma questão específica da lista de favoritos
+        Atualiza localStorage e recarrega a interface
+        Recebe o índice da questão a ser removida
+        -->
+        function removeFavorite(index) {
+            // Remove item do array pelo índice
+            favorites.splice(index, 1);
+
+            // Salva alterações no localStorage
+            localStorage.setItem('studyPro_favorites', JSON.stringify(favorites));
+
+            // Recarrega interface para refletir mudanças
+            loadFavorites();
+        }
+
+        <!--
+        ===== EVENT LISTENERS =====
+        Configuração de interatividade da página
+        -->
+
+        <!--
+        EVENTO: DROPDOWN DE IDIOMA
+        Controle de abertura/fechamento do menu de seleção de idioma
+        Animação da seta e gerenciamento de estado visual
+        -->
+        document.getElementById('lang-toggle').addEventListener('click', (e) => {
+            e.stopPropagation(); // Previne propagação do evento
+            const langMenu = document.getElementById('lang-menu');
+            const langToggle = document.getElementById('lang-toggle');
+            const arrow = langToggle.querySelector('.arrow');
+
+            // Toggle das classes para mostrar/ocultar menu
+            langMenu.classList.toggle('show');
+            langToggle.classList.toggle('active');
+
+            // Animação da seta (rotação)
+            arrow.style.transform = langToggle.classList.contains('active') ? 'rotate(90deg)' : 'rotate(0deg)';
+        });
+
+        <!--
+        EVENTO: SELEÇÃO DE IDIOMA
+        Processa mudança de idioma e atualiza toda a interface
+        Salva preferência no localStorage para persistência
+        Fecha menu após seleção
+        -->
+        document.querySelectorAll('.lang-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+
+                // Muda idioma no i18next
+                i18next.changeLanguage(lang, updateTranslations);
+
+                // Salva preferência do usuário
+                localStorage.setItem('studyPro_lang', lang);
+
+                // Atualiza indicador visual
+                document.getElementById('current-lang').textContent = lang.toUpperCase();
+
+                // Fecha menu e reseta estado visual
+                document.getElementById('lang-menu').classList.remove('show');
+                document.getElementById('lang-toggle').classList.remove('active');
+                document.getElementById('lang-toggle').querySelector('.arrow').style.transform = 'rotate(0deg)';
+
+                // Recarrega favoritos para atualizar textos
+                loadFavorites();
+            });
+        });
+
+        <!--
+        EVENTO: FECHAR MENU AO CLICAR FORA
+        Fecha o dropdown de idioma quando usuário clica em qualquer lugar fora
+        Melhora experiência do usuário evitando menu aberto desnecessariamente
+        -->
+        document.addEventListener('click', (e) => {
+            const langToggle = document.getElementById('lang-toggle');
+            const langMenu = document.getElementById('lang-menu');
+
+            // Fecha menu se clique foi fora do toggle
+            if (!langToggle.contains(e.target)) {
+                langMenu.classList.remove('show');
+                langToggle.classList.remove('active');
+                langToggle.querySelector('.arrow').style.transform = 'rotate(0deg)';
+            }
+        });
+
+        <!--
+        EVENTO: ANO NO RODAPÉ
+        Define ano atual dinamicamente no copyright
+        Mantém informação sempre atualizada
+        -->
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
