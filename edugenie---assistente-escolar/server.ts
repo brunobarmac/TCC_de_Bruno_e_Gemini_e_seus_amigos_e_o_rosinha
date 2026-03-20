@@ -23,7 +23,7 @@ async function startServer() {
 
     console.log("\n--- Nova Requisição de Chat ---");
     
-    if (!apiKey || apiKey === "COLE_SUA_CHAVE_AQUI") {
+    if (!apiKey || apiKey === "AIzaSyC9tvTrInF0VdV8wSFZmNM8jMsNP7T7vss") {
       console.error("ERRO: GEMINI_API_KEY não encontrada no process.env");
       return res.status(500).json({ error: "Chave de API não configurada no servidor (.env)" });
     }
