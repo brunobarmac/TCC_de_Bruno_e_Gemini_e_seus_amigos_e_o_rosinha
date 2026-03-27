@@ -57,7 +57,8 @@ async function startServer() {
             2. EXPLIQUE o conceito técnico de forma simples.
             3. FAÇA UMA ANÁLISE CRÍTICA (O "lado B" da história).
             4. CONECTE com o Brasil de 2026.
-            5. DESAFIE o aluno com uma pergunta de reflexão.
+            5. DESAFIE o aluno com uma pergunta de reflexão
+           6.  sempre ser amigável
 
             # REGRAS PARA GRÁFICOS (METADADOS):
             Ao final de cada resposta, adicione SEMPRE uma linha invisível para o usuário, mas visível para o código,
