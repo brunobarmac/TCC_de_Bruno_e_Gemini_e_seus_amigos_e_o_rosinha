@@ -1,0 +1,690 @@
+/* ================================================
+   ARQUIVO: configuracoes.css
+   LOCALIZAÇÃO: d:\TCC\css\configuracoes.css
+   DESCRIÇÃO: Estilos da página de configurações (html/configuracoes.html)
+   FUNCIONALIDADE:
+     - Estilos do cabeçalho com logo e seletor de idioma
+     - Layout em duas colunas para Perfil e Segurança
+     - Estilos de formulários (inputs, checkboxes, radio buttons)
+     - Seção de Preferências em largura total
+     - Botões de ação (Salvar, Cancelar, Sair)
+     - Layout responsivo para todos os tamanhos
+   ================================================ */
+
+/* ================================================
+   ARQUIVO: configuracoes.css
+   LOCALIZAÇÃO: d:\TCC\css\configuracoes.css
+   DESCRIÇÃO: Estilos completos da página de configurações da conta
+   FUNCIONALIDADE:
+     - Layout responsivo em grid para seções de Perfil e Segurança
+     - Formulários estilizados com inputs, selects, checkboxes e radio buttons
+     - Sistema de upload de foto de perfil com preview
+     - Botões de ação diferenciados (primário, secundário, perigo)
+     - Dropdown de idioma animado com transições suaves
+     - Design responsivo para desktop, tablet e mobile
+   ================================================ */
+
+/*
+===== RESET GLOBAL E BOX-SIZING =====
+Remove margens/paddings padrão e define box-sizing consistente
+Garante comportamento previsível em todos os navegadores
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*
+===== ESTILOS DO BODY =====
+Define aparência base da página de configurações
+Fundo claro e limpo para foco no conteúdo
+Fonte Poppins para consistência com identidade visual
+*/
+body {
+    font-family: 'Poppins', sans-serif; /* Família tipográfica principal */
+    background: #fafafa; /* Fundo cinza muito claro */
+    color: #2d3436; /* Cor do texto principal (cinza escuro) */
+    padding: 40px 20px; /* Espaçamento interno responsivo */
+    max-width: 1200px; /* Largura máxima para boa legibilidade */
+    margin: 0 auto; /* Centralização horizontal */
+}
+
+/*
+===== CABEÇALHO PRINCIPAL =====
+Container flexível que organiza logo e controles no topo
+Responsivo com quebra de linha em telas pequenas
+*/
+.main-header {
+    display: flex;
+    justify-content: space-between; /* Logo à esquerda, controles à direita */
+    align-items: center; /* Alinhamento vertical central */
+    margin-bottom: 60px; /* Espaçamento inferior generoso */
+    flex-wrap: wrap; /* Permite quebra em múltiplas linhas */
+    gap: 20px; /* Espaçamento entre elementos quando quebrados */
+}
+
+/*
+===== LOGO DO STUDYPRO =====
+Elemento de identificação visual principal
+Fonte grande e em negrito para destaque
+Cor primária da paleta para consistência
+*/
+.logo {
+    font-size: 48px; /* Tamanho grande para impacto visual */
+    font-weight: 700; /* Extra bold para destaque */
+    color: var(--color-primary); /* Cor primária da paleta */
+}
+
+/*
+===== ÍCONE DO CÉREBRO =====
+Emoji estilizado que representa a marca StudyPro
+Cor rosa diferenciada para chamar atenção
+Tamanho ligeiramente maior que o texto
+*/
+.brain {
+    color: #ff79cd; /* Rosa vibrante para contraste */
+    margin-right: 10px; /* Espaçamento à direita */
+    font-size: 54px; /* Maior que o texto do logo */
+}
+
+/*
+===== ÁREA DIREITA DO HEADER =====
+Container para controles do lado direito (idioma + voltar)
+Flexível e responsivo para diferentes tamanhos de tela
+*/
+.header-right {
+    display: flex;
+    align-items: center; /* Alinhamento vertical central */
+    gap: 20px; /* Espaçamento entre elementos */
+    flex-wrap: wrap; /* Quebra em telas muito pequenas */
+}
+
+/*
+===== DROPDOWN DE IDIOMA =====
+Container posicionado relativamente para dropdown absoluto
+Base para o sistema de seleção de idioma
+*/
+.language-dropdown {
+    position: relative; /* Necessário para posicionamento absoluto do menu */
+    display: inline-block; /* Comportamento inline com bloco interno */
+}
+
+/*
+===== BOTÃO DO DROPDOWN DE IDIOMA =====
+Botão principal que controla abertura/fechamento do menu
+Design consistente com identidade visual
+Transições suaves para feedback visual
+*/
+.lang-btn {
+    background: #0984e3; /* Azul primário */
+    color: white; /* Texto branco para contraste */
+    border: none; /* Remove borda padrão */
+    padding: 12px 24px; /* Espaçamento interno confortável */
+    border-radius: 10px; /* Bordas arredondadas modernas */
+    font-size: 16px; /* Tamanho de fonte legível */
+    font-weight: 600; /* Semi-bold para destaque */
+    cursor: pointer; /* Cursor de ponteiro */
+    display: flex; /* Layout flexível para ícone + texto */
+    align-items: center; /* Centralização vertical */
+    gap: 8px; /* Espaçamento entre texto e seta */
+    transition: all 0.2s; /* Transição suave em todas as propriedades */
+}
+
+/* Efeito hover para feedback visual */
+.lang-btn:hover {
+    background: #0652a0; /* Tom mais escuro no hover */
+}
+
+/*
+===== SETA DO BOTÃO DE IDIOMA =====
+Elemento visual que indica estado do dropdown
+Animação de rotação quando menu está aberto
+*/
+.lang-btn .arrow {
+    font-size: 12px; /* Tamanho pequeno para não competir com texto */
+    transition: transform 0.3s ease; /* Animação suave de rotação */
+}
+
+/*
+===== MENU SUSPENSO DE IDIOMAS =====
+Dropdown que aparece abaixo do botão
+Inicialmente oculto com opacidade e visibilidade
+Transições suaves para entrada/saída
+*/
+.lang-menu {
+    position: absolute; /* Posicionamento relativo ao container pai */
+    top: 100%; /* Abaixo do botão (100% da altura do botão) */
+    left: 0; /* Alinhado à esquerda do botão */
+    background: white; /* Fundo branco para contraste */
+    border: 1px solid #dfe6e9; /* Borda sutil cinza clara */
+    border-radius: 10px; /* Bordas arredondadas consistentes */
+    list-style: none; /* Remove marcadores de lista */
+    margin: 8px 0 0; /* Pequena margem superior */
+    padding: 8px 0; /* Padding vertical para espaçamento interno */
+    min-width: 100px; /* Largura mínima para boa usabilidade */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Sombra para profundidade */
+    /* Estados iniciais para animação de entrada */
+    opacity: 0; /* Totalmente transparente */
+    visibility: hidden; /* Oculto para leitores de tela */
+    transform: translateY(-10px); /* Levemente acima da posição final */
+    transition: all 0.25s ease; /* Transição suave em todas as propriedades */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+/*
+===== MENU ABERTO =====
+Classe aplicada quando dropdown está visível
+Transições fazem o menu aparecer suavemente
+*/
+.lang-menu.show {
+    opacity: 1; /* Totalmente opaco */
+    visibility: visible; /* Visível para leitores de tela */
+    transform: translateY(0); /* Posição final */
+}
+
+/*
+===== OPÇÕES INDIVIDUAIS DO MENU =====
+Cada item clicável no dropdown de idiomas
+Estilo limpo focado na usabilidade
+*/
+.lang-option {
+    width: 100%; /* Ocupa toda a largura disponível */
+    padding: 10px 16px; /* Espaçamento interno confortável */
+    border: none; /* Remove borda padrão */
+    background: none; /* Fundo transparente */
+    text-align: left; /* Alinhamento à esquerda */
+    font-size: 16px; /* Tamanho consistente */
+    cursor: pointer; /* Cursor de ponteiro */
+    color: #2d3436; /* Cor do texto principal */
+}
+
+/* Efeito hover para feedback visual */
+.lang-option:hover {
+    background: #f0f4f8; /* Fundo cinza muito claro */
+}
+
+/*
+===== BOTÃO VOLTAR =====
+Link estilizado como botão para navegação
+Consistente com outros botões da interface
+Cor primária para identificação como ação principal
+*/
+.back-btn {
+    background: #0984e3; /* Azul primário */
+    color: white; /* Texto branco */
+    border: none; /* Sem borda */
+    padding: 12px 24px; /* Espaçamento interno */
+    border-radius: 10px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho de fonte */
+    font-weight: 600; /* Semi-bold */
+    cursor: pointer; /* Cursor de ponteiro */
+    text-decoration: none; /* Remove sublinhado de link */
+    transition: all 0.2s; /* Transição suave */
+}
+
+/* Efeito hover */
+.back-btn:hover {
+    background: #0652a0; /* Tom mais escuro */
+}
+
+/*
+===== TÍTULO PRINCIPAL DA PÁGINA =====
+Cabeçalho principal identificando a página
+Centralizado e com hierarquia visual clara
+*/
+h1 {
+    font-size: 40px; /* Tamanho grande para impacto */
+    font-weight: 600; /* Semi-bold */
+    text-align: center; /* Centralizado */
+    margin-bottom: 50px; /* Espaçamento inferior generoso */
+    line-height: 1.2; /* Altura de linha otimizada */
+}
+
+/*
+===== CONTAINER PRINCIPAL DAS CONFIGURAÇÕES =====
+Layout em grid responsivo para organizar seções
+Duas colunas em desktop, uma coluna em mobile
+*/
+.settings-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
+    gap: 30px; /* Espaçamento entre colunas */
+    margin-bottom: 40px; /* Espaçamento inferior */
+}
+
+/*
+===== SEÇÕES DE CONFIGURAÇÃO =====
+Estilo base para todos os painéis de configuração
+Fundo branco com sombra para destacar do fundo
+*/
+.settings-section {
+    background: white; /* Fundo branco */
+    padding: 40px; /* Espaçamento interno generoso */
+    border-radius: 20px; /* Bordas muito arredondadas */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* Sombra sutil */
+}
+
+/*
+===== TÍTULOS DAS SEÇÕES =====
+Cabeçalhos h2 para cada seção de configuração
+Hierarquia visual clara e consistente
+*/
+.settings-section h2 {
+    font-size: 28px; /* Tamanho grande mas menor que h1 */
+    font-weight: 600; /* Semi-bold */
+    margin-bottom: 30px; /* Espaçamento inferior */
+    color: #2d3436; /* Cor consistente */
+}
+
+/*
+===== GRUPOS DE FORMULÁRIO =====
+Container para cada campo e seu label
+Organiza elementos relacionados logicamente
+*/
+.form-group {
+    margin-bottom: 24px; /* Espaçamento entre grupos */
+}
+
+/*
+===== LABELS DOS CAMPOS =====
+Texto descritivo para cada campo de formulário
+Estilo consistente e acessível
+*/
+.form-group label {
+    display: block; /* Ocupa linha inteira */
+    font-size: 14px; /* Tamanho menor para labels */
+    font-weight: 600; /* Semi-bold para destaque */
+    margin-bottom: 10px; /* Espaçamento inferior */
+    color: #2d3436; /* Cor consistente */
+}
+
+/*
+===== CAMPOS DE ENTRADA =====
+Estilo para inputs de texto, email, password, etc.
+Design limpo com foco states para usabilidade
+*/
+.input-field {
+    width: 100%; /* Ocupa toda a largura disponível */
+    padding: 12px 16px; /* Espaçamento interno */
+    border: 1px solid #dfe6e9; /* Borda cinza clara */
+    border-radius: 8px; /* Bordas levemente arredondadas */
+    font-size: 16px; /* Tamanho de fonte legível */
+    font-family: 'Poppins', sans-serif; /* Fonte consistente */
+    transition: all 0.2s; /* Transições suaves */
+}
+
+/* Estado de foco para acessibilidade e feedback */
+.input-field:focus {
+    outline: none; /* Remove outline padrão do navegador */
+    border-color: var(--color-primary); /* Borda azul quando focado */
+    box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1); /* Sombra azul sutil */
+}
+
+/*
+===== CAMPOS SELECT =====
+Dropdown customizado com ícone de seta
+Mantém aparência consistente com outros inputs
+*/
+.select-field {
+    cursor: pointer; /* Cursor de ponteiro */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%232d3436' d='M6 9L1 4h10z'/></svg>"); /* Seta SVG inline */
+    background-repeat: no-repeat; /* Não repetir imagem */
+    background-position: right 12px center; /* Posição da seta */
+    padding-right: 40px; /* Espaço para a seta */
+}
+
+/*
+===== WRAPPER DA FOTO DE PERFIL =====
+Container para imagem e controles de upload
+Layout vertical centrado para boa apresentação
+*/
+.profile-picture-wrapper {
+    display: flex;
+    flex-direction: column; /* Elementos empilhados verticalmente */
+    align-items: center; /* Centralização horizontal */
+    gap: 16px; /* Espaçamento entre elementos */
+}
+
+/*
+===== IMAGEM DE PERFIL =====
+Avatar circular do usuário
+Bordas e sombra para destacar visualmente
+*/
+.profile-picture {
+    width: 120px; /* Largura fixa */
+    height: 120px; /* Altura fixa para aspecto quadrado */
+    border-radius: 50%; /* Forma circular */
+    object-fit: cover; /* Corta imagem para caber no círculo */
+    border: 3px solid var(--color-primary); /* Borda azul espessa */
+    box-shadow: 0 4px 12px rgba(9, 132, 227, 0.2); /* Sombra azul sutil */
+}
+
+/*
+===== BOTÃO MUDAR FOTO =====
+Controle para iniciar upload de nova imagem
+Cor secundária para diferenciar de ações principais
+*/
+.btn-change-photo {
+    background: var(--color-secondary); /* Verde secundário */
+    color: white; /* Texto branco */
+    border: none; /* Sem borda */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    font-size: 14px; /* Fonte menor */
+    font-weight: 600; /* Semi-bold */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: all 0.2s; /* Transições suaves */
+}
+
+/* Efeitos hover para feedback */
+.btn-change-photo:hover {
+    background: #00a085; /* Tom mais escuro */
+    transform: translateY(-2px); /* Elevação sutil */
+}
+
+/*
+===== INPUT DE ARQUIVO OCULTO =====
+Campo nativo do navegador para seleção de arquivo
+Oculto pois usamos botão customizado para melhor UX
+*/
+.file-input {
+    display: none; /* Completamente oculto */
+}
+
+/*
+===== GRUPOS DE CHECKBOX =====
+Container para opções booleanas (ligado/desligado)
+Layout horizontal para economia de espaço
+*/
+.checkbox-group {
+    display: flex;
+    align-items: center; /* Alinhamento vertical central */
+}
+
+/*
+===== LABEL DE CHECKBOX =====
+Texto associado ao checkbox
+Cursor pointer para toda a área clicável
+*/
+.checkbox-label {
+    display: flex;
+    align-items: center; /* Centralização vertical */
+    gap: 10px; /* Espaçamento entre checkbox e texto */
+    cursor: pointer; /* Área toda clicável */
+    font-weight: 500; /* Medium para destaque */
+}
+
+/* Estilo customizado do checkbox */
+.checkbox-label input[type="checkbox"] {
+    width: 18px; /* Largura do checkbox */
+    height: 18px; /* Altura do checkbox */
+    cursor: pointer; /* Cursor de ponteiro */
+    accent-color: #0984e3; /* Cor azul para estado checked */
+}
+
+/*
+===== GRUPOS DE RADIO BUTTON =====
+Container para opções mutuamente exclusivas
+Layout horizontal espaçado para clareza visual
+*/
+.radio-group {
+    display: flex;
+    gap: 30px; /* Espaçamento generoso entre opções */
+    margin-top: 12px; /* Pequena margem superior */
+}
+
+/*
+===== LABEL DE RADIO BUTTON =====
+Texto associado ao radio button
+Área toda clicável para melhor usabilidade
+*/
+.radio-label {
+    display: flex;
+    align-items: center; /* Centralização vertical */
+    gap: 8px; /* Espaçamento entre radio e texto */
+    cursor: pointer; /* Área toda clicável */
+}
+
+/* Estilo customizado do radio button */
+.radio-label input[type="radio"] {
+    width: 18px; /* Largura do radio */
+    height: 18px; /* Altura do radio */
+    cursor: pointer; /* Cursor de ponteiro */
+    accent-color: #0984e3; /* Cor azul para estado checked */
+}
+
+/*
+===== SEÇÃO DE PREFERÊNCIAS =====
+Seção especial que ocupa toda a largura
+Quebra o layout de grid das outras seções
+*/
+.preferences-section {
+    grid-column: 1 / -1; /* Ocupa todas as colunas do grid */
+}
+
+/*
+===== GRUPO DE BOTÕES DE AÇÃO =====
+Container para botões principais (Salvar, Cancelar, Sair)
+Centralizados e responsivos
+*/
+.button-group {
+    display: flex;
+    gap: 16px; /* Espaçamento entre botões */
+    justify-content: center; /* Centralização horizontal */
+    margin-top: 50px; /* Margem superior generosa */
+    flex-wrap: wrap; /* Quebra em telas pequenas */
+}
+
+/*
+===== ESTILO BASE PARA BOTÕES =====
+Propriedades comuns a todos os botões da página
+Design system consistente para ações
+*/
+.btn {
+    padding: 12px 24px; /* Espaçamento interno */
+    border-radius: 10px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho de fonte */
+    font-weight: 600; /* Semi-bold */
+    border: none; /* Sem borda */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: all 0.2s; /* Transições suaves */
+    text-decoration: none; /* Remove sublinhado de links */
+    display: inline-flex; /* Layout flexível */
+    align-items: center; /* Centralização vertical */
+    justify-content: center; /* Centralização horizontal */
+}
+
+/*
+===== BOTÃO PRIMÁRIO =====
+Ação principal da página (Salvar alterações)
+Cor azul para identificação como ação principal
+*/
+.btn-primary {
+    background: #0984e3; /* Azul primário */
+    color: white; /* Texto branco */
+}
+
+/* Efeitos hover com elevação */
+.btn-primary:hover {
+    background: #0652a0; /* Tom mais escuro */
+    transform: translateY(-2px); /* Elevação sutil */
+    box-shadow: 0 6px 16px rgba(9, 132, 227, 0.2); /* Sombra azul */
+}
+
+/*
+===== BOTÃO SECUNDÁRIO =====
+Ação secundária (Cancelar)
+Cor neutra para não competir com ação principal
+*/
+.btn-secondary {
+    background: #dfe6e9; /* Cinza claro */
+    color: #2d3436; /* Texto escuro */
+}
+
+/* Efeito hover sutil */
+.btn-secondary:hover {
+    background: #c8cdd2; /* Cinza um pouco mais escuro */
+    transform: translateY(-2px); /* Elevação sutil */
+}
+
+/*
+===== BOTÃO DE PERIGO =====
+Ação crítica/destrutiva (Sair da conta)
+Cor vermelha para indicar ação irreversível
+*/
+.btn-danger {
+    background: #d63031; /* Vermelho */
+    color: white; /* Texto branco */
+}
+
+/* Efeitos hover com sombra vermelha */
+.btn-danger:hover {
+    background: #b21f1f; /* Vermelho mais escuro */
+    transform: translateY(-2px); /* Elevação */
+    box-shadow: 0 6px 16px rgba(214, 48, 49, 0.2); /* Sombra vermelha */
+}
+
+/*
+===== RODAPÉ DA PÁGINA =====
+Informações de copyright e legais
+Separado visualmente do conteúdo principal
+*/
+.settings-footer {
+    text-align: center; /* Centralizado */
+    margin-top: 80px; /* Margem superior grande */
+    padding-top: 40px; /* Padding superior */
+    border-top: 1px solid #dfe6e9; /* Linha separadora */
+    color: #636e72; /* Cinza médio para texto secundário */
+    font-size: 14px; /* Fonte menor */
+}
+
+/*
+===== RESPONSIVIDADE: TABLETS E TELAS MÉDIAS =====
+Ajustes para telas menores que 900px (tablets e telas médias)
+Transição do layout de grid para single column
+Redução de espaçamentos e tamanhos de fonte
+*/
+@media (max-width: 900px) {
+    .settings-container {
+        grid-template-columns: 1fr; /* Uma coluna em vez de duas */
+    }
+
+    .preferences-section {
+        grid-column: 1; /* Ajuste para grid de uma coluna */
+    }
+
+    h1 {
+        font-size: 32px; /* Título menor para telas médias */
+    }
+
+    .settings-section {
+        padding: 30px; /* Padding reduzido */
+    }
+
+    .button-group {
+        flex-direction: column; /* Botões empilhados verticalmente */
+    }
+
+    .btn {
+        width: 100%; /* Botões ocupam largura total */
+    }
+}
+
+/*
+===== RESPONSIVIDADE: TELEFONES =====
+Ajustes para telas menores que 600px (smartphones)
+Layout completamente vertical e compacto
+Elementos redimensionados para toque e legibilidade
+*/
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px; /* Padding reduzido para telas pequenas */
+    }
+
+    .main-header {
+        flex-direction: column; /* Header vertical */
+        align-items: flex-start; /* Alinhamento à esquerda */
+        margin-bottom: 30px; /* Margem inferior reduzida */
+    }
+
+    .header-right {
+        width: 100%; /* Ocupa largura total */
+        justify-content: space-between; /* Distribuição dos controles */
+    }
+
+    h1 {
+        font-size: 28px; /* Título ainda menor */
+        margin-bottom: 30px; /* Margem reduzida */
+    }
+
+    .settings-section {
+        padding: 20px; /* Padding mínimo */
+        margin-bottom: 20px; /* Margem entre seções */
+    }
+
+    .settings-section h2 {
+        font-size: 22px; /* Títulos de seção menores */
+    }
+
+    .radio-group {
+        gap: 20px; /* Gap reduzido para radio buttons */
+    }
+
+    .profile-picture {
+        width: 100px; /* Avatar menor */
+        height: 100px;
+    }
+
+    .button-group {
+        gap: 12px; /* Gap menor entre botões */
+    }
+}
+
+/*
+===== RESPONSIVIDADE: TELEFONES PEQUENOS =====
+Ajustes finais para telas menores que 400px
+Elementos ainda mais compactos para dispositivos muito pequenos
+Foco em usabilidade e legibilidade máxima
+*/
+@media (max-width: 400px) {
+    .main-header {
+        flex-direction: column; /* Confirma layout vertical */
+        gap: 10px; /* Gap mínimo */
+    }
+
+    .logo {
+        font-size: 36px; /* Logo menor */
+    }
+
+    .brain {
+        font-size: 42px; /* Ícone proporcionalmente menor */
+    }
+
+    h1 {
+        font-size: 24px; /* Título mínimo legível */
+    }
+
+    .settings-section h2 {
+        font-size: 18px; /* Títulos de seção pequenos */
+    }
+
+    .form-group label {
+        font-size: 13px; /* Labels menores */
+    }
+
+    .input-field {
+        padding: 10px 12px; /* Padding reduzido */
+        font-size: 14px; /* Fonte menor */
+    }
+
+    .btn {
+        padding: 10px 16px; /* Padding reduzido para botões */
+        font-size: 14px; /* Fonte menor */
+    }
+
+    .radio-group {
+        flex-direction: column; /* Radio buttons empilhados */
+        gap: 12px; /* Gap mínimo */
+    }
+}

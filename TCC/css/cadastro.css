@@ -1,0 +1,275 @@
+/* ================================================
+   ARQUIVO: cadastro.css
+   LOCALIZAÇÃO: d:\TCC\css\cadastro.css
+   DESCRIÇÃO: Estilos da página de cadastro (html/cadastro.html)
+   FUNCIONALIDADE:
+     - Estilos do header com logo e seletor de idioma
+     - Container centralizado para formulário de registro
+     - Estilos dos inputs e botões
+     - Botões de cadastro social (Google, Facebook, Apple)
+     - Layout responsivo para todos os tamanhos
+   ================================================ */
+
+/* ===== HEADER COM SELETOR DE IDIOMA =====
+   Base para o cabeçalho da página */
+.login-header {
+    background: transparent;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===== LOGO LINK =====
+   Link da logo para voltar ao index */
+.logo-link {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0984e3;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.logo-link:hover {
+    color: #0652a0;
+}
+
+.brain {
+    font-size: 32px;
+}
+
+/* ===== DROPDOWN DE IDIOMA =====
+   Dropdown para seleção de idioma */
+.language-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-btn {
+    background: #0984e3;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.lang-btn:hover {
+    background: #0652a0;
+}
+
+.lang-btn .arrow {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+/* ===== MENU DE IDIOMAS =====
+   Dropdown com opções de idioma */
+.lang-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 6px 0;
+    min-width: 90px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
+    z-index: 10;
+}
+
+.lang-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-option {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    color: #2d3436;
+    transition: background 0.2s;
+}
+
+.lang-option:hover {
+    background: #f0f4f8;
+}
+
+/* Define o fundo azul-escuro para a página de cadastro */
+body {
+    background: #002855; /* // Fundo azul-escuro */
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; /* // Fonte principal */
+    margin: 0; /* // Remove margens padrão */
+    color: #ffffff; /* // Define o texto branco para contraste */
+}
+
+/* Container centralizado */
+.container {
+    background: #ffffff; /* // Fundo branco do container */
+    max-width: 400px; /* // Largura confortável */
+    margin: 20px auto 60px; /* // Centraliza vertical e horizontalmente */
+    padding: 32px 24px; /* // Padding interno */
+    border-radius: 12px; /* // Bordas arredondadas */
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12); /* // Sombra suave */
+    text-align: center; /* // Centraliza texto */
+}
+
+/* Estilo do título */
+h1 {
+    color: #002855; /* // Azul-escuro para o título */
+    margin-bottom: 24px; /* // Espaço abaixo do título */
+}
+
+input[type="text"], input[type="email"], input[type="password"],
+.google-btn, .facebook-btn, .apple-btn,
+button, .switch-btn {
+    width: 90%; /* Mesma largura para todos os campos e botões */
+    max-width: 320px; /* Limita largura máxima */
+    margin: 10px auto; /* Espaço vertical e centraliza horizontalmente */
+    display: block; /* Garante que cada elemento fique em uma linha */
+    box-sizing: border-box; /* Inclui padding e borda no tamanho */
+}
+input[type="text"], input[type="email"], input[type="password"] {
+    padding: 12px;
+    border: 1px solid #90e0ef;
+    border-radius: 6px;
+    font-size: 1em;
+}
+button, .google-btn, .facebook-btn, .apple-btn {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button {
+    background: #48cae4;
+    color: #fff;
+    margin-top: 10px;
+}
+button:hover {
+    background: #0096c7;
+}
+.google-btn {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.google-btn:hover {
+    background: #fff; /* Mantém a cor original ao passar o mouse */
+}
+.facebook-btn {
+    background: #1877f3;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.facebook-btn:hover {
+    background: #1877f3; /* Mantém a cor original ao passar o mouse */
+}
+.apple-btn {
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.apple-btn:hover {
+    background: #000; /* Mantém a cor original ao passar o mouse */
+}
+.social-login img {
+    width: 28px;
+    height: 28px;
+}
+
+.google-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.facebook-btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.switch-btn {
+    background: transparent;
+    color: #48cae4;
+    border: none;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-align: center;
+    padding: 0;
+    font-size: 1em;
+    display: block;
+}
+.switch-btn:hover {
+    color: #0096c7;
+}
+.social-login {
+    margin: 18px 0;
+}
+.social-login p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Botão para voltar à página inicial */
+.back-btn {
+    background: #ffffff; /* // Fundo branco */
+    color: #002855; /* // Texto azul-escuro */
+    border: none; /* // Remove borda padrão */
+    padding: 12px 24px; /* // Espaçamento interno */
+    border-radius: 6px; /* // Bordas arredondadas */
+    font-size: 1em; /* // Tamanho da fonte */
+    font-weight: bold; /* // Texto em negrito */
+    text-decoration: none; /* // Remove sublinhado */
+    display: inline-block; /* // Exibe como botão */
+    margin-top: 16px; /* // Espaço acima do botão */
+    cursor: pointer; /* // Cursor de ponteiro */
+    transition: background 0.3s ease; /* // Transição suave ao passar o mouse */
+}
+
+/* Efeito ao passar o mouse no botão */
+.back-btn:hover {
+    background: #004080; /* // Azul mais claro */
+    color: #ffffff; /* // Texto branco */
+}
