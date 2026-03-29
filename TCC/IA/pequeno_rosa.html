@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pequeno Rosa - Assistente de História</title>
+    <link rel="stylesheet" href="pequeno_rosa.css">
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="btn-voltar">← Voltar para a atividade</a>
+        <h2>Sala do Pequeno Rosa 🌹</h2>
+        <p>Aqui você pode tirar dúvidas sobre História! Pergunte o que quiser,
+         e o Pequeno Rosa vai te ajudar a entender melhor os assuntos que você está estudando.</p>
+     </div>
+
+    <div id="chat-mensagens">
+        <div class="balao-ia" id="msg-boas-vindas">Olá! Sou o professor Pequeno Rosa. Como posso ajudar você hoje?</div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="input-pergunta" placeholder="Digite sua pergunta de História aqui...">
+        <button id="btn-enviar">Enviar</button>
+    </div>
+
+    <script>
+        // --- Pegando os elementos da tela ---
+        // Agora chamamos a variável de inputPergunta para ficar igual ao resto do código
+        const inputPergunta = document.getElementById('input-pergunta');
+        const btnEnviar = document.getElementById('btn-enviar');
+        const areaMensagens = document.getElementById('chat-mensagens');
+        let historicoConversa = [];
+
+        // --- 1. Ajuste Automático da Caixa de Texto ---
+        inputPergunta.addEventListener('input', function() {
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
+        });
+
+        // --- 2. Função para formatar o texto da IA ---
+        function formatarTextoIA(texto) {
+            return texto
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito
+                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')     // Títulos
+                .replace(/\n/g, '<br>');                          // Quebras de linha
+        }
+
+        // --- 3. URL e Boas Vindas ---
+        const parametrosUrl = new URLSearchParams(window.location.search);
+        const temaDaPagina = parametrosUrl.get('tema');
+        
+        if (temaDaPagina) {
+            document.getElementById('msg-boas-vindas').innerText = `Olá! Vi que você estava estudando sobre ${temaDaPagina}. Qual é a sua dúvida?`;
+        }
+
+        // --- 4. Ação de Enviar ---
+        btnEnviar.onclick = async () => {
+            const textoUser = inputPergunta.value.trim();
+            if (!textoUser) return;
+
+            // Mostra a pergunta do aluno
+            areaMensagens.innerHTML += `<div class="balao-user">${textoUser}</div>`;
+            
+            // Limpa a caixa de texto
+            inputPergunta.value = '';
+            inputPergunta.style.height = 'auto';
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+
+            const contexto = temaDaPagina ? `[O aluno está estudando o tema: ${temaDaPagina}] ` : "";
+            const promptFinal = contexto + textoUser;
+
+            const idCarregando = "loading-" + Date.now();
+            areaMensagens.innerHTML += `<div class="balao-ia" id="${idCarregando}">Pequeno Rosa está digitando...</div>`;
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+
+            try {
+                const resposta = await fetch("http://localhost:3000/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: promptFinal, history: historicoConversa })
+                });
+
+                const dados = await resposta.json();
+                document.getElementById(idCarregando).remove();
+
+                if (dados.text) {
+                    // AQUI ESTÁ A CORREÇÃO: Usando a função para formatar o texto!
+                    const textoFormatado = formatarTextoIA(dados.text);
+                    areaMensagens.innerHTML += `<div class="balao-ia">${textoFormatado}</div>`;
+                    
+                    historicoConversa.push({ role: "user", parts: [{ text: textoUser }] });
+                    historicoConversa.push({ role: "model", parts: [{ text: dados.text }] });
+                } else {
+                    areaMensagens.innerHTML += `<div class="balao-ia">Poxa, a sala dos professores está muito cheia agora! O sistema está processando muitos alunos simultaneamente. Pode me mandar a questão de novo em alguns segundos?</div>`;
+                }
+            } catch (erro) {
+                document.getElementById(idCarregando).remove();
+                areaMensagens.innerHTML += `<div class="balao-ia">Erro de conexão. O servidor (porta 3000) está ligado?</div>`;
+            }
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+        };
+
+        // --- 5. Permite usar o Enter ---
+        inputPergunta.addEventListener("keypress", (e) => { 
+            // Enter envia, mas Shift+Enter pula linha
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                btnEnviar.click(); 
+            }
+        });
+      </script>
+</body>
+</html>

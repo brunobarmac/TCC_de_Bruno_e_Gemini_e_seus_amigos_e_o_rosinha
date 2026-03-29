@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões - Idade Média - StudyPro</title>
+    <link rel="stylesheet" href="../css/questoes_IdadeMedia.css">
+
+</head>
+<body>
+<a href="../index.html">← Voltar para o Início</a>
+<a href="../IA/pequeno_rosa.html?tema=IdadeMedia"
+ style="position: fixed;
+  bottom: 100px;
+   right: 50px;
+    background-color: #ff69b4;
+     color: white;
+      text-align: center;
+      font-size:20px;
+      text-decoration: none;
+     border-radius: 20px;
+     width: 100px;
+     height: 75px";
+     >Pequeno Rosa</a>
+<!-- copia o botão para mandar para outras paginas -->
+
+</nav>
+</div>
+<div class="container">
+    <h1>Questões: Idade Média</h1>
+
+    <div id="quiz-container">
+        <div class="question" data-answer="2">
+            <h2>1. (Fatec-SP) Uma das características a ser reconhecida no feudalismo europeu é:</h2>
+            <ul class="options">
+                <li>a.A sociedade feudal era semelhante ao sistema de castas.</li>
+                <li>b.Os ideais de honra e fidelidade vieram das instituições dos hunos.</li>
+                <li>c.Vilões e servos estavam presos a várias obrigações, entre elas, o pagamento anual de capitação, talha e banalidades.</li>
+                <li>d.A economia do feudo era dinâmica, estando voltada para o comércio dos feudos vizinhos.</li>
+                <li>e.As relações de produção eram escravocratas.</li>
+            </ul>
+        </div>
+
+        <div class="question" data-answer="0">
+            <h2>2. (Enem 2015) A casa de Deus, que acreditam una, está, portanto, dividida em três: uns oram, outros combatem, outros, enfim, trabalham. Essas três partes que coexistem não suportam ser separadas; os serviços prestados por uma são a condição das obras das outras duas; cada uma por sua vez encarrega-se de aliviar o conjunto… Assim a lei pode triunfar e o mundo gozar da paz.</h2>
+            <h2>A ideologia apresentada por Aldalberon de Laon foi produzida durante a Idade Média. Um objetivo de tal ideologia e um processo que a ela se opôs estão indicados, respectivamente, em:</h2>
+            <ul class="options">
+                <li>a.Justificar a dominação estamental / revoltas camponesas.</li>
+                <li>b.Subverter a hierarquia social / centralização monárquica.</li>
+                <li>c.Impedir a igualdade jurídica / revoluções burguesas.</li>
+                <li>d.Controlar a exploração econômica / unificação monetária.</li>
+                <li>e.Questionar a ordem divina / Reforma Católica.</li>
+            </ul>
+        </div>
+
+        <div class="question" data-answer="3">
+            <h2>3. (Fatec-SP) Dentre as causas da desagregação da ordem econômica feudal, é possível mencionar:</h2>
+            <ul class="options">
+                <li>a.A capitalização intensa realizada pelos artesãos medievais e a criação de grandes unidades industriais.</li>
+                <li>b.O desinteresse da nobreza e do clero pela manutenção do Feudalismo.</li>
+                <li>c.O surgimento das corporações de oficio e a substituição do “justo preço” pelo preço de mercado.</li>
+                <li>d.O revivescimento do comércio e a conseqüente circulação monetária, que abalaram a auto-suficiência.</li>
+                <li>e.A substituição gradativa do trabalho escravo pelo trabalho assalariado.</li>
+            </ul>
+        </div>
+        
+         <div class="question" data-answer="2">
+            <h2>4. (MACKENZIE-SP) A desintegração do Modo de Produção Feudal na Baixa Idade Média foi, em grande parte, consequência:</h2>
+            <ul class="options">
+                <li>a.do crescimento do prestígio da Igreja, que era o sustentáculo ideológico do sistema.</li>
+                <li>b.do sucesso militar do movimento das Cruzadas, e da bem sucedida expansão da sociedade feudal pelo Oriente.</li>
+                <li>c.das transformações das relações servis de produção em assalariadas, do comércio e da economia monetária, que aceleraram as contradições internas do sistema.</li>
+                <li>d.do crescimento da população européia no século XIV e da grande oferta de mão-de-obra barata que este fato gerou economicamente.</li>
+                <li>e.da consolidação do localismo político, fruto direto da Guerra dos Cem anos que favoreceu a nobreza feudal.</li>
+            </ul>
+        </div>
+    </div>
+        <button id="submit-btn">Verificar Respostas</button>
+</div>
+<script>
+    // 1. Seleção: Limpa quem estava selecionado e marca o novo
+    document.querySelectorAll('.options li').forEach(li => {
+        li.onclick = () => {
+            li.parentNode.querySelector('.selected')?.classList.remove('selected');
+            li.classList.add('selected');
+        };
+    });
+
+    // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
+    document.getElementById('submit-btn').onclick = () => {
+        document.querySelectorAll('.question').forEach(q => {
+            const opts = q.querySelectorAll('li');
+            const selected = q.querySelector('.selected');
+            
+            opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+            
+            opts[q.dataset.answer].classList.add('correct'); // A certa sempre fica verde
+            if (selected && selected !== opts[q.dataset.answer]) {
+                selected.classList.add('wrong'); // A do aluno fica vermelha se errou
+            }
+        });
+    };
+</script>
+</body>
+</html>
