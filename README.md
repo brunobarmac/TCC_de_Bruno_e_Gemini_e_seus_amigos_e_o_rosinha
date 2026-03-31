@@ -10,7 +10,7 @@ e a putinha
 Para rodar a api 
 criar um arquivo .env
 colocar a chave api e o app url
-npm install @google/genai
+npm install @google/genai(npm install @google/generative-ai)
 npm install
 npm run dev
 depois so entrar no localhost que o terminal informar
