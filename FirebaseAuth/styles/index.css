@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background-color: #000;
+}
+
+.container {
+  width: 450px;
+  background-color: transparent;
+  border: 3px solid rgba(240, 240, 240, 0.4);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  backdrop-filter: blur(2px);
+  margin: 50px auto;
+}
+
+form {
+  margin:0 0.5rem;
+}
+
+.form-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.3rem;
+  margin-bottom: 0.4rem;
+}
+
+input {
+  color: #ffffff;
+  width: 100%;
+  background-color: transparent;
+  border: 2px solid rgba(240, 240, 240, 0.4);
+  border-radius: 40px;
+  padding: 14px 0 14px 2.5rem;
+}
+
+.input-group{
+  padding: 2% 0;
+  position: relative;
+}
+
+.input-group i{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 15px;
+  font-size: 18px;
+}
+
+input:focus{
+  background-color: transparent;
+  outline: transparent;
+  border: 2px solid hsla(0, 96%, 18%, 0.8);
+}
+
+input::placeholder {
+  color: rgba(189, 182, 182, 0.8)
+}
+
+input:focus~label,input:not(:placeholder-shown)~label{
+  top: -3rem;
+  color: hsla(0, 96%, 18%, 0.8);
+  font-size: 15px;
+}
+
+.recover{
+  text-align: right;
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.recover a{
+  text-decoration: none;
+  color: hsla(0, 96%, 18%, 0.8);
+}
+
+.recover a:hover{
+  color: hsla(0, 95%, 36%, 0.8);
+  text-decoration: underline;
+}
+
+.btn{
+  margin: 10px 0;
+  font-size: 1.15rem;
+  padding: 8px 0;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  outline: none;
+  width: 100%;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover{
+  border-radius: 15px;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.or {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.icons {
+  text-align: center;
+}
+
+.icons i{
+  color:hsla(0, 96%, 18%, 0.8);
+  padding: 0.8rem 1.5rem;
+  font-size: 1.5rem;
+  border: 2px solid hsla(0, 96%, 18%, 0.8);
+  border-radius: 10px;
+  margin: 0 15px;
+  cursor: pointer;
+  transition: 1s;
+}
+
+.icons i:hover{
+  background: #242323;
+  font-size: 1.6rem;
+  border: 2px solid  hsla(0, 95%, 36%, 0.8);;
+}
+
+.register-link{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 2rem;
+  margin-top: 0.9rem;
+  font-weight: bold;
+}
+
+button{
+  color:hsla(0, 96%, 18%, 0.8);
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button:hover{
+  color: hsla(0, 95%, 36%, 0.8);
+  text-decoration: underline;
+}
+
+.messageDiv{
+  background-color: rgba(255, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin: 10px;
+  opacity: 0;
+  animation: fadeOut 7s forwards;
+}
