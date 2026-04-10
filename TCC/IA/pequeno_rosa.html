@@ -75,7 +75,7 @@
             areaMensagens.scrollTop = areaMensagens.scrollHeight;
 
             try {
-                const resposta = await fetch("http://localhost:3000/api/chat", {
+                const resposta = await fetch("http://localhost:5501/api/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ prompt: promptFinal, history: historicoConversa })

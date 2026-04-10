@@ -1,20 +1,17 @@
-import dotenv from "dotenv";
+import dotenv from "dotenv"; /* dotenv: É o nosso "carro-forte". Ele lê o arquivo .env e esconde nossas chaves 
+     e senhas para não precisarmos deixá-las expostas no meio do código aberto.*/
 import path from "path";
 
 // Carrega o .env explicitamente do diretório atual
 dotenv.config({ path: path.join(process.cwd(), ".env") });
-
 import express from "express";
 import cors from "cors";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 
+// =========================================
+// função de envio de mensagem com tentativas e tratamento de erro específico para servidor cheio (503)
 // ==========================================
-// 🛡️ 1. FUNÇÕES DE BLINDAGEM DA API (RETRY)
-// ==========================================
-
-// Função que faz o código "dormir" por X milissegundos
-const esperar = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Função que tenta enviar a mensagem até 3 vezes antes de desistir
 async function enviarMensagemComTentativas(chat: any, mensagem: string, tentativas = 3) {
@@ -26,16 +23,13 @@ async function enviarMensagemComTentativas(chat: any, mensagem: string, tentativ
       
     } catch (error: any) {
       // Verifica se é erro de servidor cheio (503 ou UNAVAILABLE)
-      const isOverloaded = error.status === 503 || error.message?.includes('503') || error.message?.includes('UNAVAILABLE');
-      
-      if (isOverloaded) {
+   
+      if (error.status === 503 || error.message?.includes('UNAVAILABLE')) {
         console.warn(`⚠️ Tentativa ${i + 1} de ${tentativas} falhou por alta demanda do Gemini. Tentando de novo em 2 segundos...`);
         
         // Se for a última tentativa, quebra o loop
-        if (i === tentativas - 1) break; 
-        
-        // Espera 2 segundos antes de tentar de novo
-        await esperar(2000); 
+        if (i === tentativas) break;
+
       } else {
         // Se for um erro diferente (ex: sem internet ou chave errada), joga o erro para frente
         console.error("❌ Erro crítico diferente de 503 encontrado:", error);
@@ -49,34 +43,35 @@ async function enviarMensagemComTentativas(chat: any, mensagem: string, tentativ
   return "Poxa, a sala dos professores está muito cheia agora! O sistema está processando muitos alunos simultaneamente. Pode me mandar a questão de novo em alguns segundos?";
 }
 
-
-// ==========================================
-// 🚀 2. INICIALIZAÇÃO DO SERVIDOR
-// ==========================================
+// INICIALIZAÇÃO DO SERVIDOR
 
 async function startServer() {
-  const app = express();
+  const app = express(); /*app = express(): É o construtor do servidor. Ele cria a "casa" que vai ficar 
+     conectada na internet esperando os usuários entrarem.  */
   const PORT = 5501;
+  const API_KEY = process.env.GEMINI_API_KEY;/* process.env: É a gaveta de memória do Node.js. Usamos ele para buscar as 
+     variáveis secretas que o dotenv guardou (ex: process.env.GEMINI_API_KEY). */
 
-  app.use(cors());
-  app.use(express.json());
+  app.use(cors());  /* CORS (Cross-Origin Resource Sharing) é como um porteiro que permite ou bloqueia visitantes de outros
+   domínios*/
+  app.use(express.json()); /* app.use(express.json()): É o "tradutor". Pega as mensagens de texto puro que 
+     chegam da internet e transforma em objetos JavaScript que o código entende.*/
 
   // Rota da API para o Chat
   app.post("/api/chat", async (req, res) => {
-    const { prompt, history } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    const { prompt, history } = req.body; //o history é um resumo sobre a conversa para o chat
 
     console.log("\n--- Nova Requisição de Chat ---");
     
-    if (!apiKey || apiKey === "AIzaSyC9tvTrInF0VdV8wSFZmNM8jMsNP7T7vss") {
+    if (!API_KEY) {
       console.error("ERRO: GEMINI_API_KEY não encontrada no process.env");
       return res.status(500).json({ error: "Chave de API não configurada no servidor (.env)" });
     }
 
-    console.log("Chave detectada: " + apiKey.substring(0, 8) + "...");
+    console.log("Chave encontrada");
 
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: API_KEY });
       const chat = ai.chats.create({
         model: "gemini-3-flash-preview", // Mantendo o seu modelo atual
         config: {
@@ -145,38 +140,43 @@ async function startServer() {
             [NIVEL_INCIDENCIA: ALTA/MEDIA/BAIXA]
           `,
         },
-        history: history || [],
+        history: history || [], /* history: Variável vital para manter o contexto. Sem ela, o Gemini tem 
+     "amnésia" e esquece a mensagem anterior. Passamos o histórico junto com o 
+     prompt para a IA lembrar da conversa.*/
       });
 
-      // 🛡️ AQUI ACONTECE A MÁGICA: Chamando a função blindada em vez de chamar a API direto
+      //Chamando a função blindada em vez de chamar a API direto
       const textoResposta = await enviarMensagemComTentativas(chat, prompt);
       
       console.log("Resposta do Pequeno Rosa processada com sucesso.");
       res.json({ text: textoResposta }); // Retorna para o Frontend (React)
 
     } catch (error: any) {
-      console.error("Erro detalhado na rota /api/chat:", error);
+      console.error("Erro, foi possivel ler a chave porem nao foi possivel processar a solicitacao", error);
       res.status(500).json({ error: error.message || "Erro ao processar sua pergunta." });
     }
   });
 
   // Configuração do Vite (Middleware)
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
+  if (process.env.NODE_ENV !== "production") {/*NODE_ENV: Uma variável que diz se estamos apenas programando em casa 
+     ("development") ou se o site está no ar para o público ("production").*/
+    const vite = await createViteServer({ /*Vite (MiddlewareMode): Quando estamos programando, o Vite age como um 
+     "Go Live" embutido direto no Back-end, servindo a página visual rapidamente.*/
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(process.cwd(), "dist");/* Quando o site estiver no ar (production), ele serve os arquivos
+     estáticos da pasta "dist", que é a versão final otimizada do site. */
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
-  app.listen(PORT, "127.0.0.1", () => {
-    console.log(`Pequeno Rosa rodando em http://127.0.0.1:${PORT}`);
+  app.listen(5501, "127.0.0.1", () => {
+    console.log(`Pequeno Rosa rodando em 127.0.0.1:5501`);
   });
 }
 
