@@ -12,21 +12,25 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <!-- Metadados essenciais -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | StudyPro</title> <!-- // Título da aba do navegador -->
-    
+
     <!-- Fonte Poppins para consistência visual -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Estilos da página de login -->
     <link rel="stylesheet" href="../css/login.css"> <!-- // Importa o CSS da página de login -->
-    
+
     <!-- i18next para sistema de tradução multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+    <script type="module" src="/TCC/scripts/login.js"></script>
 </head>
+
 <body>
     <!-- CABEÇALHO COM SELETOR DE IDIOMA -->
     <header class="login-header">
@@ -35,7 +39,7 @@
             <a href="../index.html" class="logo-link">
                 <span class="brain">🧠</span> StudyPro
             </a>
-            
+
             <!-- Dropdown de idioma -->
             <div class="language-dropdown">
                 <button class="lang-btn" id="lang-toggle">
@@ -54,13 +58,15 @@
     <div class="container"> <!-- // Container centralizado para o formulário -->
         <h1 data-i18n="login-title">Bem-vindo ao StudyPro</h1> <!-- // Título principal da página -->
         <form>
-            <input type="text" placeholder="Usuário ou E-mail" data-i18n-placeholder="user-email" required> <!-- // Campo para usuário ou e-mail -->
-            <input type="password" placeholder="Senha" data-i18n-placeholder="password" required> <!-- // Campo para senha -->
+            <input type="text" placeholder="Usuário ou E-mail" data-i18n-placeholder="user-email" required>
+            <!-- // Campo para usuário ou e-mail -->
+            <input type="password" placeholder="Senha" data-i18n-placeholder="password" required>
+            <!-- // Campo para senha -->
             <button type="submit" data-i18n="entrar">Entrar</button> <!-- // Botão para enviar o formulário de login -->
         </form>
         <div class="social-login"> <!-- // Área para login social -->
             <p data-i18n="social-text">Ou entre com:</p> <!-- // Texto explicativo -->
-            <button class="google-btn" type="button">               
+            <button class="google-btn" type="button">
                 <img src="../imagens/logo-google.webp" alt="Google"> Google <!-- // Botão de login com Google -->
             </button>
             <button class="facebook-btn" type="button">
@@ -71,111 +77,10 @@
             </button>
         </div>
         <p data-i18n="no-account">Não tem uma conta?</p> <!-- // Texto para quem não tem conta -->
-        <a href="cadastro.html" class="switch-btn" data-i18n="cadastrese">Cadastre-se</a> <!-- // Botão para ir para a página de cadastro -->
-        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a> <!-- // Botão para voltar à página inicial -->
+        <a href="cadastro.html" class="switch-btn" data-i18n="cadastrese">Cadastre-se</a>
+        <!-- // Botão para ir para a página de cadastro -->
+        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a>
+        <!-- // Botão para voltar à página inicial -->
     </div>
-
-    <!-- SCRIPT: Configuração de Tradução Multilíngue -->
-    <script>
-        // ===== INICIALIZAÇÃO DO i18next =====
-        // Configura o sistema de tradução com suporte a Português, Inglês e Espanhol
-        i18next.init({
-            lng: 'pt', // idioma padrão é português
-            debug: false,
-            resources: {
-                // Traduções em Português
-                pt: { translation: {
-                    "login-title": "Bem-vindo ao StudyPro",
-                    "user-email": "Usuário ou E-mail",
-                    "password": "Senha",
-                    "entrar": "Entrar",
-                    "social-text": "Ou entre com:",
-                    "no-account": "Não tem uma conta?",
-                    "cadastrese": "Cadastre-se",
-                    "voltar-inicio": "Voltar para a página inicial"
-                }},
-                // Traduções em Inglês
-                en: { translation: {
-                    "login-title": "Welcome to StudyPro",
-                    "user-email": "Username or Email",
-                    "password": "Password",
-                    "entrar": "Sign In",
-                    "social-text": "Or sign in with:",
-                    "no-account": "Don't have an account?",
-                    "cadastrese": "Sign Up",
-                    "voltar-inicio": "Back to homepage"
-                }},
-                // Traduções em Espanhol
-                es: { translation: {
-                    "login-title": "Bienvenido a StudyPro",
-                    "user-email": "Usuario o Correo Electrónico",
-                    "password": "Contraseña",
-                    "entrar": "Iniciar Sesión",
-                    "social-text": "O inicia sesión con:",
-                    "no-account": "¿No tienes una cuenta?",
-                    "cadastrese": "Regístrate",
-                    "voltar-inicio": "Volver a la página de inicio"
-                }}
-            }
-        }, function(err, t) {
-            updateContent();
-        });
-
-        // ===== FUNÇÃO: Atualizar Conteúdo da Página =====
-        function updateContent() {
-            // Atualiza textos com data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(function(element) {
-                const key = element.getAttribute('data-i18n');
-                element.textContent = i18next.t(key);
-            });
-
-            // Atualiza placeholders com data-i18n-placeholder
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(function(element) {
-                const key = element.getAttribute('data-i18n-placeholder');
-                element.placeholder = i18next.t(key);
-            });
-        }
-
-        // ===== CONTROLE DO DROPDOWN DE IDIOMA =====
-        const langToggle = document.getElementById('lang-toggle');
-        const langMenu = document.getElementById('lang-menu');
-        const currentLang = document.getElementById('current-lang');
-        const arrow = langToggle.querySelector('.arrow');
-
-        // Clique no botão de idioma: abre/fecha menu
-        langToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            langMenu.classList.toggle('show');
-            langToggle.classList.toggle('active');
-            if (langToggle.classList.contains('active')) {
-                arrow.style.transform = 'rotate(90deg)';
-            } else {
-                arrow.style.transform = 'rotate(0deg)';
-            }
-        });
-
-        // Clique em uma opção de idioma
-        document.querySelectorAll('.lang-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const newLang = this.getAttribute('data-lang');
-                currentLang.textContent = newLang.toUpperCase();
-                i18next.changeLanguage(newLang, function() {
-                    updateContent();
-                });
-                langMenu.classList.remove('show');
-                langToggle.classList.remove('active');
-                arrow.style.transform = 'rotate(0deg)';
-            });
-        });
-
-        // Clique fora fecha o dropdown
-        document.addEventListener('click', function(e) {
-            if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
-                langMenu.classList.remove('show');
-                langToggle.classList.remove('active');
-                arrow.style.transform = 'rotate(0deg)';
-            }
-        });
-    </script>
 </body>
 </html>
