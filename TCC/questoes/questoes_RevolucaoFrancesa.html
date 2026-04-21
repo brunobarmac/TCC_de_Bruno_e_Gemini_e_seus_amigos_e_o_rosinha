@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões - Revolução Francesa - StudyPro</title>
+    <link rel="stylesheet" href="../css/questoes.css">
+</head>
+<body>
+    
+    <nav>
+        <a href="../index.html">← Voltar para o Início</a>
+        <a href="../IA/pequeno_rosa.html?tema=RevolucaoFrancesa"
+           style="position: fixed;
+                  bottom: 100px;
+                  right: 50px;
+                  background-color: #ff69b4;
+                  color: white;
+                  text-align: center;
+                  font-size: 20px;
+                  text-decoration: none;
+                  border-radius: 20px;
+                  width: 100px;
+                  height: 75px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;">
+            Pequeno Rosa
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Questões: Revolução Francesa</h1>
+
+        <div id="quiz-container">
+            
+            <div class="question" data-answer="1">
+                <h2>1. (ENEM) O texto da Declaração dos Direitos do Homem e do Cidadão,<br>documento marco de 1789, defendia a ideia de que:</h2>
+                <ul class="options">
+                    <li>a. os direitos sociais e trabalhistas devem ser garantidos<br>pelo Estado de forma absolutista.</li>
+                    <li>b. a igualdade jurídica e civil entre os indivíduos<br>é a base fundamental da sociedade democrática.</li>
+                    <li>c. a propriedade privada é um mal de origem feudal<br>que deve ser imediatamente erradicado.</li>
+                    <li>d. os privilégios da nobreza e do alto clero<br>são direitos divinos inalienáveis e sagrados.</li>
+                    <li>e. a escravidão era uma instituição natural e, portanto,<br>deveria ser mantida nas colônias ultramarinas.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="2">
+                <h2>2. (FUVEST) Do ponto de vista social, pode-se afirmar, sobre a<br>Revolução Francesa, que:</h2>
+                <ul class="options">
+                    <li>a. teve resultados efêmeros, pois foi iniciada, dirigida<br>e apropriada por uma só classe social, a burguesia.</li>
+                    <li>b. fracassou, pois, apesar da fase do terror, a burguesia<br>não conseguiu limitar os direitos dos camponeses.</li>
+                    <li>c. nela coexistiram três revoluções sociais distintas:<br>uma revolução burguesa, uma camponesa e uma popular urbana.</li>
+                    <li>d. foi um fracasso, pois apesar do sucesso político<br>não representou grandes mudanças na base social.</li>
+                    <li>e. abortou, pois a nobreza, agindo como vanguarda,<br>não permitiu a ascensão da burguesia ao poder.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="3">
+                <h2>3. (MACKENZIE) A Declaração dos Direitos do Homem e do Cidadão,<br>votada pela Assembleia Nacional Constituinte em 1789, visava:</h2>
+                <ul class="options">
+                    <li>a. romper com a Declaração de Independência dos EUA,<br>por esta ser considerada radical e antidemocrática.</li>
+                    <li>b. recuperar os antigos ideais monárquicos europeus<br>e fortalecer o poder tradicional da nobreza feudal.</li>
+                    <li>c. abolir totalmente o conceito de propriedade privada<br>e estabelecer a igualdade social absoluta na França.</li>
+                    <li>d. estabelecer os princípios universais de liberdade, propriedade,<br>segurança e resistência à opressão.</li>
+                    <li>e. garantir à Igreja Católica o monopólio exclusivo<br>sobre a educação e a censura cultural no país.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="1">
+                <h2>4. (UNICAMP) O período da Revolução Francesa conhecido como "Terror"<br>(1793-1794) pode ser historicamente caracterizado:</h2>
+                <ul class="options">
+                    <li>a. pela fase de maior moderação e diálogo político,<br>liderada pelos girondinos e pela alta burguesia.</li>
+                    <li>b. pela radicalização do processo revolucionário,<br>com a liderança dos jacobinos e forte repressão aos opositores.</li>
+                    <li>c. pelo retorno pacífico do rei Luís XVI ao poder,<br>apoiado por forças contrarrevolucionárias da Áustria.</li>
+                    <li>d. pela implantação direta do Império Napoleônico,<br>que encerrou definitivamente o processo revolucionário popular.</li>
+                    <li>e. pela aliança estratégica entre a nobreza e os camponeses<br>contra as medidas financeiras confiscatórias da burguesia.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="1">
+                <h2>5. (UNESP) A Revolução Francesa, no seu intenso processo de mudanças<br>políticas e sociais contínuas, caracterizou-se por:</h2>
+                <ul class="options">
+                    <li>a. derrubar o sistema de representação política<br>e instaurar uma monarquia constitucional liderada pelo clero.</li>
+                    <li>b. destruir os obstáculos estruturais do antigo feudalismo<br>e promover o avanço do modo de produção capitalista.</li>
+                    <li>c. promover a aliança indissolúvel entre o clero e a burguesia<br>para manter os privilégios do Terceiro Estado.</li>
+                    <li>d. fracassar na tentativa de abolir as corporações de ofício,<br>mantendo as relações servis tradicionais no campo.</li>
+                    <li>e. garantir a manutenção intacta dos direitos de sangue<br>da nobreza através de acordos na Assembleia Nacional.</li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <button id="submit-btn">Verificar Respostas</button>
+    </div>
+
+    <script>
+        // 1. Seleção: Limpa quem estava selecionado e marca o novo
+        document.querySelectorAll('.options li').forEach(li => {
+            li.onclick = () => {
+                li.parentNode.querySelector('.selected')?.classList.remove('selected');
+                li.classList.add('selected');
+            };
+        });
+
+        // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
+        document.getElementById('submit-btn').onclick = () => {
+            document.querySelectorAll('.question').forEach(q => {
+                const opts = q.querySelectorAll('li');
+                const selected = q.querySelector('.selected');
+                
+                opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+                
+                // Pega a resposta correta baseada no data-answer
+                opts[q.dataset.answer].classList.add('correct'); 
+                
+                // Se marcou algo e não é a correta, pinta de vermelho
+                if (selected && selected !== opts[q.dataset.answer]) {
+                    selected.classList.add('wrong'); 
+                }
+            });
+        };
+    </script>
+</body>
+</html>

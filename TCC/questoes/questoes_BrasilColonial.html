@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões - Brasil Colonial - StudyPro</title>
+    <link rel="stylesheet" href="../css/questoes.css">
+</head>
+<body>
+    
+    <nav>
+        <a href="../index.html">← Voltar para o Início</a>
+        <a href="../IA/pequeno_rosa.html?tema=BrasilColonial"
+           style="position: fixed;
+                  bottom: 100px;
+                  right: 50px;
+                  background-color: #ff69b4;
+                  color: white;
+                  text-align: center;
+                  font-size: 20px;
+                  text-decoration: none;
+                  border-radius: 20px;
+                  width: 100px;
+                  height: 75px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;">
+            Pequeno Rosa
+        </a>
+    </nav>
+
+    <div class="container">
+        <h1>Questões: Brasil Colonial</h1>
+
+        <div id="quiz-container">
+            
+            <div class="question" data-answer="2">
+                <h2>1. (ENEM) A implantação do sistema de Capitanias Hereditárias (1534)<br>no Brasil colonial tinha como um de seus principais objetivos:</h2>
+                <ul class="options">
+                    <li>a. garantir a distribuição igualitária de terras<br>entre os colonos portugueses mais pobres.</li>
+                    <li>b. estabelecer missões jesuíticas ao longo de todo o litoral<br>para a catequização pacífica dos indígenas.</li>
+                    <li>c. transferir para a iniciativa privada<br>os altos custos da colonização e defesa do território.</li>
+                    <li>d. promover o imediato descobrimento de minas de ouro<br>na região central do território brasileiro.</li>
+                    <li>e. iniciar um processo de industrialização focado<br>no mercado interno da colônia.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="3">
+                <h2>2. (FUVEST) A economia mineradora no Brasil, durante o século XVIII,<br>apresentou como uma de suas características marcantes:</h2>
+                <ul class="options">
+                    <li>a. a ruralização da sociedade colonial,<br>com o enfraquecimento e esvaziamento dos centros urbanos.</li>
+                    <li>b. a eliminação completa da mão de obra escravizada,<br>substituída pelo trabalho livre de imigrantes europeus.</li>
+                    <li>c. a concentração de riquezas exclusivamente nas mãos do clero,<br>que monopolizava a extração do ouro.</li>
+                    <li>d. o surgimento de um forte mercado interno e uma maior mobilidade<br>social se comparada à tradicional economia açucareira.</li>
+                    <li>e. a total isenção de impostos por parte da metrópole portuguesa,<br>visando incentivar a extração aurífera.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="0">
+                <h2>3. (UNICAMP) A produção de açúcar no Nordeste do Brasil colonial<br>foi estruturada com base no sistema de "plantation", que se caracterizava:</h2>
+                <ul class="options">
+                    <li>a. pelo latifúndio, monocultura, uso de mão de obra escrava<br>e produção voltada fundamentalmente para a exportação.</li>
+                    <li>b. pela pequena propriedade familiar, policultura<br>e trabalho assalariado voltado ao abastecimento local.</li>
+                    <li>c. pelo uso exclusivo de mão de obra indígena catequizada,<br>sem a presença de escravizados africanos nas lavouras.</li>
+                    <li>d. pela forte presença do Estado português administrando diretamente<br>cada um dos engenhos instalados na colônia.</li>
+                    <li>e. por um modelo econômico sustentável que preservava<br>a Mata Atlântica ao redor das plantações de cana.</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="4">
+                <h2>4. (UNESP) A Inconfidência Mineira (1789) foi um movimento<br>separatista que teve como um de seus principais determinantes:</h2>
+                <ul class="options">
+                    <li>a. a revolta generalizada dos escravizados nas áreas de mineração<br>contra as péssimas condições de trabalho nas jazidas.</li>
+                    <li>b. o desejo de manter o monopólio comercial de Portugal,<br>ameaçado por invasões holandesas e francesas.</li>
+                    <li>c. a tentativa de implantar imediatamente uma monarquia<br>independente, coroando Tiradentes como imperador do Brasil.</li>
+                    <li>d. a oposição frontal aos ideais iluministas, considerados<br>uma grave ameaça à tradição católica da região.</li>
+                    <li>e. a forte insatisfação da elite local com a intensa cobrança<br>de impostos pela Coroa, especialmente a ameaça da "derrama".</li>
+                </ul>
+            </div>
+
+            <div class="question" data-answer="1">
+                <h2>5. (FGV) Durante o período colonial, a pecuária desempenhou<br>um papel fundamental na economia e na formação do Brasil porque:</h2>
+                <ul class="options">
+                    <li>a. tornou-se a principal atividade de exportação metropolitana,<br>superando amplamente os lucros obtidos com o açúcar.</li>
+                    <li>b. contribuiu para a interiorização do povoamento, expansão do<br>território e para o abastecimento do mercado interno colonial.</li>
+                    <li>c. utilizou exclusivamente a mão de obra escravizada africana,<br>sendo o setor que mais comprou escravos na colônia.</li>
+                    <li>d. foi desenvolvida majoritariamente por nobres portugueses<br>que receberam vastas sesmarias no litoral do país.</li>
+                    <li>e. impediu o avanço dos bandeirantes paulistas, criando<br>barreiras de currais que fechavam as rotas para o oeste.</li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <button id="submit-btn">Verificar Respostas</button>
+    </div>
+
+    <script>
+        // 1. Seleção: Limpa quem estava selecionado e marca o novo
+        document.querySelectorAll('.options li').forEach(li => {
+            li.onclick = () => {
+                li.parentNode.querySelector('.selected')?.classList.remove('selected');
+                li.classList.add('selected');
+            };
+        });
+
+        // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
+ document.getElementById('submit-btn').onclick = () => {
+            document.querySelectorAll('.question').forEach(q => {
+                const opts = q.querySelectorAll('li');
+                const selected = q.querySelector('.selected');
+                
+                opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+                
+                // Pega a resposta correta baseada no data-answer
+                opts[q.dataset_answer].classList.add('correct'); 
+                
+                // Se marcou algo e não é a correta, pinta de vermelho
+                if (selected && selected !== opts[q.dataset_answer]) {
+                    selected.classList.add('wrong'); 
+                }
+            });
+        };
+    </script>
+</body>
+</html>
