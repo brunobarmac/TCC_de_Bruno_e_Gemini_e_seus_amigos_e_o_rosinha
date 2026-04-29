@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles/otp.css" rel="stylesheet">
+    <script type="module" src="/scripts/otp.js"></script>
+    <title>Verificação de Duas Etapas com Número</title>
+</head>
+<body>
+    <div class="container">
+        <div id="sender">
+            <input type="text" id="number" placeholder="Digite seu número de telefone">
+            <div id="recaptcha-container"></div>
+            <input type="button" id="send" value="Enviar OTP" onClick="phoneAuth()">
+        </div>
+        <div id="verifier" style="display: none">
+            <input type="text" id="verificationcode" placeholder="Digite o OTP recebido">
+            <input type="button" id="verify" value="Verificar OTP" onClick="codeverify()">
+            <div class="p-conf">Verificar número</div>
+            <div class="n-config">OTP ERRO</div>
+        </div>
+    </div>
+</body>
+</html>
