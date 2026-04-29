@@ -81,7 +81,7 @@ signIn.addEventListener('click', (event) => {
       showMessage('Login realizado com sucesso', 'signInMessage');
       const user = userCredential.user;
       localStorage.setItem('loggedInUserId', user.uid);
-      window.location.href = '/pages/homepage.html'; // Assuming a dashboard page
+      window.location.href = '/pages/otp.html'; // Assuming a dashboard page
     })
     .catch((error) => {
       const errorCode = error.code;
