@@ -1,56 +1,55 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { auth, db } from "./firebaseConfig.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getDoc, doc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDR3Ho-kZyic52B2mxOvNAY3GqXBqqtZf0",
-  authDomain: "studypro-1ba51.firebaseapp.com",
-  projectId: "studypro-1ba51",
-  storageBucket: "studypro-1ba51.firebasestorage.app",
-  messagingSenderId: "297401757331",
-  appId: "1:297401757331:web:3f9a2d299c9ab4970da766"
-};
+// 🔒 BLOQUEIO SEM OTP
+const otpVerified = localStorage.getItem("otpVerified");
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+if (!otpVerified) {
+  window.location.href = "/pages/otp.html";
+}
 
-const auth=getAuth();
-const db=getFirestore();
-
+// 👤 VER DADOS DO USUÁRIO
 onAuthStateChanged(auth, (user) => {
-  const loggedInUserId=localStorage.getItem('loggedInUserId');
-  if(loggedInUserId){
-    const docRef = doc(db, "users", loggedInUserId);  
+  const loggedInUserId = localStorage.getItem('loggedInUserId');
+
+  if (loggedInUserId) {
+    const docRef = doc(db, "users", loggedInUserId);
+
     getDoc(docRef)
-    .then((docSnap) => {
-      if(docSnap.exists()){
-        const userData=docSnap.data();
-        document.getElementById('loggedUserFName').innerText = userData.firstName;
-        document.getElementById('loggedUserEmail').innerText = userData.email;
-        document.getElementById('loggedUserLName').innerText = userData.lastName;
-      }
-      else{
-        console.log("Nenhum documento encontrado que corresponda ao ID.")
-      }
-    })
-    .catch((error) =>{
-      console.log("Erro ao obter o documento");
-    })
-  }
-  else{
-    console.log("ID de usuário não encontrado no armazenamento local.")
-  }
-})
+      .then((docSnap) => {
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
 
-const logoutButton=document.getElementById('logout');
-
-logoutButton.addEventListener('click', () =>{
-  localStorage.removeItem('loggedInUserId');
-  signOut(auth)
-  .then(()=>{
-    window.location.href = '/index.html';
-  })
-  .catch((error)=>{
-    console.error('Erro ao sair:', error);
-  });
+          document.getElementById('loggedUserFName').innerText = userData.firstName;
+          document.getElementById('loggedUserEmail').innerText = userData.email;
+          document.getElementById('loggedUserLName').innerText = userData.lastName;
+        } else {
+          console.log("Usuário não encontrado no banco.");
+        }
+      })
+      .catch(() => {
+        console.log("Erro ao buscar dados do usuário.");
+      });
+  } else {
+    console.log("Usuário não logado.");
+  }
 });
+
+// 🚪 LOGOUT
+const logoutButton = document.getElementById('logout');
+
+if (logoutButton) {
+  logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('loggedInUserId');
+    localStorage.removeItem('otpVerified');
+
+    signOut(auth)
+      .then(() => {
+        window.location.href = "/index.html";
+      })
+      .catch((error) => {
+        console.error("Erro ao sair:", error);
+      });
+  });
+}

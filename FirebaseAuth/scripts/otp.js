@@ -1,55 +1,56 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { 
-  getAuth, 
-  RecaptchaVerifier, 
-  signInWithPhoneNumber 
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { auth, db } from "./firebaseConfig.js";
+import { RecaptchaVerifier, PhoneAuthProvider, linkWithCredential } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "SUA_KEY",
-  authDomain: "SEU_DOMINIO",
-  projectId: "SEU_ID",
-  storageBucket: "SEU_BUCKET",
-  messagingSenderId: "SEU_ID",
-  appId: "SEU_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+let verificationId = null;
 
 // 🔥 RECAPTCHA
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-  'size': 'normal'
-});
-
-// 📲 ENVIAR CÓDIGO
-window.phoneAuth = function () {
-  const number = document.getElementById('number').value;
-
-  signInWithPhoneNumber(auth, number, window.recaptchaVerifier)
-    .then((confirmationResult) => {
-      window.confirmationResult = confirmationResult;
-
-      document.getElementById('sender').style.display = 'none';
-      document.getElementById('verifier').style.display = 'block';
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+window.onload = function () {
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    size: 'normal'
+  });
+  window.recaptchaVerifier.render();
 };
 
-// ✅ VERIFICAR CÓDIGO
-window.codeverify = function () {
+// 📲 ENVIAR CÓDIGO
+window.phoneAuth = async function () {
+  const number = document.getElementById('number').value;
+
+  const provider = new PhoneAuthProvider(auth);
+
+  verificationId = await provider.verifyPhoneNumber(
+    number,
+    window.recaptchaVerifier
+  );
+
+  alert("Código enviado!");
+
+  document.getElementById('sender').style.display = 'none';
+  document.getElementById('verifier').style.display = 'block';
+};
+
+// 🔐 VERIFICAR CÓDIGO (AQUI ESTÁ A MÁGICA)
+window.codeverify = async function () {
   const code = document.getElementById('verificationcode').value;
 
-  window.confirmationResult.confirm(code)
-    .then(() => {
-      alert("Número verificado com sucesso!");
+  const credential = PhoneAuthProvider.credential(verificationId, code);
 
-      // 🔥 AGORA SIM vai pra homepage
-      window.location.href = "/pages/homepage.html";
-    })
-    .catch(() => {
-      alert("Código incorreto!");
+  try {
+    // 🔥 LINKA O TELEFONE COM O USUÁRIO LOGADO
+    await linkWithCredential(auth.currentUser, credential);
+
+    await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      phoneVerified: true
     });
+
+    localStorage.setItem("otpVerified", "true");
+
+    alert("Verificação concluída!");
+
+    window.location.href = "/pages/homepage.html";
+
+  } catch (error) {
+    console.error(error);
+    alert("Código inválido!");
+  }
 };
