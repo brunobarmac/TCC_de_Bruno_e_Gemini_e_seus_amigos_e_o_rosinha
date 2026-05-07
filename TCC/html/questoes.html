@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .container{
+            width:90%;
+            max-width:1100px;
+            text-align:center;
+        }
+
+        h1{
+            color:white;
+            margin-bottom:50px;
+            font-size:42px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:25px;
+        }
+
+        .card{
+            text-decoration:none;
+            color:white;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            padding:40px 20px;
+            border-radius:25px;
+            transition:0.3s;
+            box-shadow:0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .card:hover{
+            transform:translateY(-10px) scale(1.03);
+            background: rgba(255,255,255,0.2);
+            box-shadow:0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .card h2{
+            margin-bottom:10px;
+            font-size:24px;
+        }
+
+        .card p{
+            font-size:15px;
+            opacity:0.9;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Escolha um Tema</h1>
+
+        <div class="cards">
+            <a href="questoes_BrasilColonial.html" class="card">
+                <h2>Brasil Colonial</h2>
+                <p>Questões sobre colonização e economia colonial</p>
+            </a>
+
+            <a href="questoes/questoes_ExpansaoMaritima.html" class="card">
+                <h2>Expansão Marítima</h2>
+                <p>Navegações, descobertas e comércio</p>
+            </a>
+
+            <a href="questoes_IdadeMedia.html" class="card">
+                <h2>Idade Média</h2>
+                <p>Feudalismo, Igreja e sociedade medieval</p>
+            </a>
+
+            <a href="questoes_RevolucaoFrancesa.html" class="card">
+                <h2>Revolução Francesa</h2>
+                <p>Liberdade, igualdade e revolução</p>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
