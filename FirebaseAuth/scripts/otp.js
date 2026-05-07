@@ -1,15 +1,6 @@
 import { auth, db } from "./firebaseConfig.js";
-
-import {
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-
-import {
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
+import { RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, linkWithCredential } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 let confirmationResult;
 
@@ -33,26 +24,43 @@ window.phoneAuth = async function () {
   }
 };
 
-// ✅ VERIFICAR CÓDIGO
+// ✅ VERIFICAR CÓDIGO (AGORA CORRETO)
 window.codeverify = async function () {
   const code = document.getElementById('verificationcode').value;
 
   try {
-    await confirmationResult.confirm(code);
+    const credential = PhoneAuthProvider.credential(
+      confirmationResult.verificationId,
+      code
+    );
 
-    const uid = localStorage.getItem("loggedInUserId");
+    // 🔥 VINCULA AO USUÁRIO ATUAL (NÃO CRIA NOVO)
+    if (auth.currentUser){
+      await linkWithCredential(auth.currentUser, credential);
+    }
+
+    // marca no banco
+    const uid = auth.currentUser.uid;
 
     await updateDoc(doc(db, "users", uid), {
       phoneVerified: true
     });
 
     localStorage.setItem("otpVerified", "true");
-
-    alert("Verificado!");
-
+    alert("Verificação concluída!");
     window.location.href = "/pages/homepage.html";
 
-  } catch {
-    alert("Código inválido!");
+  } catch (error) {
+    console.error(error);
+    if (error.code === "auth/credential-already-in-use") {
+
+      // 🔥 número já vinculado antes
+      localStorage.setItem("otpVerified", "true");
+      alert("Número já verificado!");
+      window.location.href = "/pages/homepage.html";
+
+    } else {
+      alert("Código inválido!");
+    }
   }
 };

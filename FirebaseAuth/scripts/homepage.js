@@ -25,7 +25,20 @@ if (userId) {
 }
 
 document.getElementById('logout').addEventListener('click', () => {
-  localStorage.clear();
+
+  // remove apenas usuário logado
+  localStorage.removeItem('loggedInUserId');
+
+  // contador de logout
+  let logoutCount = localStorage.getItem("logoutCount") || 0;
+  logoutCount++;
+  localStorage.setItem("logoutCount", logoutCount);
+
+  // 🔐 após 3 saídas pede OTP novamente
+  if (logoutCount >= 3) {
+    localStorage.removeItem("otpVerified");
+    localStorage.setItem("logoutCount", 0);
+  }
 
   signOut(auth).then(() => {
     window.location.href = "/index.html";

@@ -62,14 +62,19 @@ if (signIn) {
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
-      if (userSnap.exists() && userSnap.data().phoneVerified) {
-        localStorage.setItem("otpVerified", "true");
+      const otpVerified = localStorage.getItem("otpVerified");
+
+      if (
+        userSnap.exists() &&
+        userSnap.data().phoneVerified &&
+        otpVerified
+      ) {
         window.location.href = "/pages/homepage.html";
       } else {
         window.location.href = "/pages/otp.html";
       }
 
-    } catch {
+    } catch (error) {
       alert("Email ou senha incorretos!");
     }
   });
