@@ -1,0 +1,586 @@
+<!-- ================================================
+     ARQUIVO: configuracoes.html
+     LOCALIZAÇÃO: d:\TCC\html\configuracoes.html
+     DESCRIÇÃO: Página de configurações de conta do StudyPro
+     FUNCIONALIDADE:
+       - Seção de Perfil (foto, nome, email, usuário)
+       - Seção de Segurança (senhas, autenticação 2FA)
+       - Seção de Preferências (idioma, tema, notificações)
+       - Seletor multilíngue de idioma
+       - Botões: Salvar Alterações, Cancelar, Sair da Conta
+     ================================================ -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Metadados essenciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações da Conta - StudyPro</title>
+    
+    <!-- Fonte Poppins para consistência visual com o site -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos gerais e específicos da página de configurações -->
+    <link rel="stylesheet" href="../css/index.css"> <!-- variáveis, header e botões comuns -->
+    <link rel="stylesheet" href="../css/configuracoes.css">
+    
+    <!-- i18next para sistema de tradução multilíngue -->
+    <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+</head>
+<body>
+    <!--
+    ================================================================================
+    CABEÇALHO DA PÁGINA
+    Mantém consistência visual com outras páginas do site
+    Contém logo, seletor de idioma e botão voltar
+    ================================================================================
+    -->
+    <header>
+        <div class="main-header">
+            <!--
+            LOGO DO SITE
+            Link visual para identificação da marca StudyPro
+            Ícone de cérebro + texto para reconhecimento imediato
+            -->
+            <div class="logo">
+                <span class="brain">🧠</span> StudyPro
+            </div>
+
+            <!--
+            ÁREA DIREITA DO HEADER
+            Contém controles de idioma e navegação
+            -->
+            <div class="header-right">
+                <!--
+                SELETOR DE IDIOMA (DROPDOWN)
+                Permite alternar entre PT/EN/ES dinamicamente
+                Mesma implementação das outras páginas para consistência
+                -->
+                <div class="language-dropdown">
+                    <button class="lang-btn" id="lang-toggle">
+                        <span id="current-lang">PT</span>
+                        <span class="arrow">▶</span>
+                    </button>
+                    <!-- Menu suspenso com opções de idioma -->
+                    <ul class="lang-menu" id="lang-menu">
+                        <li><button class="lang-option" data-lang="pt">PT</button></li>
+                        <li><button class="lang-option" data-lang="en">EN</button></li>
+                        <li><button class="lang-option" data-lang="es">ES</button></li>
+                    </ul>
+                </div>
+
+                <!--
+                BOTÃO VOLTAR
+                Navegação para retornar à página inicial
+                Mantém usuário orientado na estrutura do site
+                -->
+                <a href="../index.html" class="btn back-btn" data-i18n="voltar">Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <!--
+    ================================================================================
+    CONTEÚDO PRINCIPAL
+    Área central da página contendo todas as configurações organizadas em seções
+    ================================================================================
+    -->
+    <main>
+        <!--
+        TÍTULO PRINCIPAL DA PÁGINA
+        Identifica claramente o propósito da página para o usuário
+        Texto traduzível via sistema i18next
+        -->
+        <h1 data-i18n="config-title">Configurações da Conta</h1>
+
+        <!--
+        CONTAINER PRINCIPAL DAS CONFIGURAÇÕES
+        Layout em grid com dois painéis laterais para organização lógica
+        -->
+        <div class="settings-container">
+
+            <!--
+            PAINEL ESQUERDO - SEÇÃO DE PERFIL
+            Contém informações pessoais e dados básicos do usuário
+            Organizado em grupos de formulário para melhor usabilidade
+            -->
+            <section class="settings-section profile-section">
+                <h2 data-i18n="perfil">Perfil</h2>
+
+                <!--
+                CAMPO: FOTO DE PERFIL
+                Permite upload e visualização da imagem do usuário
+                Interface intuitiva com preview e botão de alteração
+                -->
+                <div class="form-group">
+                    <label data-i18n="foto-perfil">Foto de Perfil</label>
+                    <div class="profile-picture-wrapper">
+                        <!--
+                        IMAGEM DE PERFIL ATUAL
+                        Exibe foto atual ou placeholder
+                        Atualizada dinamicamente quando usuário faz upload
+                        -->
+                        <img id="profile-image" src="https://via.placeholder.com/120" alt="Foto de Perfil" class="profile-picture">
+                        <!--
+                        BOTÃO PARA ALTERAR FOTO
+                        Gatilho visual para abrir seletor de arquivo
+                        Texto traduzível para suporte multilíngue
+                        -->
+                        <button class="btn btn-change-photo" data-i18n="mudar-foto">Mudar Foto</button>
+                        <!--
+                        INPUT DE ARQUIVO OCULTO
+                        Seletor nativo do navegador para upload de imagem
+                        Aceita apenas arquivos de imagem para validação
+                        -->
+                        <input type="file" id="photo-input" class="file-input" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <!--
+                CAMPO: NOME COMPLETO
+                Campo de texto para o nome completo do usuário
+                Vinculado por label para acessibilidade
+                -->
+                <div class="form-group">
+                    <label for="full-name" data-i18n="nome-completo">Nome Completo</label>
+                    <input type="text" id="full-name" class="input-field" placeholder="Seu nome completo">
+                </div>
+
+                <!--
+                CAMPO: ENDEREÇO DE E-MAIL
+                Campo de email com validação automática do navegador
+                Essencial para comunicação e recuperação de conta
+                -->
+                <div class="form-group">
+                    <label for="email" data-i18n="email">Email</label>
+                    <input type="email" id="email" class="input-field" placeholder="seu.email@example.com">
+                </div>
+
+                <!--
+                CAMPO: NOME DE USUÁRIO
+                Identificador único público do usuário na plataforma
+                Usado para menções e identificação em fóruns/comunidades
+                -->
+                <div class="form-group">
+                    <label for="username" data-i18n="usuario">Nome de Usuário</label>
+                    <input type="text" id="username" class="input-field" placeholder="seu_usuario">
+                </div>
+            </section>
+
+            <!--
+            PAINEL DIREITO - SEÇÃO DE SEGURANÇA
+            Contém configurações relacionadas à proteção da conta
+            Inclui mudança de senha e autenticação de dois fatores
+            -->
+            <section class="settings-section security-section">
+                <h2 data-i18n="seguranca">Segurança</h2>
+
+                <!--
+                CAMPO: SENHA ATUAL
+                Campo obrigatório para confirmar identidade antes de mudança
+                Tipo password para mascarar entrada por segurança
+                -->
+                <div class="form-group">
+                    <label for="current-password" data-i18n="senha-atual">Senha Atual</label>
+                    <input type="password" id="current-password" class="input-field" placeholder="Digite sua senha atual">
+                </div>
+
+                <!--
+                CAMPO: NOVA SENHA
+                Entrada para a senha desejada
+                Deve atender aos critérios de segurança da plataforma
+                -->
+                <div class="form-group">
+                    <label for="new-password" data-i18n="nova-senha">Nova Senha</label>
+                    <input type="password" id="new-password" class="input-field" placeholder="Digite a nova senha">
+                </div>
+
+                <!--
+                CAMPO: CONFIRMAR NOVA SENHA
+                Previne erros de digitação na nova senha
+                Deve coincidir exatamente com o campo anterior
+                -->
+                <div class="form-group">
+                    <label for="confirm-password" data-i18n="confirmar-senha">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" class="input-field" placeholder="Confirme a nova senha">
+                </div>
+
+                <!--
+                CAMPO: AUTENTICAÇÃO DE DOIS FATORES
+                Checkbox para ativar/desativar 2FA
+                Aumenta significativamente a segurança da conta
+                -->
+                <div class="form-group checkbox-group">
+                    <label for="two-factor" class="checkbox-label">
+                        <input type="checkbox" id="two-factor">
+                        <span data-i18n="dois-fatores">Ativar Autenticação de Dois Fatores</span>
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <!--
+        SEÇÃO DE PREFERÊNCIAS - LARGURA TOTAL
+        Configurações de experiência do usuário
+        Ocupa toda a largura para melhor organização visual
+        -->
+        <section class="settings-section preferences-section">
+            <h2 data-i18n="preferencias">Preferências</h2>
+
+            <!--
+            CAMPO: IDIOMA PADRÃO
+            Seletor dropdown para escolher idioma preferido
+            Aplicado automaticamente ao fazer login
+            -->
+            <div class="form-group">
+                <label for="default-language" data-i18n="idioma-padrao">Idioma Padrão</label>
+                <select id="default-language" class="input-field select-field">
+                    <option value="pt" data-i18n="portugues">Português</option>
+                    <option value="en" data-i18n="ingles">Inglês</option>
+                    <option value="es" data-i18n="espanhol">Espanhol</option>
+                </select>
+            </div>
+
+            <!--
+            CAMPO: TEMA DA INTERFACE
+            Seleção entre tema claro e escuro
+            Afeta toda a aparência visual da plataforma
+            -->
+            <div class="form-group">
+                <label data-i18n="tema">Tema</label>
+                <div class="radio-group">
+                    <!-- Opção: Tema Claro (padrão) -->
+                    <label class="radio-label">
+                        <input type="radio" name="theme" value="light" checked>
+                        <span data-i18n="tema-claro">Claro</span>
+                    </label>
+                    <!-- Opção: Tema Escuro -->
+                    <label class="radio-label">
+                        <input type="radio" name="theme" value="dark">
+                        <span data-i18n="tema-escuro">Escuro</span>
+                    </label>
+                </div>
+            </div>
+
+            <!--
+            CAMPO: NOTIFICAÇÕES POR E-MAIL
+            Checkbox para controlar recebimento de emails
+            Inclui lembretes, atualizações e comunicações importantes
+            -->
+            <div class="form-group checkbox-group">
+                <label for="email-notifications" class="checkbox-label">
+                    <input type="checkbox" id="email-notifications" checked>
+                    <span data-i18n="notif-email">Receber notificações por email</span>
+                </label>
+            </div>
+
+            <!--
+            CAMPO: NOTIFICAÇÕES PUSH
+            Checkbox para notificações no navegador/dispositivo
+            Para alertas em tempo real e lembretes importantes
+            -->
+            <div class="form-group checkbox-group">
+                <label for="push-notifications" class="checkbox-label">
+                    <input type="checkbox" id="push-notifications" checked>
+                    <span data-i18n="notif-push">Receber notificações push</span>
+                </label>
+            </div>
+        </section>
+
+        <!--
+        SEÇÃO DE BOTÕES DE AÇÃO
+        Contém botões para executar ações principais
+        Agrupados para fácil acesso e identificação visual
+        -->
+        <div class="button-group">
+            <!--
+            BOTÃO SALVAR ALTERAÇÕES
+            Ação primária - persiste todas as mudanças no servidor
+            Cor diferenciada para destacar importância
+            -->
+            <button class="btn btn-primary" data-i18n="salvar">Salvar Alterações</button>
+            <!--
+            BOTÃO CANCELAR
+            Descarta mudanças e retorna à página anterior
+            Ação secundária com estilo neutro
+            -->
+            <button class="btn btn-secondary" data-i18n="cancelar">Cancelar</button>
+            <!--
+            BOTÃO SAIR DA CONTA
+            Ação crítica - faz logout e redireciona para login
+            Cor de alerta para indicar ação irreversível
+            -->
+            <button class="btn btn-danger" data-i18n="sair">Sair da Conta</button>
+        </div>
+    </main>
+
+    <!--
+    ================================================================================
+    RODAPÉ DA PÁGINA
+    Informações de copyright e direitos autorais
+    Mantém consistência com outras páginas do site
+    ================================================================================
+    -->
+    <footer class="settings-footer">
+        <p data-i18n="footer-texto">© 2024 StudyPro. Todos os direitos reservados.</p>
+    </footer>
+
+    <!--
+    ================================================================================
+    SEÇÃO: JAVASCRIPT - FUNCIONALIDADES DINÂMICAS
+    Sistema de internacionalização, controles interativos e funcionalidades específicas
+    ================================================================================
+    -->
+    <script>
+        <!--
+        ===== CONFIGURAÇÃO DO SISTEMA DE TRADUÇÃO (i18next) =====
+        Inicializa biblioteca i18next com suporte completo a três idiomas
+        Recursos extensivos para cobrir todas as strings da interface de configurações
+        -->
+        i18next.init({
+            lng: 'pt', // Idioma padrão: Português
+            debug: false, // Modo debug desabilitado para produção
+            resources: {
+                // ===== RECURSOS DE TRADUÇÃO EM PORTUGUÊS =====
+                pt: { translation: {
+                    "config-title": "Configurações da Conta",
+                    "voltar": "Voltar",
+                    "perfil": "Perfil",
+                    "foto-perfil": "Foto de Perfil",
+                    "mudar-foto": "Mudar Foto",
+                    "nome-completo": "Nome Completo",
+                    "email": "Email",
+                    "usuario": "Nome de Usuário",
+                    "seguranca": "Segurança",
+                    "senha-atual": "Senha Atual",
+                    "nova-senha": "Nova Senha",
+                    "confirmar-senha": "Confirmar Senha",
+                    "dois-fatores": "Ativar Autenticação de Dois Fatores",
+                    "preferencias": "Preferências",
+                    "idioma-padrao": "Idioma Padrão",
+                    "portugues": "Português",
+                    "ingles": "Inglês",
+                    "espanhol": "Espanhol",
+                    "tema": "Tema",
+                    "tema-claro": "Claro",
+                    "tema-escuro": "Escuro",
+                    "notif-email": "Receber notificações por email",
+                    "notif-push": "Receber notificações push",
+                    "salvar": "Salvar Alterações",
+                    "cancelar": "Cancelar",
+                    "sair": "Sair da Conta",
+                    "footer-texto": "© 2024 StudyPro. Todos os direitos reservados."
+                }},
+                // ===== RECURSOS DE TRADUÇÃO EM INGLÊS =====
+                en: { translation: {
+                    "config-title": "Account Settings",
+                    "voltar": "Back",
+                    "perfil": "Profile",
+                    "foto-perfil": "Profile Picture",
+                    "mudar-foto": "Change Photo",
+                    "nome-completo": "Full Name",
+                    "email": "Email",
+                    "usuario": "Username",
+                    "seguranca": "Security",
+                    "senha-atual": "Current Password",
+                    "nova-senha": "New Password",
+                    "confirmar-senha": "Confirm Password",
+                    "dois-fatores": "Enable Two-Factor Authentication",
+                    "preferencias": "Preferences",
+                    "idioma-padrao": "Default Language",
+                    "portugues": "Portuguese",
+                    "ingles": "English",
+                    "espanhol": "Spanish",
+                    "tema": "Theme",
+                    "tema-claro": "Light",
+                    "tema-escuro": "Dark",
+                    "notif-email": "Receive email notifications",
+                    "notif-push": "Receive push notifications",
+                    "salvar": "Save Changes",
+                    "cancelar": "Cancel",
+                    "sair": "Sign Out",
+                    "footer-texto": "© 2024 StudyPro. All rights reserved."
+                }},
+                // ===== RECURSOS DE TRADUÇÃO EM ESPANHOL =====
+                es: { translation: {
+                    "config-title": "Configuración de la Cuenta",
+                    "voltar": "Volver",
+                    "perfil": "Perfil",
+                    "foto-perfil": "Foto de Perfil",
+                    "mudar-foto": "Cambiar Foto",
+                    "nome-completo": "Nombre Completo",
+                    "email": "Correo Electrónico",
+                    "usuario": "Nombre de Usuario",
+                    "seguranca": "Seguridad",
+                    "senha-atual": "Contraseña Actual",
+                    "nova-senha": "Nueva Contraseña",
+                    "confirmar-senha": "Confirmar Contraseña",
+                    "dois-fatores": "Habilitar Autenticación de Dos Factores",
+                    "preferencias": "Preferencias",
+                    "idioma-padrao": "Idioma Predeterminado",
+                    "portugues": "Portugués",
+                    "ingles": "Inglés",
+                    "espanhol": "Español",
+                    "tema": "Tema",
+                    "tema-claro": "Claro",
+                    "tema-escuro": "Oscuro",
+                    "notif-email": "Recibir notificaciones por correo electrónico",
+                    "notif-push": "Recibir notificaciones push",
+                    "salvar": "Guardar Cambios",
+                    "cancelar": "Cancelar",
+                    "sair": "Cerrar Sesión",
+                    "footer-texto": "© 2024 StudyPro. Todos los derechos reservados."
+                }}
+            }
+        }, function(err, t) {
+            // Callback executado após inicialização bem-sucedida
+            // Atualiza imediatamente todo o conteúdo da página com traduções
+            updateContent();
+        });
+
+        <!--
+        ===== FUNÇÃO: ATUALIZAR CONTEÚDO DA PÁGINA =====
+        Percorre todos os elementos com atributo data-i18n
+        Substitui o conteúdo interno pelas traduções correspondentes
+        Usa innerHTML para preservar formatação HTML se necessário
+        -->
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(function(element) {
+                const key = element.getAttribute('data-i18n');
+                element.innerHTML = i18next.t(key);
+            });
+        }
+
+        <!--
+        ===== CONTROLE DO DROPDOWN DE IDIOMA =====
+        Sistema interativo para seleção de idioma
+        Mesma implementação das outras páginas para consistência
+        -->
+        const langToggle = document.getElementById('lang-toggle');
+        const langMenu = document.getElementById('lang-menu');
+        const currentLang = document.getElementById('current-lang');
+        const arrow = langToggle.querySelector('.arrow');
+
+        <!--
+        EVENTO: CLIQUE NO BOTÃO DE IDIOMA
+        Abre/fecha menu dropdown com animação visual da seta
+        Previne propagação para evitar conflitos com outros eventos
+        -->
+        langToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langMenu.classList.toggle('show'); // Exibe/oculta menu
+            langToggle.classList.toggle('active'); // Estilo ativo do botão
+
+            // Animação da seta: rotação de 90 graus quando expandido
+            if (langToggle.classList.contains('active')) {
+                arrow.style.transform = 'rotate(90deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        <!--
+        EVENTO: SELEÇÃO DE IDIOMA
+        Atualiza idioma atual e aplica mudanças em toda a interface
+        Fecha automaticamente o dropdown após seleção
+        -->
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const newLang = this.getAttribute('data-lang');
+                currentLang.textContent = newLang.toUpperCase(); // Atualiza indicador
+
+                // Muda idioma no i18next e atualiza toda a página
+                i18next.changeLanguage(newLang, function() {
+                    updateContent();
+                });
+
+                // Fecha dropdown e reseta animações
+                langMenu.classList.remove('show');
+                langToggle.classList.remove('active');
+                arrow.style.transform = 'rotate(0deg)';
+            });
+        });
+
+        <!--
+        EVENTO: CLIQUE FORA DO DROPDOWN
+        Fecha menu automaticamente quando usuário clica em outro lugar
+        Melhora UX evitando dropdowns abertos desnecessariamente
+        -->
+        document.addEventListener('click', function(e) {
+            if (!langToggle.contains(e.target)) {
+                langMenu.classList.remove('show');
+                langToggle.classList.remove('active');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        <!--
+        ===== FUNCIONALIDADE: UPLOAD DE FOTO DE PERFIL =====
+        Sistema para alteração da imagem de perfil do usuário
+        Interface intuitiva com preview em tempo real
+        -->
+        <!--
+        EVENTO: CLIQUE NO BOTÃO "MUDAR FOTO"
+        Gatilho para abrir seletor de arquivo nativo do navegador
+        Usa input oculto para melhor controle da experiência
+        -->
+        document.querySelector('.btn-change-photo').addEventListener('click', function() {
+            document.getElementById('photo-input').click();
+        });
+
+        <!--
+        EVENTO: SELEÇÃO DE ARQUIVO DE IMAGEM
+        Processa arquivo selecionado e atualiza preview
+        Usa FileReader API para converter imagem em data URL
+        -->
+        document.getElementById('photo-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Atualiza src da imagem com dados do arquivo
+                    document.getElementById('profile-image').src = event.target.result;
+                };
+                reader.readAsDataURL(file); // Converte arquivo para base64
+            }
+        });
+
+        <!--
+        ===== FUNCIONALIDADES DOS BOTÕES DE AÇÃO =====
+        Handlers para os três botões principais da página
+        Cada um executa ação específica com feedback apropriado
+        -->
+        <!--
+        BOTÃO SALVAR ALTERAÇÕES
+        Ação primária - deveria enviar dados para servidor
+        Atualmente mostra placeholder com alert (TODO: implementar backend)
+        -->
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert(i18next.t('salvar') + ' clicado! Aqui você salvaria os dados no servidor.');
+            // TODO: Implementar envio dos dados para o servidor via AJAX/fetch
+        });
+
+        <!--
+        BOTÃO CANCELAR
+        Descarta mudanças e retorna à página inicial
+        Redirecionamento imediato sem confirmação
+        -->
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            window.location.href = '../index.html';
+        });
+
+        <!--
+        BOTÃO SAIR DA CONTA
+        Ação crítica que requer confirmação do usuário
+        Implementa logout básico (TODO: implementar logout completo)
+        -->
+        document.querySelector('.btn-danger').addEventListener('click', function() {
+            if (confirm(i18next.t('sair') + '?')) {
+                // TODO: Implementar logout completo (limpar sessão, cookies, etc.)
+                alert('Deslogando...');
+            }
+        });
+    </script>
+</body>
+</html>

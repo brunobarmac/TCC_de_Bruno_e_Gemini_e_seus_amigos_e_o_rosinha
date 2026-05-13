@@ -1,0 +1,1322 @@
+<!-- 
+================================================================================
+    DESAFIO HISTÓRICO - StudyPro
+================================================================================
+    DESCRIÇÃO: Sistema de Quiz interativo sobre História
+    FUNCIONALIDADES:
+    • 15 questões históricas em 3 idiomas (PT/EN/ES)
+    • Tradução completa (perguntas, opções, explicações)
+    • Auto-avance automático após seleção (REMOVIDO: navegação manual via botões e quadradinhos)
+    • Contabilização de desempenho em tempo real
+    • Integração com sistema de desempenho global
+    • Design responsivo e tema profissional histórico
+================================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Configurações básicas do documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Desafio Histórico - Teste seus conhecimentos sobre História">
+    <title>Desafio Histórico - StudyPro</title>
+    
+    <!-- Importar fontes do Google Fonts (Merriweather para títulos históricos, Poppins para corpo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet do quiz (estilos específicos desta página) -->
+    <link rel="stylesheet" href="../css/questionario.css">
+    
+    <!-- Font Awesome para ícones (check, times, clock, etc) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Biblioteca i18next para tradução/internacionalização multilíngue -->
+    <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+</head>
+<body>
+    <!-- 
+    ================================================================================
+        CABEÇALHO (HEADER) - Topo da página com logo, idioma e botão voltar
+    ================================================================================
+    -->
+    <header>
+        <div class="main-header">
+            <!-- Logo do site com emoji de livro -->
+            <div class="logo">
+                <span class="brain">📚</span> Desafio Histórico
+            </div>
+            
+            <!-- Área direita do cabeçalho: seletor de idioma e botão voltar -->
+            <div class="header-right">
+                <!-- 
+                DROPDOWN DE IDIOMA
+                Permite alternar entre Português, Inglês e Espanhol
+                Não reinicia a página, muda os textos em tempo real
+                -->
+                <div class="language-dropdown">
+                    <button class="lang-btn" id="lang-toggle">
+                        <!-- Exibe idioma atual (PT/EN/ES) -->
+                        <span id="current-lang">PT</span>
+                        <span class="arrow">▶</span>
+                    </button>
+                    <!-- Menu suspenso com opções de idioma -->
+                    <ul class="lang-menu" id="lang-menu">
+                        <li><button class="lang-option" data-lang="pt">🇧🇷 PT</button></li>
+                        <li><button class="lang-option" data-lang="en">🇺🇸 EN</button></li>
+                        <li><button class="lang-option" data-lang="es">🇪🇸 ES</button></li>
+                    </ul>
+                </div>
+                
+                <!-- Botão voltar à página anterior com confirmação -->
+                <button class="btn back-btn" id="back-btn">← Voltar</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 
+        ================================================================================
+            SEÇÃO QUIZ - Exibe questões e permite ao usuário responder
+        ================================================================================
+        -->
+        <section class="quiz-section" id="quiz-container">
+            <!-- 
+            CABEÇALHO DO QUIZ
+            Inclui título, número da questão atual, total de questões e timer
+            -->
+            <div class="quiz-header">
+                <h1 id="quiz-title">Desafio Histórico</h1>
+                <div class="quiz-info">
+                    <!-- Badge mostrando: questão atual / total de questões -->
+                    <span class="badge progress-badge">
+                        <span id="question-counter">1</span>/<span id="total-questions">15</span>
+                    </span>
+                    <!-- Timer em tempo real mostrando tempo decorrido -->
+                    <span class="timer">
+                        <i class="fas fa-hourglass-end"></i>
+                        <span id="timer-display">00:00</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- 
+            BARRA DE PROGRESSO
+            Mostra visualmente quantas questões foram respondidas
+            Preenchimento aumenta conforme avança nas questões
+            -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- NAVEGAÇÃO RÁPIDA POR QUESTÕES (15 quadradinhos) -->
+            <div class="question-nav" id="question-nav"></div>
+
+            <!-- BOTÕES DE NAVEGAÇÃO (Anterior / Próxima / Resultados) -->
+            <div class="nav-actions">
+                <button class="btn secondary" id="prev-btn">← Anterior</button>
+                <button class="btn secondary" id="next-btn">Próxima →</button>
+                <button class="btn primary" id="finish-btn" disabled>Ver Resultados</button>
+            </div>
+
+            <!-- 
+            CARD DA QUESTÃO
+            Contém o texto da pergunta e as opções de resposta
+            É atualizado dinamicamente com cada nova questão
+            -->
+            <div class="question-card">
+                <!-- Cabeçalho do card com número e botão de favoritar -->
+                <div class="question-card-header">
+                    <!-- Número da questão atual -->
+                    <div class="question-number">Questão <span id="q-number">1</span></div>
+                    
+                    <!-- Botão para salvar como favorita -->
+                    <button class="btn-favorite" id="btn-favorite" title="Favoritar questão">
+                        <i class="far fa-star"></i>
+                    </button>
+                </div>
+                
+                <!-- Texto da pergunta (muda conforme o idioma selecionado) -->
+                <h2 class="question-text" id="question-text"></h2>
+                
+                <!-- 
+                CONTAINER DE OPÇÕES
+                Será preenchido dinamicamente com 4 botões de opções (A, B, C, D)
+                Cada opção pode ser clicada para responder
+                -->
+                <div class="options-container" id="options-container"></div>
+            </div>
+
+            <!-- 
+            FEEDBACK DA RESPOSTA
+            Mostra se a resposta foi correta/incorreta e exibe a explicação
+            Aparece após clicar em uma opção por 2 segundos
+            -->
+            <div class="feedback" id="feedback" style="display: none;">
+                <!-- Resultado (Correto! ou Incorreto!) com ícone -->
+                <div class="feedback-result" id="feedback-result"></div>
+                <!-- Explicação detalhada da resposta correta -->
+                <div class="explanation" id="explanation"></div>
+            </div>
+        </section>
+
+        <!-- 
+        ================================================================================
+            SEÇÃO RESULTADOS - Mostra desempenho final após conclusão do quiz
+        ================================================================================
+        -->
+        <section class="results-section" id="results-container" style="display: none;">
+            <div class="results-card">
+                <!-- Cabeçalho dos resultados -->
+                <div class="results-header">
+                    <h2 id="results-title">Seus Resultados</h2>
+                    <p id="results-subtitle">Parabéns por completar o desafio!</p>
+                </div>
+
+                <!-- 
+                EXIBIÇÃO DE PONTUAÇÃO
+                Inclui: círculo com percentual, acertos/total e tempo total
+                -->
+                <div class="score-display">
+                    <!-- Círculo com percentual em forma de progresso visual -->
+                    <div class="score-circle">
+                        <span class="score-percentage" id="score-percentage">0%</span>
+                        <div class="score-label">Desempenho</div>
+                    </div>
+                    
+                    <!-- Estatísticas detalhadas (acertos e tempo) -->
+                    <div class="score-details">
+                        <!-- Número de acertos em formato X/15 -->
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <span class="stat-label">Acertos</span>
+                                <span class="stat-value"><span id="correct-answers">0</span>/15</span>
+                            </div>
+                        </div>
+                        <!-- Tempo total gasto no quiz -->
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span class="stat-label">Tempo Total</span>
+                                <span class="stat-value"><span id="total-time">00:00</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem personalizada baseada no desempenho (Excelente/Bom/Regular/Insuficiente) -->
+                <div class="performance-message" id="performance-message"></div>
+
+                <!-- 
+                BOTÕES DE AÇÃO
+                Permite tentar novamente ou visualizar histórico de desempenho
+                -->
+                <div class="results-actions">
+                    <button class="btn secondary" id="retry-btn">
+                        <i class="fas fa-redo"></i> Tentar Novamente
+                    </button>
+                    <button class="btn primary" id="view-performance-btn">
+                        <i class="fas fa-chart-line"></i> Ver Desempenho
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 
+    ================================================================================
+        MODAL DE CONFIRMAÇÃO - Ao sair do quiz
+    ================================================================================
+    -->
+    <div class="modal-overlay" id="modal-overlay" style="display: none;"></div>
+    <div class="modal-dialog" id="modal-dialog" style="display: none;">
+        <div class="modal-content">
+            <!-- Ícone de aviso -->
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <!-- Título -->
+            <h3 class="modal-title">Tem certeza que deseja sair?</h3>
+            
+            <!-- Mensagem descritiva -->
+            <p class="modal-message">
+                Você perderá todo o progresso do quiz! Os dados não foram salvos.
+                <br><br>
+                <strong>Tem certeza que quer continuar?</strong>
+            </p>
+            
+            <!-- Botões de ação -->
+            <div class="modal-actions">
+                <button class="modal-btn cancel-btn" id="modal-cancel">
+                    Continuar Respondendo
+                </button>
+                <button class="modal-btn confirm-btn" id="modal-confirm">
+                    Sair Mesmo Assim
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
+    <script>
+        /**
+         * ================================================================================
+         *    DADOS DAS QUESTÕES COM TRADUÇÃO COMPLETA
+         * ================================================================================
+         * 
+         * Array contendo todas as 15 questões do quiz com:
+         * - Questão e explicação em 3 idiomas (PT, EN, ES)
+         * - 4 opções de resposta em 3 idiomas
+         * - Índice da resposta correta
+         * 
+         * Estrutura de cada questão:
+         * {
+         *   id: número único,
+         *   pt: { question: "...", explanation: "..." },
+         *   en: { question: "...", explanation: "..." },
+         *   es: { question: "...", explanation: "..." },
+         *   options: { pt: [], en: [], es: [] },
+         *   correct: índice (0-3) da opção correta
+         * }
+         */
+        const questionsData = [
+            {
+                id: 1,
+                pt: { question: "Quem foi o primeiro presidente do Brasil após a proclamação da República?", explanation: "Deodoro da Fonseca foi o primeiro presidente do Brasil republicano (1889-1891), marcando o início da era republicana brasileira." },
+                en: { question: "Who was the first president of Brazil after the proclamation of the Republic?", explanation: "Deodoro da Fonseca was the first president of republican Brazil (1889-1891), marking the beginning of the Brazilian republican era." },
+                es: { question: "¿Quién fue el primer presidente de Brasil después de la proclamación de la República?", explanation: "Deodoro da Fonseca fue el primer presidente de Brasil republicano (1889-1891), marcando el comienzo de la era republicana brasileña." },
+                options: {
+                    pt: ["Dom Pedro II", "Deodoro da Fonseca", "Floriano Peixoto", "Prudente de Morais"],
+                    en: ["Dom Pedro II", "Deodoro da Fonseca", "Floriano Peixoto", "Prudente de Morais"],
+                    es: ["Dom Pedro II", "Deodoro da Fonseca", "Floriano Peixoto", "Prudente de Morais"]
+                },
+                correct: 1
+            },
+            {
+                id: 2,
+                pt: { question: "Em que ano ocorreu a Independência do Brasil?", explanation: "O Brasil se tornou independente de Portugal em 7 de setembro de 1822, quando Dom Pedro I proclamou a independência no Vale do Ipiranga em São Paulo." },
+                en: { question: "In what year did Brazil's independence occur?", explanation: "Brazil became independent from Portugal on September 7, 1822, when Dom Pedro I proclaimed independence at the Ipiranga Valley in São Paulo." },
+                es: { question: "¿En qué año ocurrió la independencia de Brasil?", explanation: "Brasil se convirtió en independiente de Portugal el 7 de septiembre de 1822, cuando Dom Pedro I proclamó la independencia en el Valle del Ipiranga en São Paulo." },
+                options: {
+                    pt: ["1808", "1822", "1889", "1500"],
+                    en: ["1808", "1822", "1889", "1500"],
+                    es: ["1808", "1822", "1889", "1500"]
+                },
+                correct: 1
+            },
+            {
+                id: 3,
+                pt: { question: "Qual foi a principal causa da Primeira Guerra Mundial?", explanation: "O assassinato do Arquiduque Francisco Ferdinando da Áustria em 1914 foi o estopim que desencadeou a Primeira Guerra Mundial, marcando o início de um conflito sem precedentes." },
+                en: { question: "What was the main cause of World War I?", explanation: "The assassination of Archduke Franz Ferdinand of Austria in 1914 was the trigger that sparked World War I, marking the beginning of an unprecedented conflict." },
+                es: { question: "¿Cuál fue la causa principal de la Primera Guerra Mundial?", explanation: "El asesinato del Archiduque Francisco Fernando de Austria en 1914 fue el detonante que desencadenó la Primera Guerra Mundial, marcando el comienzo de un conflicto sin precedentes." },
+                options: {
+                    pt: ["Assassinato do Arquiduque Francisco Ferdinando", "Crise econômica de 1929", "Revolução Industrial", "Descoberta da América"],
+                    en: ["Assassination of Archduke Franz Ferdinand", "Economic crisis of 1929", "Industrial Revolution", "Discovery of America"],
+                    es: ["Asesinato del Archiduque Francisco Fernando", "Crisis económica de 1929", "Revolución Industrial", "Descubrimiento de América"]
+                },
+                correct: 0
+            },
+            {
+                id: 4,
+                pt: { question: "Em que período a Revolução Francesa ocorreu?", explanation: "A Revolução Francesa ocorreu entre 1789 e 1799, transformando radicalmente a sociedade francesa e influenciando o mundo inteiro com seus ideais de liberdade e igualdade." },
+                en: { question: "In what period did the French Revolution occur?", explanation: "The French Revolution occurred between 1789 and 1799, radically transforming French society and influencing the world with its ideals of liberty and equality." },
+                es: { question: "¿En qué período ocurrió la Revolución Francesa?", explanation: "La Revolución Francesa ocurrió entre 1789 y 1799, transformando radicalmente la sociedad francesa e influyendo en el mundo con sus ideales de libertad e igualdad." },
+                options: {
+                    pt: ["1650-1700", "1789-1799", "1850-1900", "1950-2000"],
+                    en: ["1650-1700", "1789-1799", "1850-1900", "1950-2000"],
+                    es: ["1650-1700", "1789-1799", "1850-1900", "1950-2000"]
+                },
+                correct: 1
+            },
+            {
+                id: 5,
+                pt: { question: "Qual civilização construiu as Pirâmides de Gizé?", explanation: "As Pirâmides de Gizé foram construídas pelos antigos egípcios durante o Reino Antigo (por volta de 2580-2565 a.C.), sendo um dos maiores feitos arquitetônicos da história." },
+                en: { question: "Which civilization built the Pyramids of Giza?", explanation: "The Pyramids of Giza were built by ancient Egyptians during the Old Kingdom (around 2580-2565 BC), being one of the greatest architectural feats in history." },
+                es: { question: "¿Qué civilización construyó las Pirámides de Giza?", explanation: "Las Pirámides de Giza fueron construidas por los antiguos egipcios durante el Reino Antiguo (alrededor de 2580-2565 a.C.), siendo uno de los mayores logros arquitectónicos de la historia." },
+                options: {
+                    pt: ["Romanos", "Gregos", "Egípcios", "Maias"],
+                    en: ["Romans", "Greeks", "Egyptians", "Mayans"],
+                    es: ["Romanos", "Griegos", "Egipcios", "Mayas"]
+                },
+                correct: 2
+            },
+            {
+                id: 6,
+                pt: { question: "Em que ano Cristóvão Colombo chegou à América?", explanation: "Cristóvão Colombo chegou às Américas em 1492, durante sua primeira viagem financiada pela Espanha, marcando o início do encontro entre Europa e América." },
+                en: { question: "In what year did Christopher Columbus arrive in America?", explanation: "Christopher Columbus arrived in the Americas in 1492, during his first voyage financed by Spain, marking the beginning of the encounter between Europe and America." },
+                es: { question: "¿En qué año llegó Cristóbal Colón a América?", explanation: "Cristóbal Colón llegó a América en 1492, durante su primer viaje financiado por España, marcando el comienzo del encuentro entre Europa y América." },
+                options: {
+                    pt: ["1492", "1500", "1520", "1482"],
+                    en: ["1492", "1500", "1520", "1482"],
+                    es: ["1492", "1500", "1520", "1482"]
+                },
+                correct: 0
+            },
+            {
+                id: 7,
+                pt: { question: "Qual foi a duração do Império Romano Ocidental?", explanation: "O Império Romano Ocidental durou aproximadamente 500 anos, de 27 a.C. a 476 d.C., sendo uma das maiores potências políticas e militares da antiguidade." },
+                en: { question: "How long did the Western Roman Empire last?", explanation: "The Western Roman Empire lasted approximately 500 years, from 27 BC to 476 AD, being one of the greatest political and military powers of ancient times." },
+                es: { question: "¿Cuánto tiempo duró el Imperio Romano Occidental?", explanation: "El Imperio Romano Occidental duró aproximadamente 500 años, de 27 a.C. a 476 d.C., siendo una de las mayores potencias políticas y militares de la antigüedad." },
+                options: {
+                    pt: ["200 anos", "300 anos", "500 anos", "1000 anos"],
+                    en: ["200 years", "300 years", "500 years", "1000 years"],
+                    es: ["200 años", "300 años", "500 años", "1000 años"]
+                },
+                correct: 2
+            },
+            {
+                id: 8,
+                pt: { question: "Quem foi o primeiro imperador romano?", explanation: "Augusto (Otaviano) foi o primeiro imperador romano, governando de 27 a.C. a 14 d.C., consolidando o poder central e marcando o fim da República Romana." },
+                en: { question: "Who was the first Roman emperor?", explanation: "Augustus (Octavian) was the first Roman emperor, ruling from 27 BC to 14 AD, consolidating central power and marking the end of the Roman Republic." },
+                es: { question: "¿Quién fue el primer emperador romano?", explanation: "Augusto (Octaviano) fue el primer emperador romano, gobernando de 27 a.C. a 14 d.C., consolidando el poder central y marcando el fin de la República Romana." },
+                options: {
+                    pt: ["Júlio César", "Augusto", "Nero", "Trajano"],
+                    en: ["Julius Caesar", "Augustus", "Nero", "Trajan"],
+                    es: ["Julio César", "Augusto", "Nerón", "Trajano"]
+                },
+                correct: 1
+            },
+            {
+                id: 9,
+                pt: { question: "Qual evento marcou o fim da Idade Média?", explanation: "A queda de Constantinopla em 1453, quando os otomanos conquistaram a cidade, marcou tradicionalmente o fim da Idade Média e o início do Renascimento." },
+                en: { question: "What event marked the end of the Middle Ages?", explanation: "The fall of Constantinople in 1453, when the Ottomans conquered the city, traditionally marked the end of the Middle Ages and the beginning of the Renaissance." },
+                es: { question: "¿Qué evento marcó el fin de la Edad Media?", explanation: "La caída de Constantinopla en 1453, cuando los otomanos conquistaron la ciudad, marcó tradicionalmente el fin de la Edad Media y el comienzo del Renacimiento." },
+                options: {
+                    pt: ["Queda de Constantinopla (1453)", "Proclamação da República (1891)", "Fim da Guerra dos Cem Anos", "Descoberta da América (1492)"],
+                    en: ["Fall of Constantinople (1453)", "Proclamation of the Republic (1891)", "End of the Hundred Years' War", "Discovery of America (1492)"],
+                    es: ["Caída de Constantinopla (1453)", "Proclamación de la República (1891)", "Fin de la Guerra de los Cien Años", "Descubrimiento de América (1492)"]
+                },
+                correct: 0
+            },
+            {
+                id: 10,
+                pt: { question: "Em que ano terminou a Segunda Guerra Mundial?", explanation: "A Segunda Guerra Mundial terminou em 1945, com a rendição da Alemanha em maio e do Japão em setembro, após um conflito que deixou milhões de mortos." },
+                en: { question: "In what year did World War II end?", explanation: "World War II ended in 1945, with Germany's surrender in May and Japan's in September, after a conflict that left millions dead." },
+                es: { question: "¿En qué año terminó la Segunda Guerra Mundial?", explanation: "La Segunda Guerra Mundial terminó en 1945, con la rendición de Alemania en mayo y Japón en septiembre, después de un conflicto que dejó millones de muertos." },
+                options: {
+                    pt: ["1943", "1944", "1945", "1946"],
+                    en: ["1943", "1944", "1945", "1946"],
+                    es: ["1943", "1944", "1945", "1946"]
+                },
+                correct: 2
+            },
+            {
+                id: 11,
+                pt: { question: "Qual foi a principal consequência da Revolução Industrial?", explanation: "A Revolução Industrial (século XVIII) causou transformação da produção artesanal em industrial, urbanização acelerada e mudanças sociais profundas que moldaram a sociedade moderna." },
+                en: { question: "What was the main consequence of the Industrial Revolution?", explanation: "The Industrial Revolution (18th century) caused the transformation of artisanal production into industrial, accelerated urbanization, and profound social changes that shaped modern society." },
+                es: { question: "¿Cuál fue la principal consecuencia de la Revolución Industrial?", explanation: "La Revolución Industrial (siglo XVIII) causó la transformación de la producción artesanal en industrial, urbanización acelerada y cambios sociales profundos que moldearon la sociedad moderna." },
+                options: {
+                    pt: ["Aumento do trabalho manual", "Transformação para produção em massa", "Retorno ao feudalismo", "Fim das cidades grandes"],
+                    en: ["Increase in manual work", "Transformation to mass production", "Return to feudalism", "End of major cities"],
+                    es: ["Aumento del trabajo manual", "Transformación a la producción en masa", "Regreso al feudalismo", "Fin de las grandes ciudades"]
+                },
+                correct: 1
+            },
+            {
+                id: 12,
+                pt: { question: "Quem foi Leonardo da Vinci?", explanation: "Leonardo da Vinci (1452-1519) foi um polímata italiano do Renascimento, famoso por suas obras de arte, invenções e estudos nas áreas de ciência e engenharia." },
+                en: { question: "Who was Leonardo da Vinci?", explanation: "Leonardo da Vinci (1452-1519) was an Italian polymath of the Renaissance, famous for his artworks, inventions, and studies in science and engineering." },
+                es: { question: "¿Quién fue Leonardo da Vinci?", explanation: "Leonardo da Vinci (1452-1519) fue un polímata italiano del Renacimiento, famoso por sus obras de arte, inventos y estudios en ciencia e ingeniería." },
+                options: {
+                    pt: ["Filósofo grego", "Pintor e inventor italiano", "General romano", "Imperador chinês"],
+                    en: ["Greek philosopher", "Italian painter and inventor", "Roman general", "Chinese emperor"],
+                    es: ["Filósofo griego", "Pintor e inventor italiano", "General romano", "Emperador chino"]
+                },
+                correct: 1
+            },
+            {
+                id: 13,
+                pt: { question: "Qual civilização inventou a escrita cuneiforme?", explanation: "Os sumérios da Mesopotâmia inventaram a escrita cuneiforme por volta de 3200 a.C., sendo um dos primeiros sistemas de escrita conhecidos da história." },
+                en: { question: "Which civilization invented cuneiform writing?", explanation: "The Sumerians of Mesopotamia invented cuneiform writing around 3200 BC, being one of the earliest known writing systems in history." },
+                es: { question: "¿Qué civilización inventó la escritura cuneiforme?", explanation: "Los sumerios de Mesopotamia inventaron la escritura cuneiforme alrededor de 3200 a.C., siendo uno de los primeros sistemas de escritura conocidos en la historia." },
+                options: {
+                    pt: ["Egípcios", "Sumérios", "Fenícios", "Gregos"],
+                    en: ["Egyptians", "Sumerians", "Phoenicians", "Greeks"],
+                    es: ["Egipcios", "Sumerios", "Fenicios", "Griegos"]
+                },
+                correct: 1
+            },
+            {
+                id: 14,
+                pt: { question: "Em que continente ocorreu a maior parte da Primeira Guerra Mundial?", explanation: "A Primeira Guerra Mundial ocorreu principalmente na Europa, especialmente na região da Frente Ocidental entre França e Alemanha, conhecida como Tríplice Aliança versus Tríplice Entente." },
+                en: { question: "On which continent did most of World War I occur?", explanation: "World War I occurred mainly in Europe, especially in the region of the Western Front between France and Germany, known as the Triple Alliance versus the Triple Entente." },
+                es: { question: "¿En qué continente ocurrió la mayor parte de la Primera Guerra Mundial?", explanation: "La Primera Guerra Mundial ocurrió principalmente en Europa, especialmente en la región del Frente Occidental entre Francia y Alemania, conocida como la Tríplice Alianza versus la Tríplice Entente." },
+                options: {
+                    pt: ["Ásia", "África", "Europa", "América do Norte"],
+                    en: ["Asia", "Africa", "Europe", "North America"],
+                    es: ["Asia", "África", "Europa", "América del Norte"]
+                },
+                correct: 2
+            },
+            {
+                id: 15,
+                pt: { question: "Qual foi o primeiro império a conquistar a rota do conhecimento sobre a Rota da Seda?", explanation: "O Império Chinês controlava a Rota da Seda, uma rede comercial que conectava a Ásia, Oriente Médio e Europa, facilitando o comércio de mercadorias e ideias entre os séculos II a.C. e XV d.C." },
+                en: { question: "Which was the first empire to control the Silk Road?", explanation: "The Chinese Empire controlled the Silk Road, a trade network that connected Asia, the Middle East, and Europe, facilitating the trade of goods and ideas between the 2nd BC and the 15th AD centuries." },
+                es: { question: "¿Cuál fue el primer imperio en controlar la ruta de la seda?", explanation: "El Imperio Chino controlaba la Ruta de la Seda, una red comercial que conectaba Asia, Oriente Medio y Europa, facilitando el comercio de bienes e ideas entre los siglos II a.C. y XV d.C." },
+                options: {
+                    pt: ["Império Persa", "Império Chinês", "Império Romano", "Império Árabe"],
+                    en: ["Persian Empire", "Chinese Empire", "Roman Empire", "Arab Empire"],
+                    es: ["Imperio Persa", "Imperio Chino", "Imperio Romano", "Imperio Árabe"]
+                },
+                correct: 1
+            }
+        ];
+
+        /**
+         * ================================================================================
+         *    CONFIGURAÇÃO DA BIBLIOTECA i18next
+         * ================================================================================
+         * 
+         * i18next: Biblioteca para internacionalização (tradução)
+         * Permite trocar idiomas sem recarregar a página
+         * 
+         * Configurações:
+         * - lng: idioma padrão (salvo em localStorage)
+         * - resources: dicionário com textos em cada idioma
+         */
+        i18next.init({
+            lng: localStorage.getItem('studyPro_lang') || 'pt',
+            resources: {
+                // Dicionário português
+                pt: { translation: {
+                    "voltar": "← Voltar",
+                    "tentar-novamente": "Tentar Novamente",
+                    "ver-desempenho": "Ver Desempenho",
+                    "desempenho": "Desempenho",
+                    "seus-resultados": "Seus Resultados",
+                    "parabens": "Parabéns por completar o desafio!",
+                    "acertos": "Acertos",
+                    "tempo-total": "Tempo Total",
+                    "excelente": "Excelente! Você dominou a história!",
+                    "bom": "Bom trabalho! Você tem conhecimento sólido.",
+                    "regular": "Desempenho aceitável. Revise os conteúdos.",
+                    "insuficiente": "Você precisa estudar mais história."
+                }},
+                // Dicionário inglês
+                en: { translation: {
+                    "voltar": "← Back",
+                    "tentar-novamente": "Try Again",
+                    "ver-desempenho": "View Performance",
+                    "desempenho": "Performance",
+                    "seus-resultados": "Your Results",
+                    "parabens": "Congratulations on completing the challenge!",
+                    "acertos": "Correct",
+                    "tempo-total": "Total Time",
+                    "excelente": "Excellent! You mastered history!",
+                    "bom": "Good work! You have solid knowledge.",
+                    "regular": "Acceptable performance. Review the content.",
+                    "insuficiente": "You need to study more history."
+                }},
+                // Dicionário espanhol
+                es: { translation: {
+                    "voltar": "← Volver",
+                    "tentar-novamente": "Intentar de Nuevo",
+                    "ver-desempenho": "Ver Rendimiento",
+                    "desempenho": "Rendimiento",
+                    "seus-resultados": "Tus Resultados",
+                    "parabens": "¡Felicidades por completar el desafío!",
+                    "acertos": "Correctas",
+                    "tempo-total": "Tiempo Total",
+                    "excelente": "¡Excelente! ¡Dominaste la historia!",
+                    "bom": "¡Buen trabajo! Tienes conocimiento sólido.",
+                    "regular": "Desempeño aceptable. Revisa el contenido.",
+                    "insuficiente": "Necesitas estudiar más historia."
+                }}
+            }
+        });
+
+        /**
+         * ================================================================================
+         *    VARIÁVEIS GLOBAIS
+         * ================================================================================
+         * 
+         * Armazenam o estado do quiz durante a execução
+         */
+        
+        // Índice da questão atual (0-14)
+        let currentQuestionIndex = 0;
+        
+        // Array com respostas do usuário: userAnswers[0] = resposta da questão 1, etc
+        let userAnswers = [];
+        
+        // Tempo total em segundos desde o início do quiz
+        let totalTime = 0;
+        
+        // ID do intervalo do timer (usado para parar o timer)
+        let timerInterval;
+        
+        // Idioma atual do quiz ('pt', 'en' ou 'es')
+        let currentLang = localStorage.getItem('studyPro_lang') || 'pt';
+        
+        // Array de questões favoritadas (IDs das questões)
+        let favoriteQuestions = JSON.parse(localStorage.getItem('studyPro_favorites') || '[]');
+
+        /**
+         * ================================================================================
+         *    REFERÊNCIAS AOS ELEMENTOS DO DOM (HTML)
+         * ================================================================================
+         * 
+         * Estas variáveis armazenam referências aos elementos HTML
+         * para que possamos atualizá-los dinamicamente com JavaScript
+         */
+        
+        // Seção principal do quiz (questões)
+        const quizContainer = document.getElementById('quiz-container');
+        
+        // Seção de resultados finais
+        const resultsContainer = document.getElementById('results-container');
+        
+        // Elemento que mostra o texto da questão
+        const questionText = document.getElementById('question-text');
+        
+        // Elemento que mostra o número da questão (1, 2, 3...)
+        const qNumber = document.getElementById('q-number');
+        
+        // Elemento que mostra questão atual / total
+        const questionCounter = document.getElementById('question-counter');
+        
+        // Container onde as 4 opções de resposta serão adicionadas
+        const optionsContainer = document.getElementById('options-container');
+        
+        // Elemento que mostra o tempo decorrido (00:00)
+        const timerDisplay = document.getElementById('timer-display');
+        
+        // Div que contém feedback (correto/incorreto + explicação)
+        const feedbackDiv = document.getElementById('feedback');
+        
+        // Elemento que mostra "Correto!" ou "Incorreto!"
+        const feedbackResult = document.getElementById('feedback-result');
+        
+        // Elemento que mostra a explicação da resposta
+        const explanationDiv = document.getElementById('explanation');
+        
+        // Botão para voltar à página anterior
+        const backBtn = document.getElementById('back-btn');
+        
+        // Botão de favoritar questão
+        const btnFavorite = document.getElementById('btn-favorite');
+        
+        // Navegação rápida por questões (quadradinhos)
+        const questionNav = document.getElementById('question-nav');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const finishBtn = document.getElementById('finish-btn');
+
+        // Barra de progresso visual
+        const progressFill = document.getElementById('progress-fill');
+        
+        // Total de questões (15)
+        const totalQuestions = document.getElementById('total-questions');
+
+        /**
+         * ================================================================================
+         *    INICIALIZAÇÃO - Executado quando a página carrega
+         * ================================================================================
+         * 
+         * Configura todos os listeners de clique nos botões
+         * Configura o comportamento do dropdown de idioma
+         * Inicia o quiz chamando a função init()
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define o número total de questões (15)
+            totalQuestions.textContent = questionsData.length;
+            
+            /**
+             * BOTÃO VOLTAR
+             * Ao clicar, mostra um modal customizado de confirmação
+             * Ao invés de usar o alert do navegador, exibe um modal bonito centralizado
+             */
+            backBtn.addEventListener('click', function() {
+                showExitModal();
+            });
+
+            /**
+             * DROPDOWN DE IDIOMA
+             * Permite abrir/fechar o menu de seleção de idioma
+             */
+            const langToggle = document.getElementById('lang-toggle');
+            const langMenu = document.getElementById('lang-menu');
+
+            // Ao clicar no botão de idioma, abre/fecha o menu
+            langToggle.addEventListener('click', function() {
+                langMenu.classList.toggle('show');
+            });
+
+            /**
+             * SELEÇÃO DE IDIOMA
+             * Quando o usuário clica em PT, EN ou ES:
+             * 1. Muda o idioma atual
+             * 2. Atualiza localStorage
+             * 3. Recarrega a questão com novo idioma
+             * 4. Fecha o menu
+             */
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Pega o código do idioma (pt, en, es)
+                    const lang = this.dataset.lang;
+                    
+                    // Atualiza a variável global
+                    currentLang = lang;
+                    
+                    // Usa i18next para trocar idioma (sem recarregar página)
+                    i18next.changeLanguage(lang);
+                    
+                    // Salva preferência do usuário
+                    localStorage.setItem('studyPro_lang', lang);
+                    
+                    // Mostra idioma escolhido no botão
+                    document.getElementById('current-lang').textContent = lang.toUpperCase();
+                    
+                    // Fecha o menu
+                    langMenu.classList.remove('show');
+                    
+                    // Recarrega questão com novo idioma
+                    loadQuestion(currentQuestionIndex);
+                    
+                    // Atualiza exibição de resultados se estiver na tela de resultados
+                    updateResultsUI();
+                });
+            });
+
+            /**
+             * FECHAR DROPDOWN AO CLICAR FORA
+             * Quando clica em qualquer lugar da página (exceto no menu),
+             * o dropdown de idioma fecha
+             */
+            document.addEventListener('click', function(e) {
+                if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('show');
+                }
+            });
+
+            /**
+             * BOTÕES DE AÇÃO EM RESULTADOS
+             * Configurados aqui para usar quando os resultados forem exibidos
+             */
+            
+            // "Tentar Novamente": Reinicia o quiz
+            document.getElementById('retry-btn').addEventListener('click', retryQuiz);
+            
+            // "Ver Desempenho": Leva à página de desempenho
+            document.getElementById('view-performance-btn').addEventListener('click', function() {
+                window.location.href = 'desempenho.html';
+            });
+
+            // Controle de navegação de questões
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex -= 1;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestionIndex < questionsData.length - 1) {
+                    currentQuestionIndex += 1;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+
+            finishBtn.addEventListener('click', function() {
+                if (userAnswers.filter((ans) => typeof ans !== 'undefined').length === questionsData.length) {
+                    showResults();
+                } else {
+                    alert('Responda todas as 15 questões antes de ver os resultados.');
+                }
+            });
+
+            // Cria a navegação numérica por questões
+            createQuestionNav();
+
+            /**
+             * BOTÃO DE FAVORITAR
+             * Permite salvar a questão atual na lista de favoritos
+             * Alterna entre favoritado e não favoritado ao clicar
+             */
+            btnFavorite.addEventListener('click', function() {
+                toggleFavorite(currentQuestionIndex);
+            });
+
+            // Inicia o quiz
+            init();
+        });
+
+        /**
+         * ================================================================================
+         *    FUNÇÕES PRINCIPAIS DO QUIZ
+         * ================================================================================
+         */
+
+        /**
+         * FUNÇÃO: init()
+         * PROPÓSITO: Inicia um novo quiz com valores padrão
+         * 
+         * O que faz:
+         * 1. Reseta índice para questão 1 (ou questão específica se vindo de favoritos)
+         * 2. Limpa array de respostas
+         * 3. Reseta timer para 0
+         * 4. Mostra seção quiz, oculta resultados
+         * 5. Carrega primeira questão (ou questão específica)
+         * 6. Inicia contagem do timer
+         */
+        function init() {
+            // Verifica se há uma questão específica para carregar (vinda de favoritos)
+            const goToQuestion = sessionStorage.getItem('goToQuestion');
+            currentQuestionIndex = goToQuestion ? parseInt(goToQuestion) : 0;
+            sessionStorage.removeItem('goToQuestion'); // Limpa após usar
+            
+            userAnswers = [];
+            totalTime = 0;
+            quizContainer.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            createQuestionNav();
+            loadQuestion(currentQuestionIndex);
+            startTimer();
+        }
+
+        /**
+         * FUNÇÃO: getQuestion(index)
+         * PROPÓSITO: Retorna a questão no idioma atual
+         * PARÂMETRO: index = número da questão (0-14)
+         * RETORNA: { question: "...", explanation: "..." } no idioma selecionado
+         */
+        function getQuestion(index) {
+            return questionsData[index][currentLang];
+        }
+
+        /**
+         * FUNÇÃO: getOptions(index)
+         * PROPÓSITO: Retorna as 4 opções da questão no idioma atual
+         * PARÂMETRO: index = número da questão (0-14)
+         * RETORNA: Array com 4 strings (as 4 opções)
+         */
+        function getOptions(index) {
+            return questionsData[index].options[currentLang];
+        }
+
+        /**
+         * FUNÇÃO: loadQuestion(index)
+         * PROPÓSITO: Carrega e exibe uma questão na tela
+         * PARÂMETRO: index = número da questão (0-14)
+         * 
+         * O que faz:
+         * 1. Pega dados da questão
+         * 2. Define números da questão (1, 2, 3...)
+         * 3. Define texto da questão
+         * 4. Cria 4 botões de opção (A, B, C, D)
+         * 5. Oculta feedback anterior
+         * 6. Atualiza barra de progresso
+         */
+        function loadQuestion(index) {
+            const questionData = questionsData[index];
+            const currentQData = getQuestion(index);
+            const options = getOptions(index);
+
+            // Exibe "Questão 1", "Questão 2", etc
+            qNumber.textContent = index + 1;
+            questionCounter.textContent = index + 1;
+            questionText.textContent = currentQData.question;
+
+            // Limpa opções antigas
+            optionsContainer.innerHTML = '';
+            
+            // Para cada uma das 4 opções, cria um botão (A, B, C, D)
+            options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <span class="option-letter">${String.fromCharCode(65 + optionIndex)}</span>
+                    <span class="option-text">${option}</span>
+                `;
+                optionElement.addEventListener('click', () => selectOption(optionIndex, index));
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Verifica se questão já foi respondida antes
+            const answeredIndex = userAnswers[index];
+            if (typeof answeredIndex !== 'undefined') {
+                // Mantém opções com feedback e bloqueia mudanças
+                const optionCards = optionsContainer.querySelectorAll('.option');
+                optionCards.forEach((card, cardIndex) => {
+                    card.style.pointerEvents = 'none';
+                    if (cardIndex === questionsData[index].correct) {
+                        card.classList.add('correct');
+                    } else if (cardIndex === answeredIndex) {
+                        card.classList.add('incorrect');
+                    }
+                });
+                feedbackDiv.style.display = 'block';
+                const isCorrect = answeredIndex === questionsData[index].correct;
+                feedbackResult.className = `feedback-result ${isCorrect ? 'correct' : 'incorrect'}`;
+                feedbackResult.innerHTML = `
+                    <i class="fas fa-${isCorrect ? 'check' : 'times'}-circle"></i>
+                    <span>${isCorrect ? 'Correto!' : 'Incorreto!'}</span>
+                `;
+                explanationDiv.innerHTML = `<strong>Explicação:</strong> ${currentQData.explanation}`;
+            } else {
+                feedbackDiv.style.display = 'none';
+            }
+
+            // Atualiza barra de progresso visual
+            updateProgressBar();
+            updateQuestionNavUI();
+            updateNavigationButtons();
+            
+            // Atualiza estado do botão de favoritar
+            updateFavoriteButton();
+        }
+
+        /**
+         * FUNÇÃO: createQuestionNav()
+         * PROPÓSITO: Gera 15 mini quadradinhos para pular entre questões
+         * DESCRIÇÃO: Cria 15 botões numerados (1..15), cada um com evento de clique
+         * para ir diretamente àquela pergunta. Usado para controle rápido do usuário.
+         */
+        function createQuestionNav() {
+            // Limpa nav anterior (caso esteja reiniciando quiz)
+            questionNav.innerHTML = '';
+
+            // Cria cada botão de questão
+            questionsData.forEach((_, idx) => {
+                const item = document.createElement('button');
+                item.className = 'nav-item';
+                item.textContent = idx + 1;
+
+                // Clicar no quadradinho leva para a questão indexada
+                item.addEventListener('click', () => {
+                    currentQuestionIndex = idx;
+                    loadQuestion(currentQuestionIndex);
+                });
+
+                questionNav.appendChild(item);
+            });
+
+            // Atualiza estilos de estado (ativo/respondido) e botões de navegação
+            updateQuestionNavUI();
+            updateNavigationButtons();
+        }
+
+        /**
+         * FUNÇÃO: updateQuestionNavUI()
+         * PROPÓSITO: Atualiza cores/estados dos quadradinhos de navegação
+         */
+        function updateQuestionNavUI() {
+            const items = questionNav.querySelectorAll('.nav-item');
+            items.forEach((item, idx) => {
+                item.classList.remove('current', 'answered');
+                if (idx === currentQuestionIndex) item.classList.add('current');
+                if (typeof userAnswers[idx] !== 'undefined') item.classList.add('answered');
+            });
+            finishBtn.disabled = userAnswers.filter((ans) => typeof ans !== 'undefined').length !== questionsData.length;
+        }
+
+        /**
+         * FUNÇÃO: updateNavigationButtons()
+         * PROPÓSITO: Ativa/desativa botões Anterior/Próxima
+         */
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = currentQuestionIndex === questionsData.length - 1;
+        }
+
+        /**
+         * FUNÇÃO: selectOption(optionIndex, questionIndex)
+         * PROPÓSITO: Processa a resposta do usuário
+         * 
+         * O que faz:
+         * 1. Verifica se resposta está correta
+         * 2. Armazena resposta em userAnswers[]
+         * 3. Destaca: verde (correta), vermelho (incorreta)
+         * 4. Mostra feedback e explicação
+         * 5. Desabilita cliques
+         * 6. Aguarda 2 segundos
+         * 7. Avança automaticamente para próxima ou mostra resultados
+         */
+        /**
+         * FUNÇÃO: selectOption(optionIndex, questionIndex)
+         * PROPÓSITO: Processa a resposta do usuário quando clica em uma opção
+         * PARÂMETROS:
+         *   - optionIndex: índice da opção clicada (0=A, 1=B, 2=C, 3=D)
+         *   - questionIndex: índice da questão atual (0-14)
+         *
+         * O que faz:
+         * 1. Verifica se resposta está correta comparando com gabarito
+         * 2. Armazena resposta em userAnswers[] para cálculo posterior
+         * 3. Destaca visualmente: verde (correta), vermelho (incorreta)
+         * 4. Mostra feedback e explicação detalhada
+         * 5. Desabilita demais cliques nesta questão
+         * 6. Aguarda 2 segundos
+         * 7. Avança automaticamente para próxima questão ou exibe resultados
+         */
+        function selectOption(optionIndex, questionIndex) {
+            // Verifica se a opção clicada é a resposta correta
+            const isCorrect = optionIndex === questionsData[questionIndex].correct;
+            
+            // Armazena a resposta para calcular pontuação depois
+            userAnswers[questionIndex] = optionIndex;
+
+            // Destaque visual das opções
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, index) => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                // Verde: opção correta
+                if (index === questionsData[questionIndex].correct) {
+                    opt.classList.add('correct');
+                } else if (index === optionIndex && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+                opt.style.pointerEvents = 'none';
+            });
+
+            // Feedback visual (ícone + texto)
+            feedbackDiv.style.display = 'block';
+            feedbackResult.className = `feedback-result ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedbackResult.innerHTML = `
+                <i class="fas fa-${isCorrect ? 'check' : 'times'}-circle"></i>
+                <span>${isCorrect ? 'Correto!' : 'Incorreto!'}</span>
+            `;
+            
+            // Explicação detalhada da resposta
+            explanationDiv.innerHTML = `<strong>Explicação:</strong> ${getQuestion(questionIndex).explanation}`;
+
+            // Atualiza a navegação (marcar pergunta como respondida) e enable/disable dos botões
+            updateQuestionNavUI();
+            updateNavigationButtons();
+
+            // Não realiza auto-avançamento. Usuário usa os quadradinhos ou botões.
+        }
+
+        /**
+         * FUNÇÃO: updateProgressBar()
+         * PROPÓSITO: Atualiza a barra de progresso visual do quiz
+         *
+         * Fórmula: (questão atual + 1) / total de questões * 100
+         * 
+         * Exemplos:
+         *   - Questão 1 de 15: (0 + 1) / 15 * 100 = 6.67% preenchida
+         *   - Questão 8 de 15: (7 + 1) / 15 * 100 = 53.33% preenchida
+         *   - Questão 15 de 15: (14 + 1) / 15 * 100 = 100% preenchida
+         */
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questionsData.length) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        /**
+         * FUNÇÃO: startTimer()
+         * PROPÓSITO: Inicia a contagem de tempo do quiz
+         * 
+         * O que faz:
+         * 1. Cancela qualquer timer anterior (se existir)
+         * 2. Configura um intervalo que executa a cada 1000ms (1 segundo)
+         * 3. A cada segundo: incrementa totalTime em 1
+         * 4. Converte segundos para formato MM:SS (00:45, 01:30, 02:15, etc)
+         * 5. Exibe tempo no elemento timerDisplay
+         *
+         * Detalhes técnicos:
+         * - Math.floor(totalTime / 60) = número de minutos completos
+         * - totalTime % 60 = número de segundos restantes
+         * - .padStart(2, '0') = garante 2 dígitos (01, 02... 59)
+         */
+        function startTimer() {
+            // Se houver timer ativo, cancela antes de criar novo
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Intervalo que executa a cada 1 segundo (1000ms)
+            timerInterval = setInterval(() => {
+                // Incrementa 1 segundo ao tempo total
+                totalTime++;
+                
+                // Calcula minutos e segundos
+                const mins = Math.floor(totalTime / 60);
+                const secs = totalTime % 60;
+                
+                // Exibe no formato MM:SS (ex: 00:45, 01:30)
+                timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        /**
+         * FUNÇÃO: showResults()
+         * PROPÓSITO: Exibe a tela de resultados finais do quiz
+         * 
+         * O que faz:
+         * 1. Para o timer de contagem de tempo
+         * 2. Oculta seção de quiz, mostra seção de resultados
+         * 3. Calcula número total de acertos
+         * 4. Calcula percentual de desempenho (0-100%)
+         * 5. Salva dados em localStorage para histórico (usado em desempenho.html)
+         * 6. Chama updateResultsUI() para exibir valores na tela
+         *
+         * Dados salvos em localStorage:
+         * - date: data/hora em formato ISO (para gráficos de histórico)
+         * - correct: número de acertos (ex: 12)
+         * - time: tempo total em segundos (ex: 245)
+         * - subject: sempre 'historia' para este quiz
+         * - score: percentual de acerto (ex: 80)
+         */
+        function showResults() {
+            // Para a contagem do timer
+            clearInterval(timerInterval);
+            
+            // Oculta quiz, mostra tela de resultados
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            /**
+             * CÁLCULO DE ACERTOS:
+             * .filter() compara cada resposta com a correta
+             * userAnswers[idx] === questionsData[idx].correct
+             * .length conta quantos acertos houve
+             */
+            const correctCount = userAnswers.filter((ans, idx) => ans === questionsData[idx].correct).length;
+            
+            // Calcula percentual: acertos / total * 100
+            const percentage = Math.round((correctCount / questionsData.length) * 100);
+
+            /**
+             * SALVAR DESEMPENHO em localStorage
+             * Permite que página de desempenho.html visualize o histórico
+             * Cada quiz respondido adiciona um objeto ao array
+             */
+            const performanceHistory = JSON.parse(localStorage.getItem('studyPro_performance') || '[]');
+            performanceHistory.push({
+                date: new Date().toISOString(),      // Data/hora atual (ISO format)
+                correct: correctCount,                // Número de acertos (ex: 12 de 15)
+                time: totalTime,                      // Tempo total em segundos
+                subject: 'historia',                  // Disciplina (história)
+                score: percentage                     // Percentual (0-100)
+            });
+
+            // Salva histórico de desempenho
+            localStorage.setItem('studyPro_performance', JSON.stringify(performanceHistory));
+
+            // Atualiza dados de progresso global (XP, fases, quizzes concluidos)
+            const progressData = JSON.parse(localStorage.getItem('studyPro_progress') || '{}');
+            progressData.xp = (progressData.xp || 0) + (correctCount * 10); // 10 XP por acerto
+            progressData.completedQuizzes = (progressData.completedQuizzes || 0) + 1;
+            progressData.unlockedPhases = Math.min(
+                10,
+                Math.max(progressData.unlockedPhases || 1, Math.floor(progressData.completedQuizzes / 2) + 1)
+            );
+            progressData.lastSession = new Date().toISOString();
+            localStorage.setItem('studyPro_progress', JSON.stringify(progressData));
+
+            // Atualiza elementos HTML com valores dos resultados
+            updateResultsUI();
+        }
+
+        /**
+         * FUNÇÃO: updateResultsUI()
+         * PROPÓSITO: Atualiza elementos visuais com dados dos resultados finais
+         * 
+         * O que faz:
+         * 1. Calcula número de acertos comparando com gabarito
+         * 2. Calcula percentual de desempenho (0-100%)
+         * 3. Converte tempo em segundos para formato MM:SS
+         * 4. Atualiza elementos HTML com os valores calculados
+         * 5. Exibe mensagem motivacional baseada na pontuação
+         *
+         * Mensagens motivacionais:
+         * - >= 90%: "Excelente!" (green)
+         * - 70-89%: "Bom!" (blue)
+         * - 50-69%: "Regular" (yellow)
+         * - < 50%: "Insuficiente" (red)
+         */
+        function updateResultsUI() {
+            // Calcula número de acertos (conta quantas respostas conferiram com o gabarito)
+            const correctCount = userAnswers.filter((ans, idx) => ans === questionsData[idx].correct).length;
+            
+            // Calcula percentual de acerto: acertos / total * 100, arredonda para inteiro
+            const percentage = Math.round((correctCount / questionsData.length) * 100);
+            
+            // Converte tempo em segundos para minutos:segundos
+            // Ex: 245 segundos = 4 minutos e 5 segundos
+            const mins = Math.floor(totalTime / 60);
+            const secs = totalTime % 60;
+
+            // Atualiza elemento que mostra o percentual (0-100)
+            document.getElementById('score-percentage').textContent = percentage;
+            
+            // Atualiza elemento que mostra número de acertos (ex: "12" em "12 de 15")
+            document.getElementById('correct-answers').textContent = correctCount;
+            
+            // Atualiza elemento que mostra tempo total (ex: "04:05")
+            document.getElementById('total-time').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+            /**
+             * MENSAGEM MOTIVACIONAL
+             * Baseada no percentual, exibe feedback positivo e encorajador
+             * Usa i18next para suportar múltiplos idiomas
+             */
+            let message = '';
+            if (percentage >= 90) message = i18next.t('excelente');              // >= 90%: "Excelente!"
+            else if (percentage >= 70) message = i18next.t('bom');               // 70-89%: "Bom!"
+            else if (percentage >= 50) message = i18next.t('regular');           // 50-69%: "Regular"
+            else message = i18next.t('insuficiente');                            // < 50%: "Insuficiente"
+            
+            // Exibe a mensagem na tela
+            document.getElementById('performance-message').textContent = message;
+        }
+
+        /**
+         * FUNÇÃO: retryQuiz()
+         * PROPÓSITO: Reinicia o quiz igual ao início
+         * 
+         * O que faz:
+         * Chama init() que reseta todos os valores e começa um novo quiz:
+         * - Volta para questão 1
+         * - Limpa respostas anteriores
+         * - Reseta timer
+         * - Oculta tela de resultados
+         * - Inicia novo timer de contagem
+         */
+        function retryQuiz() {
+            init();
+        }
+
+        /**
+         * FUNÇÃO: toggleFavorite()
+         * PROPÓSITO: Adiciona ou remove uma questão da lista de favoritos
+         * 
+         * O que faz:
+         * - Verifica se a questão já está nos favoritos
+         * - Se está: remove da lista
+         * - Se não está: adiciona à lista com dados completos
+         * - Atualiza localStorage
+         * - Atualiza visual do botão (estrela vazia ou preenchida)
+         */
+        function toggleFavorite(questionIndex) {
+            // Dados da questão atual
+            const question = questionsData[questionIndex];
+            const currentLangKey = currentLang; // 'pt', 'en' ou 'es'
+            
+            // Procura se a questão já está nos favoritos por índice
+            const existingIndex = favoriteQuestions.findIndex(fav => fav.questionIndex === questionIndex);
+            
+            if (existingIndex === -1) {
+                // Não está favoritada: adiciona à lista com dados completos
+                const favoriteData = {
+                    questionIndex: questionIndex,
+                    id: `questionario_${questionIndex}`,
+                    question: question[currentLangKey].question,
+                    options: question.options[currentLangKey],
+                    correct: question.correct,
+                    explanation: question[currentLangKey].explanation
+                };
+                favoriteQuestions.push(favoriteData);
+                btnFavorite.classList.add('favorited');
+            } else {
+                // Já está favoritada: remove da lista
+                favoriteQuestions.splice(existingIndex, 1);
+                btnFavorite.classList.remove('favorited');
+            }
+            
+            // Salva no localStorage
+            localStorage.setItem('studyPro_favorites', JSON.stringify(favoriteQuestions));
+        }
+
+        /**
+         * FUNÇÃO: updateFavoriteButton()
+         * PROPÓSITO: Atualiza o estado visual do botão de favoritar
+         * 
+         * Verifica se a questão atual é favoritada e muda o ícone
+         * Deve ser chamada ao carregar cada questão
+         */
+        function updateFavoriteButton() {
+            const isFavorited = favoriteQuestions.some(fav => fav.questionIndex === currentQuestionIndex);
+            if (isFavorited) {
+                btnFavorite.classList.add('favorited');
+                btnFavorite.innerHTML = '<i class="fas fa-star"></i>';
+            } else {
+                btnFavorite.classList.remove('favorited');
+                btnFavorite.innerHTML = '<i class="far fa-star"></i>';
+            }
+        }
+
+        /**
+         * ================================================================================
+         *    MODAL DE CONFIRMAÇÃO - SAIR DO QUIZ
+         * ================================================================================
+         * 
+         * Sistema de confirmação customizado para quando o usuário tenta sair
+         * Mostra um modal bonito no centro da tela ao invés do alert/confirm do navegador
+         */
+
+        /**
+         * FUNÇÃO: showExitModal()
+         * PROPÓSITO: Exibe o modal de confirmação de saída
+         * 
+         * Mostra o overlay (fundo escuro) e o modal (caixa branca)
+         * Permite que o usuário confirme ou cancele a ação de sair
+         */
+        function showExitModal() {
+            // Seleciona os elementos do modal
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalDialog = document.getElementById('modal-dialog');
+            const modalCancel = document.getElementById('modal-cancel');
+            const modalConfirm = document.getElementById('modal-confirm');
+
+            // Mostra o overlay e o modal (muda de display: none para display: flex/block)
+            modalOverlay.style.display = 'flex';
+            modalDialog.style.display = 'block';
+
+            /**
+             * BOTÃO CANCELAR (Continuar Respondendo)
+             * Quando clica, fecha o modal e volta ao quiz
+             */
+            modalCancel.addEventListener('click', function() {
+                hideExitModal();
+            });
+
+            /**
+             * BOTÃO CONFIRMAR (Sair Mesmo Assim)
+             * Quando clica, deixa sair e volta à página inicial
+             */
+            modalConfirm.addEventListener('click', function() {
+                window.location.href = '../index.html';
+            });
+
+            /**
+             * FECHAR AO CLICAR NO OVERLAY (fundo preto)
+             * Se o usuário clicar fora do modal, ele fecha
+             * Isso oferece uma forma adicional de cancelar
+             */
+            modalOverlay.addEventListener('click', function(event) {
+                // Verifica se clicou no overlay exatamente, não no modal
+                if (event.target === modalOverlay) {
+                    hideExitModal();
+                }
+            });
+        }
+
+        /**
+         * FUNÇÃO: hideExitModal()
+         * PROPÓSITO: Fecha o modal de confirmação
+         * 
+         * Esconde o overlay e o modal voltando ao quiz
+         */
+        function hideExitModal() {
+            // Seleciona os elementos do modal
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalDialog = document.getElementById('modal-dialog');
+
+            // Remove os listeners de clique dos botões para evitar duplicação
+            const modalCancel = document.getElementById('modal-cancel');
+            const modalConfirm = document.getElementById('modal-confirm');
+            
+            // Clona os elementos para remover todos os listeners anteriores
+            const newCancel = modalCancel.cloneNode(true);
+            const newConfirm = modalConfirm.cloneNode(true);
+            modalCancel.parentNode.replaceChild(newCancel, modalCancel);
+            modalConfirm.parentNode.replaceChild(newConfirm, modalConfirm);
+
+            // Esconde o overlay e o modal
+            modalOverlay.style.display = 'none';
+            modalDialog.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
