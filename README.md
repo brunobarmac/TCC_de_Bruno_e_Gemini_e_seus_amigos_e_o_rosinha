@@ -21,11 +21,11 @@ achava que isso era meio óbvio, mas pelo visto tenho que falar
 ​3⁰ Se você sabe que o código está ruim ou se não tentou resolver um problema, avise no grupo.
 ​4⁰ Leia o código antes de subir. É evidente para a equipe quando alguém não revisou o que escreveu
 -----------------------------------------------------------------------------------------------------------------------------------------
-Para rodar a api 
+Para rodar a api
 criar um arquivo .env
 colocar a chave api e o app url
-npm install @google/genai(npm install @google/generative-ai)
 npm install
+npm install @tailwindcss/oxide-win32-x64-msvc --save-dev
 npm run dev
 depois so entrar no localhost que o terminal informar
 acompanhar as mensagens que o terminal mandar sobre a chave
