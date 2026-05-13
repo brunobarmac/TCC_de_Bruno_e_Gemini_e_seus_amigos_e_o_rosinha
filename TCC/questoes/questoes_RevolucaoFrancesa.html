@@ -1,98 +1,139 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questões - Revolução Francesa - StudyPro</title>
-<link rel="stylesheet" href="../css/questoes.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões - Revolução Francesa - StudyPro</title>
+    <link rel="stylesheet" href="../css/questoes.css">
+    <style>
+        /* CSS extra para deixar os novos botões bonitos e alinhados */
+        .botoes-acao {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+        .btn-copiar, .btn-enviar-rosa {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .btn-copiar {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .btn-copiar:hover { background-color: #ccc; }
+        
+        .btn-enviar-rosa {
+            background-color: #ff69b4;
+            color: white;
+        }
+        .btn-enviar-rosa:hover { background-color: #ff1493; }
+    </style>
 </head>
 <body>
 <nav>
-<a href="../questoes/questoes.html">← Voltar para o Início</a>
-<a href="../IA/pequeno_rosa.html?tema=RevolucaoFrancesa"
-style="position: fixed;
-bottom: 100px;
-right: 50px;
-background-color: #ff69b4;
-color: white;
-text-align: center;
-font-size: 20px;
-text-decoration: none;
-border-radius: 20px;
-width: 100px;
-height: 75px;
-display: flex;
-align-items: center;
-justify-content: center;">
-Pequeno Rosa
-</a>
+    <a href="../questoes/questoes.html">← Voltar para o Início</a>
+    <a href="../IA/pequeno_rosa.html?tema=RevolucaoFrancesa"
+       style="position: fixed; bottom: 100px; right: 50px; background-color: #ff69b4; color: white; text-align: center; font-size: 20px; text-decoration: none; border-radius: 20px; width: 100px; height: 75px; display: flex; align-items: center; justify-content: center;">
+        Pequeno Rosa
+    </a>
 </nav>
 
 <div class="container">
-<h1>Questões: Revolução Francesa</h1>
+    <h1>Questões: Revolução Francesa</h1>
 
-<div id="quiz-container">
-<div class="question" data-answer="1">
-<h2>1. (ENEM) O texto da Declaração dos Direitos do Homem e do Cidadão,<br>documento marco de 1789, defendia a ideia de que:</h2>
-<ul class="options">
-<li>a. os direitos sociais e trabalhistas devem ser garantidos<br>pelo Estado de forma absolutista.</li>
-<li>b. a igualdade jurídica e civil entre os indivíduos<br>é a base fundamental da sociedade democrática.</li>
-<li>c. a propriedade privada é um mal de origem feudal<br>que deve ser imediatamente erradicado.</li>
-<li>d. os privilégios da nobreza e do alto clero<br>são direitos divinos inalienáveis e sagrados.</li>
-<li>e. a escravidão era uma instituição natural e, portanto,<br>deveria ser mantida nas colônias ultramarinas.</li>
-</ul>
-</div>
+    <div id="quiz-container">
+        <!-- QUESTÃO 1 -->
+        <div class="question" data-answer="1">
+            <h2>1. (ENEM) O texto da Declaração dos Direitos do Homem e do Cidadão,<br>documento marco de 1789, defendia a ideia de que:</h2>
+            <ul class="options">
+                <li>a. os direitos sociais e trabalhistas devem ser garantidos<br>pelo Estado de forma absolutista.</li>
+                <li>b. a igualdade jurídica e civil entre os indivíduos<br>é a base fundamental da sociedade democrática.</li>
+                <li>c. a propriedade privada é um mal de origem feudal<br>que deve ser imediatamente erradicado.</li>
+                <li>d. os privilégios da nobreza e do alto clero<br>são direitos divinos inalienáveis e sagrados.</li>
+                <li>e. a escravidão era uma instituição natural e, portanto,<br>deveria ser mantida nas colônias ultramarinas.</li>
+            </ul>
+            <div class="botoes-acao">
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+            </div>
+        </div>
 
-<div class="question" data-answer="2">
-<h2>2. (FUVEST) Do ponto de vista social, pode-se afirmar, sobre a<br>Revolução Francesa, que:</h2>
-<ul class="options">
-<li>a. teve resultados efêmeros, pois foi iniciada, dirigida<br>e apropriada por uma só classe social, a burguesia.</li>
-<li>b. fracassou, pois, apesar da fase do terror, a burguesia<br>não conseguiu limitar os direitos dos camponeses.</li>
-<li>c. nela coexistiram três revoluções sociais distintas:<br>uma revolução burguesa, uma camponesa e uma popular urbana.</li>
-<li>d. foi um fracasso, pois apesar do sucesso político<br>não representou grandes mudanças na base social.</li>
-<li>e. abortou, pois a nobreza, agindo como vanguarda,<br>não permitiu a ascensão da burguesia ao poder.</li>
-</ul>
-</div>
+        <!-- QUESTÃO 2 -->
+        <div class="question" data-answer="2">
+            <h2>2. (FUVEST) Do ponto de vista social, pode-se afirmar, sobre a<br>Revolução Francesa, que:</h2>
+            <ul class="options">
+                <li>a. teve resultados efêmeros, pois foi iniciada, dirigida<br>e apropriada por uma só classe social, a burguesia.</li>
+                <li>b. fracassou, pois, apesar da fase do terror, a burguesia<br>não conseguiu limitar os direitos dos camponeses.</li>
+                <li>c. nela coexistiram três revoluções sociais distintas:<br>uma revolução burguesa, uma camponesa e uma popular urbana.</li>
+                <li>d. foi um fracasso, pois apesar do sucesso político<br>não representou grandes mudanças na base social.</li>
+                <li>e. abortou, pois a nobreza, agindo como vanguarda,<br>não permitiu a ascensão da burguesia ao poder.</li>
+            </ul>
+            <div class="botoes-acao">
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+            </div>
+        </div>
 
-<div class="question" data-answer="3">
-<h2>3. (MACKENZIE) A Declaração dos Direitos do Homem e do Cidadão,<br>votada pela Assembleia Nacional Constituinte em 1789, visava:</h2>
-<ul class="options">
-<li>a. romper com a Declaração de Independência dos EUA,<br>por esta ser considerada radical e antidemocrática.</li>
-<li>b. recuperar os antigos ideais monárquicos europeus<br>e fortalecer o poder tradicional da nobreza feudal.</li>
-<li>c. abolir totalmente o conceito de propriedade privada<br>e estabelecer a igualdade social absoluta na França.</li>
-<li>d. estabelecer os princípios universais de liberdade, propriedade,<br>segurança e resistência à opressão.</li>
-<li>e. garantir à Igreja Católica o monopólio exclusivo<br>sobre a educação e a censura cultural no país.</li>
-</ul>
-</div>
+        <!-- QUESTÃO 3 -->
+        <div class="question" data-answer="3">
+            <h2>3. (MACKENZIE) A Declaração dos Direitos do Homem e do Cidadão,<br>votada pela Assembleia Nacional Constituinte em 1789, visava:</h2>
+            <ul class="options">
+                <li>a. romper com a Declaração de Independência dos EUA,<br>por esta ser considerada radical e antidemocrática.</li>
+                <li>b. recuperar os antigos ideais monárquicos europeus<br>e fortalecer o poder tradicional da nobreza feudal.</li>
+                <li>c. abolir totalmente o conceito de propriedade privada<br>e estabelecer a igualdade social absoluta na França.</li>
+                <li>d. estabelecer os princípios universais de liberdade, propriedade,<br>segurança e resistência à opressão.</li>
+                <li>e. garantir à Igreja Católica o monopólio exclusivo<br>sobre a educação e a censura cultural no país.</li>
+            </ul>
+            <div class="botoes-acao">
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+            </div>
+        </div>
 
-<div class="question" data-answer="1">
-<h2>4. (UNICAMP) O período da Revolução Francesa conhecido como "Terror"<br>(1793-1794) pode ser historicamente caracterizado:</h2>
-<ul class="options">
-<li>a. pela fase de maior moderação e diálogo político,<br>liderada pelos girondinos e pela alta burguesia.</li>
-<li>b. pela radicalização do processo revolucionário,<br>com a liderança dos jacobinos e forte repressão aos opositores.</li>
-<li>c. pelo retorno pacífico do rei Luís XVI ao poder,<br>apoiado por forças contrarrevolucionárias da Áustria.</li>
-<li>d. pela implantação direta do Império Napoleônico,<br>que encerrou definitivamente o processo revolucionário popular.</li>
-<li>e. pela aliança estratégica entre a nobreza e os camponeses<br>contra as medidas financeiras confiscatórias da burguesia.</li>
-</ul>
-</div>
+        <!-- QUESTÃO 4 -->
+        <div class="question" data-answer="1">
+            <h2>4. (UNICAMP) O período da Revolução Francesa conhecido como "Terror"<br>(1793-1794) pode ser historicamente caracterizado:</h2>
+            <ul class="options">
+                <li>a. pela fase de maior moderação e diálogo político,<br>liderada pelos girondinos e pela alta burguesia.</li>
+                <li>b. pela radicalização do processo revolucionário,<br>com a liderança dos jacobinos e forte repressão aos opositores.</li>
+                <li>c. pelo retorno pacífico do rei Luís XVI ao poder,<br>apoiado por forças contrarrevolucionárias da Áustria.</li>
+                <li>d. pela implantação direta do Império Napoleônico,<br>que encerrou definitivamente o processo revolucionário popular.</li>
+                <li>e. pela aliança estratégica entre a nobreza e os camponeses<br>contra as medidas financeiras confiscatórias da burguesia.</li>
+            </ul>
+            <div class="botoes-acao">
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+            </div>
+        </div>
 
-<div class="question" data-answer="1">
-<h2>5. (UNESP) A Revolução Francesa, no seu intenso processo de mudanças<br>políticas e sociais contínuas, caracterizou-se por:</h2>
-<ul class="options">
-<li>a. derrubar o sistema de representação política<br>e instaurar uma monarquia constitucional liderada pelo clero.</li>
-<li>b. destruir os obstáculos estruturais do antigo feudalismo<br>e promover o avanço do modo de produção capitalista.</li>
-<li>c. promover a aliança indissolúvel entre o clero e a burguesia<br>para manter os privilégios do Terceiro Estado.</li>
-<li>d. fracassar na tentativa de abolir as corporações de ofício,<br>mantendo as relações servis tradicionais no campo.</li>
-<li>e. garantir a manutenção intacta dos direitos de sangue<br>da nobreza através de acordos na Assembleia Nacional.</li>
-</ul>
-</div>
+        <!-- QUESTÃO 5 -->
+        <div class="question" data-answer="1">
+            <h2>5. (UNESP) A Revolução Francesa, no seu intenso processo de mudanças<br>políticas e sociais contínuas, caracterizou-se por:</h2>
+            <ul class="options">
+                <li>a. derrubar o sistema de representação política<br>e instaurar uma monarquia constitucional liderada pelo clero.</li>
+                <li>b. destruir os obstáculos estruturais do antigo feudalismo<br>e promover o avanço do modo de produção capitalista.</li>
+                <li>c. promover a aliança indissolúvel entre o clero e a burguesia<br>para manter os privilégios do Terceiro Estado.</li>
+                <li>d. fracassar na tentativa de abolir as corporações de ofício,<br>mantendo as relações servis tradicionais no campo.</li>
+                <li>e. garantir a manutenção intacta dos direitos de sangue<br>da nobreza através de acordos na Assembleia Nacional.</li>
+            </ul>
+            <div class="botoes-acao">
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+            </div>
+        </div>
 
-</div>
-<button id="submit-btn">Verificar Respostas</button>
+    </div>
+    <button id="submit-btn">Verificar Respostas</button>
 </div>
 
 <script>
-    // 1. Seleção: Limpa quem estava selecionado e marca o novo
+    // --- LÓGICA EXISTENTE DO QUIZ ---
     document.querySelectorAll('.options li').forEach(li => {
         li.onclick = () => {
             li.parentNode.querySelector('.selected')?.classList.remove('selected');
@@ -100,7 +141,6 @@ Pequeno Rosa
         };
     });
 
-    // 2. Verificação com Window Alert
     document.getElementById('submit-btn').onclick = () => {
         let score = 0;
         const totalQuestions = document.querySelectorAll('.question').length;
@@ -122,36 +162,67 @@ Pequeno Rosa
             }
         });
 
-        // 3. Regra dos 100%
         if (score === totalQuestions) {
             window.alert("Parabéns! Você acertou todas as questões. Pressione OK para receber seu troféu!");
-            
-            // Aqui é a mágica: O script da tela "grita" um aviso para o script do banco de dados agir!
             document.dispatchEvent(new Event('gabaritou'));
         } else {
             window.alert(`Você acertou ${score} de ${totalQuestions}. Tente novamente!`);
         }
     };
+
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR E ENVIAR ---
+    document.querySelectorAll('.question').forEach(q => {
+        const btnCopiar = q.querySelector('.btn-copiar');
+        const btnEnviar = q.querySelector('.btn-enviar-rosa');
+
+        // Função interna para extrair o texto limpo (título + opções)
+        const extrairTextoQuestao = () => {
+            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); // Tira as quebras de linha sujas do HTML
+            let textoFinal = titulo + "\n";
+            
+            q.querySelectorAll('.options li').forEach(li => {
+                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
+            });
+            
+            return textoFinal;
+        };
+
+        // Evento: Copiar para o CTRL+C
+        btnCopiar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            navigator.clipboard.writeText(texto).then(() => {
+                btnCopiar.innerText = "Copiado! ✓";
+                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); // Volta ao normal depois de 2s
+            });
+        };
+
+        // Evento: Enviar para o Pequeno Rosa
+        btnEnviar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            // Salva a questão na memória do navegador antes de trocar de tela
+            sessionStorage.setItem('questao_transferida', texto);
+            // Redireciona para o chat passando o tema
+            window.location.href = "../IA/pequeno_rosa.html?tema=RevolucaoFrancesa";
+        };
+    });
 </script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // SUBSTITUA ESSAS CHAVES PELAS DO SEU PROJETO REAL!
     const firebaseConfig = {
-  apiKey: "AIzaSyDR3Ho-kZyic52B2mxOvNAY3GqXBqqtZf0",
-  authDomain: "studypro-1ba51.firebaseapp.com",
-  projectId: "studypro-1ba51",
-  storageBucket: "studypro-1ba51.firebasestorage.app",
-  messagingSenderId: "297401757331",
-  appId: "1:297401757331:web:3f9a2d299c9ab4970da766"
-};
+      apiKey: "AIzaSyDR3Ho-kZyic52B2mxOvNAY3GqXBqqtZf0",
+      authDomain: "studypro-1ba51.firebaseapp.com",
+      projectId: "studypro-1ba51",
+      storageBucket: "studypro-1ba51.firebasestorage.app",
+      messagingSenderId: "297401757331",
+      appId: "1:297401757331:web:3f9a2d299c9ab4970da766"
+    };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // O Firebase fica dormindo até ouvir o evento 'gabaritou' disparado lá no Script 1
     document.addEventListener('gabaritou', async () => {
         try {
             const usuarioUID = "conta_do_bruno"; 
