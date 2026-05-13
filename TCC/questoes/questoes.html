@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões - StudyPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #0984e3;
+            --color-secondary: #00b894;
+            --color-accent: #ff79cd;
+            --color-text: #2d3436;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #fafafa; color: var(--color-text); }
+
+        /* HEADER ORIGINAL REESTILIZADO */
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brain { color: var(--color-accent); font-size: 36px; }
+
+        .back-btn {
+            background: var(--color-secondary);
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        /* GRID DE QUESTÕES */
+        .container {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        h1 { font-size: 42px; margin-bottom: 50px; color: #2b2a2a; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            border-color: var(--color-primary);
+        }
+
+        .card h2 { font-size: 22px; margin-bottom: 10px; color: var(--color-primary); }
+        .card p { font-size: 15px; color: #636e72; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="main-header">
+            <div class="logo">
+                <span class="brain">🧠</span> StudyPro
+            </div>
+            <div class="header-right">
+                <a href="../index.html" class="back-btn">Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Exercicios Estudo</h1>
+
+        <div class="grid">
+
+             <a href="../html/questionario.html" class="card">
+                <h2>Questionario</h2>
+                <p>Conteudo geral</p>
+            </a>
+
+            <a href="../questoes/questoes_BrasilColonial.html" class="card">
+                <h2>Brasil Colonial</h2>
+                <p>Colonização e Economia</p>
+            </a>
+
+            <a href="../questoes/questoes_ExpansaoMaritima.html" class="card">
+                <h2>Expansão Marítima</h2>
+                <p>Navegações e Comércio</p>
+            </a>
+
+            <a href="../questoes/questoes_IdadeMedia.html" class="card">
+                <h2>Idade Média</h2>
+                <p>Feudalismo e Sociedade</p>
+            </a>
+
+            <a href="../questoes/questoes_RevolucaoFrancesa.html" class="card">
+                <h2>Revolução Francesa</h2>
+                <p>Política e Cidadania</p>
+            </a>
+            
+        </div>
+    </div>
+
+</body>
+</html>

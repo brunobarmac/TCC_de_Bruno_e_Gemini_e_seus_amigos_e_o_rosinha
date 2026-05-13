@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microlearning - Revolução Francesa</title>
+    <style>
+        /* Estilização Geral */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Container dos Vídeos */
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Card Individual */
+        .video-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-card h2 {
+            font-size: 1.2rem;
+            color: #2980b9;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        /* Tornar o iframe Responsivo (Proporção 16:9) */
+        .iframe-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../videos/videos.html">← Voltar para o Início</a>
+    </nav>
+    <h1>Microlearning - Revolução Francesa</h1>
+    <p>Aprenda os conceitos do Iluminismo e da Revolução Francesa através destas pílulas de conhecimento, integradas de forma 100% legal via embed.</p>
+
+    <div class="video-container">
+        <div class="video-card">
+            <h2>1. O que foi o Iluminismo? (Prof. Pedro)</h2>
+            <div class="iframe-wrapper">
+                <!-- Adicionado o www. no link abaixo -->
+                <iframe src="https://www.youtube-nocookie.com/embed/08xvk0XIUys?si=ihXlKAOgXfCEYUf7"
+                 title="O QUE FOI O ILUMINISMO? | APRENDA SEM DORMIR!" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <h2>2. A Revolução Francesa em 5 Minutos! (Débora Aladim)</h2>
+            <div class="iframe-wrapper">
+                <iframe src="https://www.youtube-nocookie.com/embed/eg47cCMcQr0?si=L0ZBycFcHOKjgvdo"
+                 title="A REVOLUÇÃO FRANCESA EM 5 MINUTOS! - Débora Aladim" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

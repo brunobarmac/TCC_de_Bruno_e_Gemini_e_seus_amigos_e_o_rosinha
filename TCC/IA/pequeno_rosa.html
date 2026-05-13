@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pequeno Rosa - Assistente de História</title>
+    <link rel="stylesheet" href="pequeno_rosa.css">
+    <style>
+        /* CSS para o botão Limpar Página no canto superior direito */
+        .btn-limpar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-limpar:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- NOVO BOTÃO AQUI -->
+    <button id="btn-limpar" class="btn-limpar">Limpar Página</button>
+
+    <a href="javascript:history.back()" class="btn-voltar">← Voltar para a atividade</a>
+    
+    <div class="header">
+        <h2>Sala do Pequeno Rosa</h2>
+        <p>Aqui você pode tirar dúvidas sobre História! Pergunte o que quiser,
+         e o Pequeno Rosa vai te ajudar a entender melhor os assuntos que você está estudando.</p>
+    </div>
+
+    <div id="chat-mensagens">
+        <div class="balao-ia" id="msg-boas-vindas">Olá! Sou o professor Pequeno Rosa. Como posso ajudar você hoje?</div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="input-pergunta" placeholder="Digite sua pergunta de História aqui...">
+        <button id="btn-enviar">Enviar</button>
+    </div>
+
+    <script>
+        // --- Pegando os elementos da tela ---
+        const inputPergunta = document.getElementById('input-pergunta');
+        const btnEnviar = document.getElementById('btn-enviar');
+        const areaMensagens = document.getElementById('chat-mensagens');
+        const btnLimpar = document.getElementById('btn-limpar');
+        
+        // --- 1. Inicializa o histórico a partir do SessionStorage ---
+        let historicoConversa = JSON.parse(sessionStorage.getItem('historico_pequeno_rosa')) || [];
+
+        // --- 2. Função para formatar o texto da IA ---
+        function formatarTextoIA(texto) {
+            return texto
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')     
+                .replace(/\n/g, '<br>');                          
+        }
+
+        // --- 3. Função para desenhar as mensagens antigas na tela ao carregar ---
+        function desenharHistoricoNaTela() {
+            historicoConversa.forEach(mensagem => {
+                if (mensagem.role === "user") {
+                    areaMensagens.innerHTML += `<div class="balao-user">${mensagem.parts[0].text}</div>`;
+                } else if (mensagem.role === "model") {
+                    const textoFormatado = formatarTextoIA(mensagem.parts[0].text);
+                    areaMensagens.innerHTML += `<div class="balao-ia">${textoFormatado}</div>`;
+                }
+            });
+            if (historicoConversa.length > 0) {
+                areaMensagens.scrollTop = areaMensagens.scrollHeight;
+            }
+        }
+
+        desenharHistoricoNaTela();
+
+        // --- 4. Ajuste Automático da Caixa de Texto ---
+        inputPergunta.addEventListener('input', function() {
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
+        });
+
+        // --- 5. URL e Boas Vindas ---
+        const parametrosUrl = new URLSearchParams(window.location.search);
+        const temaDaPagina = parametrosUrl.get('tema');
+        
+        function configurarBoasVindas() {
+            if (temaDaPagina) {
+                document.getElementById('msg-boas-vindas').innerText = `Olá! Vi que você estava estudando sobre ${temaDaPagina}. Qual é a sua dúvida?`;
+            } else {
+                document.getElementById('msg-boas-vindas').innerText = `Olá! Sou o professor Pequeno Rosa. Como posso ajudar você hoje?`;
+            }
+        }
+        
+        configurarBoasVindas();
+
+        // --- 6. Ação de Enviar ---
+        btnEnviar.onclick = async () => {
+            const textoUser = inputPergunta.value.trim();
+            if (!textoUser) return;
+
+            areaMensagens.innerHTML += `<div class="balao-user">${textoUser}</div>`;
+            
+            inputPergunta.value = '';
+            inputPergunta.style.height = 'auto';
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+
+            const contexto = temaDaPagina ? `[O aluno está estudando o tema: ${temaDaPagina}] ` : "";
+            const promptFinal = contexto + textoUser;
+
+            const idCarregando = "loading-" + Date.now();
+            areaMensagens.innerHTML += `<div class="balao-ia" id="${idCarregando}">Pequeno Rosa está digitando...</div>`;
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+
+            try {
+                const resposta = await fetch("http://localhost:5501/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: promptFinal, history: historicoConversa })
+                });
+
+                const dados = await resposta.json();
+                document.getElementById(idCarregando).remove();
+
+                if (dados.text) {
+                    const textoFormatado = formatarTextoIA(dados.text);
+                    areaMensagens.innerHTML += `<div class="balao-ia">${textoFormatado}</div>`;
+                    
+                    historicoConversa.push({ role: "user", parts: [{ text: textoUser }] });
+                    historicoConversa.push({ role: "model", parts: [{ text: dados.text }] });
+                    
+                    sessionStorage.setItem('historico_pequeno_rosa', JSON.stringify(historicoConversa));
+
+                } else {
+                    areaMensagens.innerHTML += `<div class="balao-ia">Poxa, a sala dos professores está muito cheia agora! O sistema está processando muitos alunos simultaneamente. Pode me mandar a questão de novo em alguns segundos?</div>`;
+                }
+            } catch (erro) {
+                document.getElementById(idCarregando).remove();
+                areaMensagens.innerHTML += `<div class="balao-ia">Erro de conexão. O servidor (porta 5501) está ligado?</div>`;
+            }
+            areaMensagens.scrollTop = areaMensagens.scrollHeight;
+        };
+
+        // --- 7. Permite usar o Enter ---
+        inputPergunta.addEventListener("keypress", (e) => { 
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                btnEnviar.click(); 
+            }
+        });
+
+        // --- 8. Lógica do botão Limpar Página ---
+        btnLimpar.onclick = () => {
+            // Remove da memória do navegador
+            sessionStorage.removeItem('historico_pequeno_rosa');
+            // Zera o array interno
+            historicoConversa = [];
+            // Reseta a tela (mantendo só a bolha inicial)
+            areaMensagens.innerHTML = `<div class="balao-ia" id="msg-boas-vindas"></div>`;
+            // Reaplica a mensagem de boas-vindas correta
+            configurarBoasVindas();
+        };
+
+        // --- 9. Ponte com a tela de Questões (BÔNUS ANTERIOR) ---
+        const questaoRecebida = sessionStorage.getItem('questao_transferida');
+        if (questaoRecebida) {
+            inputPergunta.value = "Por favor, me ajude a analisar e resolver esta questão:\n\n" + questaoRecebida;
+            inputPergunta.style.height = 'auto'; 
+            inputPergunta.style.height = (inputPergunta.scrollHeight) + 'px'; 
+            sessionStorage.removeItem('questao_transferida');
+        }
+
+      </script>
+</body>
+</html>
