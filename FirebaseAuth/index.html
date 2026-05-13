@@ -5,13 +5,23 @@
    <title>Cadastrar</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
    <link rel="stylesheet" href="./styles/index.css">
    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
    <script type="module" src="./scripts/firebaseauth.js"></script>
+=======
+
+   <link rel="stylesheet" href="styles/index.css">
+   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+   <!-- Firebase -->
+   <script type="module" src="scripts/firebaseauth.js"></script>
+>>>>>>> branch-do-luiz
 </head>
 
 <body>
 
+<<<<<<< HEAD
    <div class="container" id="signup" style="display:none;"> <!-- cadastro -->
       <h1 class="form-title">Register</h1>
       <form method="post" action="">
@@ -42,6 +52,39 @@
       <p class="or">
          -------or-------
       </p>
+=======
+   <!-- 🔐 CADASTRO -->
+   <div class="container" id="signup" style="display:none;">
+      <h1 class="form-title">Register</h1>
+
+      <div id="signUpMessage" class="messageDiv"></div>
+
+      <div class="input-group">
+         <i class="bx bxs-user"></i>
+         <input type="text" id="fName" placeholder="Nome" required>
+      </div>
+
+      <div class="input-group">
+         <i class="bx bxs-user"></i>
+         <input type="text" id="lName" placeholder="Sobrenome" required>
+      </div>
+
+      <div class="input-group">
+         <i class="bx bxs-envelope"></i>
+         <input type="email" id="rEmail" placeholder="Email" required>
+      </div>
+
+      <div class="input-group">
+         <i class="bx bxs-lock-alt"></i>
+         <input type="password" id="rPassword" placeholder="Senha" required>
+      </div>
+
+      <button type="button" class="btn" id="submitSignUp">
+         Cadastrar-se
+      </button>
+
+      <p class="or">-------or-------</p>
+>>>>>>> branch-do-luiz
 
       <div class="icons">
          <i class="bx bxl-google"></i>
@@ -55,6 +98,7 @@
    </div>
 
 
+<<<<<<< HEAD
 
    <div class="container" id="signIn"> <!-- login -->
       <h1 class="form-title">Login</h1>
@@ -84,6 +128,33 @@
       <p class="or">
          -------or-------
       </p>
+=======
+   <!-- 🔐 LOGIN -->
+   <div class="container" id="signIn">
+      <h1 class="form-title">Login</h1>
+
+      <div id="signInMessage" class="messageDiv"></div>
+
+      <div class="input-group">
+         <i class="bx bxs-envelope"></i>
+         <input type="email" id="email" placeholder="Email" required>
+      </div>
+
+      <div class="input-group">
+         <i class="bx bxs-lock-alt"></i>
+         <input type="password" id="password" placeholder="Senha" required>
+      </div>
+
+      <div class="recover">
+         <a href="#">Esqueci a senha</a>
+      </div>
+
+      <button type="button" class="btn" id="submitSignIn">
+         Conectar-se
+      </button>
+
+      <p class="or">-------or-------</p>
+>>>>>>> branch-do-luiz
 
       <div class="icons">
          <i class="bx bxl-google"></i>
@@ -91,6 +162,7 @@
       </div>
 
       <div class="register-link">
+<<<<<<< HEAD
          <p> Não possui uma conta?</p>
          <button id="signUpButton">Cadastrar</button>
       </div>
@@ -99,4 +171,14 @@
 
 </body>
 
+=======
+         <p>Não possui uma conta?</p>
+         <button id="signUpButton">Cadastrar</button>
+      </div>
+   </div>
+
+   <script src="scripts/script.js"></script>
+
+</body>
+>>>>>>> branch-do-luiz
 </html>
