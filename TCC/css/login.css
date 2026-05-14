@@ -157,9 +157,9 @@ button, .switch-btn {
     box-sizing: border-box;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"] {
     padding: 12px;
-    border: 1px solid #90e0ef;
+    border: none;
     border-radius: 6px;
     font-size: 1em;
 }
@@ -447,9 +447,40 @@ button, .switch-btn {
     display: block; /* Garante que cada elemento fique em uma linha */
     box-sizing: border-box; /* Inclui padding e borda no tamanho */
 }
+/* ===== INPUT GROUP =====
+   Agrupa inputs com ícones */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 90%;
+    max-width: 320px;
+    margin: 8px auto;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #90e0ef;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.input-group i {
+    color: #0984e3;
+    font-size: 20px;
+    padding-left: 12px;
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 0 12px 0;
+    font-size: 1em;
+    background: transparent;
+}
+
 input[type="text"], input[type="email"], input[type="password"] {
     padding: 12px;
-    border: 1px solid #90e0ef;
+    border: none;
     border-radius: 6px;
     font-size: 1em;
 }

@@ -48,7 +48,7 @@ window.codeverify = async function () {
 
     localStorage.setItem("otpVerified", "true");
     alert("Verificação concluída!");
-    window.location.href = "/pages/homepage.html";
+    window.location.href = "./configuracoes.html";
 
   } catch (error) {
     console.error(error);
@@ -57,7 +57,7 @@ window.codeverify = async function () {
       // 🔥 número já vinculado antes
       localStorage.setItem("otpVerified", "true");
       alert("Número já verificado!");
-      window.location.href = "/html/configuracoes.html";
+      window.location.href = "./configuracoes.html";
 
     } else {
       alert("Código inválido!");

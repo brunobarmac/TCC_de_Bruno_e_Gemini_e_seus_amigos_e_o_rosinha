@@ -5,7 +5,7 @@ import { getDoc, doc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-
 const otpVerified = localStorage.getItem("otpVerified");
 
 if (!otpVerified) {
-  window.location.href = "/html/otp.html";
+  window.location.href = "../html/otp.html";
 }
 
 const userId = localStorage.getItem('loggedInUserId');
@@ -41,6 +41,6 @@ document.getElementById('logout').addEventListener('click', () => {
   }
 
   signOut(auth).then(() => {
-    window.location.href = "/html/login.html";
+    window.location.href = "../html/login.html";
   });
 });

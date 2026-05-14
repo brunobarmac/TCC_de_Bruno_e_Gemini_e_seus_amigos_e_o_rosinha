@@ -24,10 +24,13 @@
     <!-- Estilos da página de login -->
     <link rel="stylesheet" href="../css/login.css"> <!-- // Importa o CSS da página de login -->
     
+    <!-- Boxicons para ícones nos inputs -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    
     <!-- i18next para sistema de tradução multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 
-    <script type="module" src="scripts/firebaseauth.js"></script>
+    <script type="module" src="../scripts/firebaseauth.js"></script>
 </head>
 <body>
     <!-- CABEÇALHO COM SELETOR DE IDIOMA -->
@@ -58,11 +61,18 @@
         <h1 data-i18n="login-title">Bem-vindo ao StudyPro</h1> <!-- // Título principal da página -->
 
         <div id="signInMessage" class="messageDiv"></div>
-        <form>
-            <input type="text" placeholder="Usuário ou E-mail" data-i18n-placeholder="user-email" required> <!-- // Campo para usuário ou e-mail -->
-            <input type="password" placeholder="Senha" data-i18n-placeholder="password" required> <!-- // Campo para senha -->
-            <button type="submit" data-i18n="entrar">Entrar</button> <!-- // Botão para enviar o formulário de login -->
-        </form>
+        
+        <div class="input-group">
+            <i class="bx bxs-envelope"></i>
+            <input type="email" id="email" placeholder="Email" data-i18n-placeholder="Email" required> <!-- // Campo para e-mail -->
+        </div>
+
+        <div class="input-group">
+            <i class="bx bxs-lock-alt"></i>
+            <input type="password" id="password" placeholder="Senha" data-i18n-placeholder="Senha" required> <!-- // Campo para senha -->
+        </div>
+
+        <button type="button" class="btn" id="submitSignIn" data-i18n="entrar">Entrar</button> <!-- // Botão para enviar o formulário de login -->
         <div class="social-login"> <!-- // Área para login social -->
             <p data-i18n="social-text">Ou entre com:</p> <!-- // Texto explicativo -->
             <button class="google-btn" type="button">               
@@ -75,6 +85,8 @@
                 <img src="../imagens/logo-apple.webp" alt="Apple"> Apple <!-- // Botão de login com Apple -->
             </button>
         </div>
+        
+        
         <p data-i18n="no-account">Não tem uma conta?</p> <!-- // Texto para quem não tem conta -->
         <button id="signUpButton" class="switch-btn" data-i18n="cadastrese">Cadastre-se</button> <!-- // Botão para ir para a página de cadastro -->
         <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a> <!-- // Botão para voltar à página inicial -->
@@ -85,14 +97,30 @@
     <div class="container" id="signup" style="display: none;"> <!-- // Container centralizado para o formulário CADASTRO-->
         <h1 data-i18n="cadastro-title">Crie sua conta</h1> <!-- // Título principal da página -->
 
-         <div id="signUpMessage" class="messageDiv"></div>
-        <form>
-            <input type="text" placeholder="Nome completo" data-i18n-placeholder="nome-completo" required> <!-- // Campo para nome completo -->
-            <input type="email" placeholder="E-mail" data-i18n-placeholder="email" required> <!-- // Campo para e-mail -->
-            <input type="text" placeholder="Usuário" data-i18n-placeholder="usuario" required> <!-- // Campo para nome de usuário -->
-            <input type="password" placeholder="Senha" data-i18n-placeholder="senha" required> <!-- // Campo para senha -->
-            <button type="button" data-i18n="cadastrar" id="submitSignUp">Cadastrar</button> <!-- // Botão para enviar o formulário de cadastro -->
-        </form>
+        <div id="signUpMessage" class="messageDiv"></div>
+        
+        <div class="input-group">
+            <i class="bx bxs-user"></i>
+            <input type="text" id="fName" placeholder="Nome" data-i18n-placeholder="Nome" required> <!-- // Campo para nome -->
+        </div>
+
+        <div class="input-group">
+            <i class="bx bxs-user"></i>
+            <input type="text" id="lName" placeholder="Sobrenome" data-i18n-placeholder="Sobrenome" required> <!-- // Campo para sobrenome -->
+        </div>
+
+        <div class="input-group">
+            <i class="bx bxs-envelope"></i>
+            <input type="email" id="rEmail" placeholder="E-mail" data-i18n-placeholder="Email" required> <!-- // Campo para e-mail -->
+        </div>
+
+        <div class="input-group">
+            <i class="bx bxs-lock-alt"></i>
+            <input type="password" id="rPassword" placeholder="Senha" data-i18n-placeholder="Senha" required> <!-- // Campo para senha -->
+        </div>
+
+        <button type="button" class="btn" id="submitSignUp" data-i18n="cadastrar">Cadastrar</button> <!-- // Botão para enviar o formulário de cadastro -->
+        
         <div class="social-login"> <!-- // Área para cadastro social -->
             <p data-i18n="social-text">Ou cadastre-se com:</p> <!-- // Texto explicativo -->
             <button class="google-btn" type="button">
@@ -105,12 +133,14 @@
                 <img src="../imagens/logo-apple.webp" alt="Apple"> Apple <!-- // Botão de cadastro com Apple -->
             </button>
         </div>
+        
         <p data-i18n="tem-conta">Já tem uma conta?</p> <!-- // Texto para quem já tem conta -->
         <button id="signInButton" class="switch-btn" data-i18n="entrar">Entrar</button> <!-- // Botão para ir para a página de login -->
         <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a> <!-- // Botão para voltar à página inicial -->
     </div>
 
-    <script src="scripts/script.js"></script>
+    <script src="../scripts/script.js"></script>
+
 
 
     <!-- SCRIPT: Configuração de Tradução Multilíngue -->
@@ -124,34 +154,43 @@
                 // Traduções em Português
                 pt: { translation: {
                     "login-title": "Bem-vindo ao StudyPro",
+                    "cadastro-title": "Crie sua conta",
                     "user-email": "Usuário ou E-mail",
                     "password": "Senha",
                     "entrar": "Entrar",
                     "social-text": "Ou entre com:",
                     "no-account": "Não tem uma conta?",
                     "cadastrese": "Cadastre-se",
+                    "cadastrar": "Cadastrar",
+                    "tem-conta": "Já tem uma conta?",
                     "voltar-inicio": "Voltar para a página inicial"
                 }},
                 // Traduções em Inglês
                 en: { translation: {
                     "login-title": "Welcome to StudyPro",
+                    "cadastro-title": "Create your account",
                     "user-email": "Username or Email",
                     "password": "Password",
                     "entrar": "Sign In",
                     "social-text": "Or sign in with:",
                     "no-account": "Don't have an account?",
                     "cadastrese": "Sign Up",
+                    "cadastrar": "Register",
+                    "tem-conta": "Already have an account?",
                     "voltar-inicio": "Back to homepage"
                 }},
                 // Traduções em Espanhol
                 es: { translation: {
                     "login-title": "Bienvenido a StudyPro",
+                    "cadastro-title": "Crea tu cuenta",
                     "user-email": "Usuario o Correo Electrónico",
                     "password": "Contraseña",
                     "entrar": "Iniciar Sesión",
                     "social-text": "O inicia sesión con:",
                     "no-account": "¿No tienes una cuenta?",
                     "cadastrese": "Regístrate",
+                    "cadastrar": "Registrarse",
+                    "tem-conta": "¿Ya tienes una cuenta?",
                     "voltar-inicio": "Volver a la página de inicio"
                 }}
             }
