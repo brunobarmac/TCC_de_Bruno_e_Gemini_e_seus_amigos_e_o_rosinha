@@ -35,7 +35,7 @@ if (signUp) {
 
       await signOut(auth);
 
-      window.location.href = "/index.html";
+      window.location.href = "./login.html";
 
     } catch (error) {
       alert("Erro ao cadastrar");
@@ -69,9 +69,9 @@ if (signIn) {
         userSnap.data().phoneVerified &&
         otpVerified
       ) {
-        window.location.href = "/pages/homepage.html";
+        window.location.href = "./configuracoes.html";
       } else {
-        window.location.href = "/pages/otp.html";
+        window.location.href = "./otp.html";
       }
 
     } catch (error) {

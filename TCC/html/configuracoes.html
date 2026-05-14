@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="../css/index.css"> <!-- variáveis, header e botões comuns -->
     <link rel="stylesheet" href="../css/configuracoes.css">
     
+
+    <script type="module" src="../scripts/homepage.js"></script>
     <!-- i18next para sistema de tradução multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 </head>
@@ -143,8 +145,13 @@
                 Vinculado por label para acessibilidade
                 -->
                 <div class="form-group">
-                    <label for="full-name" data-i18n="nome-completo">Nome Completo</label>
-                    <input type="text" id="full-name" class="input-field" placeholder="Seu nome completo">
+                    <label for="name" data-i18n="nome">Nome</label>
+                    <div class="input-field">Nome: <span id="loggedUserFName"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" data-i18n="sobrenome">Sobrenome</label>
+                    <div class="input-field">Sobrenome: <span id="loggedUserLName"></span></div>
                 </div>
 
                 <!--
@@ -154,17 +161,7 @@
                 -->
                 <div class="form-group">
                     <label for="email" data-i18n="email">Email</label>
-                    <input type="email" id="email" class="input-field" placeholder="seu.email@example.com">
-                </div>
-
-                <!--
-                CAMPO: NOME DE USUÁRIO
-                Identificador único público do usuário na plataforma
-                Usado para menções e identificação em fóruns/comunidades
-                -->
-                <div class="form-group">
-                    <label for="username" data-i18n="usuario">Nome de Usuário</label>
-                    <input type="text" id="username" class="input-field" placeholder="seu_usuario">
+                    <div class="input-field">Email: <span id="loggedUserEmail"></span></div>
                 </div>
             </section>
 
@@ -311,7 +308,7 @@
             Ação crítica - faz logout e redireciona para login
             Cor de alerta para indicar ação irreversível
             -->
-            <button class="btn btn-danger" data-i18n="sair">Sair da Conta</button>
+            <button id="logout" class="btn btn-danger" data-i18n="sair">Sair da Conta</button>
         </div>
     </main>
 
