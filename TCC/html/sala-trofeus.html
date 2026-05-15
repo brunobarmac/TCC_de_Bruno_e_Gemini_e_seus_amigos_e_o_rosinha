@@ -1,112 +1,459 @@
+<!-- ================================================
+     ARQUIVO: sala-trofeus.html
+     LOCALIZAÇÃO: /html/sala-trofeus.html
+     DESCRIÇÃO: Página da Sala de Troféus do StudyPro
+     FUNCIONALIDADE:
+       - Exibição de troféus conquistados (desbloqueados)
+       - Exibição de troféus futuros (bloqueados/trancados)
+       - Barra de progresso para cada troféu
+       - Modal com detalhes do troféu ao clicar
+       - Filtro por raridade (Comum, Raro, Épico, Lendário)
+       - Estatísticas gerais de conquistas
+       - Mesma estrutura de header e footer do index.html
+     ================================================ -->
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sala de Troféus - Acompanhe suas conquistas e mostre seus prêmios no StudyPro">
     <title>Sala de Troféus - StudyPro</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212; /* Fundo escuro elegante */
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .header h1 { color: #ffd700; font-size: 36px; text-transform: uppercase; letter-spacing: 2px; }
-        .header p { color: #aaa; font-size: 18px; }
-        
-        .trophy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .trophy-card {
-            background-color: #1e1e1e;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #333;
-            transition: transform 0.3s;
-        }
-        .trophy-card:hover { transform: translateY(-5px); border-color: #ffd700; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.1); }
-
-        /* Classe para troféus que o usuário já ganhou */
-        .trophy-card.unlocked img {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
-        }
-
-        /* Classe para troféus ainda não conquistados (Silhueta) */
-        .trophy-card.locked img {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: contain;
-            filter: grayscale(100%) brightness(20%) drop-shadow(0 0 0 rgba(0,0,0,0));
-            opacity: 0.5;
-        }
-
-        .trophy-card h3 { margin: 15px 0 5px 0; font-size: 20px; color: #fff; }
-        .trophy-card p { font-size: 14px; color: #888; margin: 0; }
-        .trophy-card.locked h3 { color: #555; }
-        
-        .back-btn {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.2s;
-        }
-        .back-btn:hover { background-color: #ff69b4; }
-    </style>
+    <!-- Fonte moderna e ícones profissionais -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/sala-trofeus.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- i18next para tradução (mesmo que index.html) -->
+    <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 </head>
 <body>
+    <!-- ================================================
+         CABEÇALHO - Mesmo padrão do index.html
+         Inclui logo, seletor de idioma, configurações e logout
+         ================================================ -->
+    <header>
+        <div class="main-header">
+            <div class="logo">
+                <span class="brain">🧠</span> StudyPro
+            </div>
+            <div class="header-right">
+                <!-- Dropdown de idioma com animação de seta -->
+                <div class="language-dropdown">
+                    <button class="lang-btn" id="lang-toggle">
+                        <span id="current-lang">PT</span>
+                        <span class="arrow">▶</span>
+                    </button>
+                    <ul class="lang-menu" id="lang-menu">
+                        <li><button class="lang-option" data-lang="pt">PT</button></li>
+                        <li><button class="lang-option" data-lang="en">EN</button></li>
+                        <li><button class="lang-option" data-lang="es">ES</button></li>
+                    </ul>
+                </div>
+                <!-- Botão de configurações da conta -->
+                <a href="configuracoes.html" class="btn config-btn" data-i18n="config-btn">Configurações da conta</a>
+            </div>
+        </div>
+    </header>
 
-    <div class="header">
-        <h1>Sua Galeria de Conquistas</h1>
-        <p>Acompanhe seu progresso e exiba seus troféus.</p>
+    <!-- ================================================
+         NAVEGAÇÃO SECUNDÁRIA
+         Links para outras seções principais do site
+         ================================================ -->
+    <nav class="nav-buttons">
+        <a href="../index.html" class="nav-btn" data-i18n="home"><i class="fas fa-home"></i> Início</a>
+        <a href="questionario.html" class="nav-btn" data-i18n="questionario"><i class="fas fa-question-circle"></i> Questionário</a>
+        <a href="../videos/videos.html" class="nav-btn" data-i18n="videos"><i class="fas fa-video"></i> Vídeos</a>
+        <a href="desempenho.html" class="nav-btn" data-i18n="desempenho"><i class="fas fa-chart-line"></i> Desempenho</a>
+        <a href="sala-trofeus.html" class="nav-btn active" data-i18n="sala-trofeus"><i class="fas fa-trophy"></i> Sala de Troféus</a>
+        <a href="tutorial-ia.html" class="nav-btn" data-i18n="tutorial-ia"><i class="fas fa-robot"></i> Tutorial IA</a>
+    </nav>
+
+    <!-- ================================================
+         CONTEÚDO PRINCIPAL - Sala de Troféus
+         ================================================ -->
+    <main>
+        <!-- SEÇÃO DE HEADER COM TÍTULO E DESCRIÇÃO -->
+        <section class="trophy-header">
+            <h1 data-i18n="trophy-title">🏆 Sua Galeria de Conquistas</h1>
+            <p data-i18n="trophy-desc">Acompanhe seu progresso e exiba seus troféus conquistados. Continue estudando para desbloquear novos prêmios!</p>
+        </section>
+
+        <!-- ESTATÍSTICAS GERAIS DE CONQUISTAS -->
+        <section class="stats-overview">
+            <div class="stat-item">
+                <div class="stat-number" id="total-trofeus">0</div>
+                <div class="stat-label" data-i18n="stat-total">Total de Troféus</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="trofeus-desbloqueados">0</div>
+                <div class="stat-label" data-i18n="stat-unlocked">Desbloqueados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="trofeus-trancados">0</div>
+                <div class="stat-label" data-i18n="stat-locked">Trancados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="pontos-totais">0</div>
+                <div class="stat-label" data-i18n="stat-points">Pontos Totais</div>
+            </div>
+        </section>
+
+        <!-- FILTROS DE RARIDADE -->
+        <section class="trophy-filters">
+            <button class="filter-btn active" data-filter="todos" data-i18n="filter-all">Todos</button>
+            <button class="filter-btn" data-filter="comum" data-i18n="filter-common">Comuns</button>
+            <button class="filter-btn" data-filter="raro" data-i18n="filter-rare">Raros</button>
+            <button class="filter-btn" data-filter="epico" data-i18n="filter-epic">Épicos</button>
+            <button class="filter-btn" data-filter="lendario" data-i18n="filter-legendary">Lendários</button>
+        </section>
+
+        <!-- GALERIA DE TROFÉUS -->
+        <section class="trophy-gallery" id="galeria">
+            <!-- Os troféus serão inseridos aqui via JavaScript -->
+            <!-- Exemplos de estrutura de troféu: -->
+
+            <!-- TROFÉU DESBLOQUEADO (Exemplo 1) -->
+            <div class="trophy-card unlocked comum" id="trofeu-historia" data-rarity="comum">
+                <div class="trophy-icon">🥉</div>
+                <div class="trophy-info">
+                    <div class="trophy-title" data-i18n="trophy-name-1">Trophée de l'Histoire</div>
+                    <div class="trophy-desc" data-i18n="trophy-desc-1">100% em Revolução Francesa</div>
+                </div>
+                <div class="trophy-reward">
+                    <span class="reward-points">+100 pts</span>
+                    <span class="reward-xp">+50 XP</span>
+                </div>
+            </div>
+
+            <!-- TROFÉU BLOQUEADO (Exemplo 2) -->
+            <div class="trophy-card locked raro" id="trofeu-quimica" data-rarity="raro">
+                <div class="trophy-icon">🔐</div>
+                <div class="trophy-info">
+                    <div class="trophy-title" data-i18n="trophy-name-2">Mestre das Moléculas</div>
+                    <div class="trophy-desc" data-i18n="trophy-desc-2">Gabarite Estequiometria</div>
+                </div>
+                <div class="trophy-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                    <div class="progress-text">45% de progresso</div>
+                </div>
+            </div>
+
+            <!-- TROFÉU BLOQUEADO (Exemplo 3) -->
+            <div class="trophy-card locked epico" id="trofeu-biologia" data-rarity="epico">
+                <div class="trophy-icon">🔐</div>
+                <div class="trophy-info">
+                    <div class="trophy-title" data-i18n="trophy-name-3">Célula de Ouro</div>
+                    <div class="trophy-desc" data-i18n="trophy-desc-3">Gabarite Citologia</div>
+                </div>
+                <div class="trophy-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 25%"></div>
+                    </div>
+                    <div class="progress-text">25% de progresso</div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ================================================
+         MODAL - Exibido ao clicar em um troféu
+         Mostra informações detalhadas e progresso
+         ================================================ -->
+    <div class="trophy-modal" id="trophyModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <div class="modal-trophy-icon" id="modalIcon">🏆</div>
+                <div class="modal-trophy-info">
+                    <h3 id="modalTitle">Nome do Troféu</h3>
+                    <p id="modalRarity" style="font-size: 12px; color: #999;">Raridade: Comum</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="trophy-info">
+                    <p id="modalDescription">Descrição do troféu aqui</p>
+                </div>
+
+                <div class="progress-section" id="progressSection">
+                    <h4 data-i18n="progress">Seu Progresso</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="modalProgressBar" style="width: 50%"></div>
+                    </div>
+                    <div class="progress-text" id="modalProgressText">50% concluído</div>
+                </div>
+
+                <div class="reward-section">
+                    <h4 data-i18n="rewards">Recompensas</h4>
+                    <p>📌 <strong id="modalPoints">+100</strong> <span data-i18n="points">Pontos</span></p>
+                    <p>⭐ <strong id="modalXP">+50</strong> <span data-i18n="experience">Experiência</span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="trophy-grid" id="galeria">
-        
-        <!-- Troféu Desbloqueado -->
-        <div class="trophy-card unlocked" id="trofeu-historia">
-            <img src="../imagens/trofeu_revolucaoFra.png" alt="Trophée de l'Histoire">
-            <h3>Trophée de l'Histoire</h3>
-            <p>100% em Revolução Francesa</p>
+    <!-- ================================================
+         NOTIFICAÇÃO DE CONQUISTA
+         Exibida quando o usuário desbloqueia um troféu
+         ================================================ -->
+    <div class="achievement-notification" id="achievementNotification">
+        <div class="notification-icon">🎉</div>
+        <div class="notification-content">
+            <h4 data-i18n="achievement-unlocked">Conquista Desbloqueada!</h4>
+            <p id="achievementName">Nome da Conquista</p>
+            <small id="achievementReward">+100 pontos</small>
         </div>
-
-        <!-- Troféu Bloqueado (Exemplo para você ver como fica) -->
-        <div class="trophy-card locked" id="trofeu-quimica">
-            <img src="../assets/trofeu_generico.png" alt="Troféu Bloqueado">
-            <h3>Mestre das Moléculas</h3>
-            <p>Gabarite Estequiometria</p>
-        </div>
-
-        <div class="trophy-card locked" id="trofeu-biologia">
-            <img src="../assets/trofeu_generico.png" alt="Troféu Bloqueado">
-            <h3>Célula de Ouro</h3>
-            <p>Gabarite Citologia</p>
-        </div>
-
     </div>
 
-    <div style="text-align: center;">
-        <a href="../index.html" class="back-btn">← Voltar ao Menu Principal</a>
-    </div>
+    <!-- ================================================
+         RODAPÉ - Mesmo padrão do index.html
+         Links de informações e copyright
+         ================================================ -->
+    <footer>
+        <p>&copy; <span id="year"></span> StudyPro. Todos os direitos reservados.</p>
+        <p>
+            <a href="privacidade.html" data-i18n="privacy">Política de Privacidade</a> |
+            <a href="#" data-i18n="terms">Termos de Uso</a> |
+            <a href="#" data-i18n="contact">Contato</a>
+        </p>
+    </footer>
 
+    <!-- ================================================
+         SCRIPTS - Tradução e Interatividade
+         NÃO ALTERAR: Verificar se há script externo com
+         integração de banco de dados antes de modificar
+         ================================================ -->
+    <script>
+        // ========== INICIALIZAÇÃO DA TRADUÇÃO ==========
+        // Configuração de idiomas com i18next
+        i18next.init({
+            lng: 'pt',
+            debug: false,
+            resources: {
+                pt: { translation: {
+                    "config-btn": "Configurações da conta",
+                    "home": "Início",
+                    "questionario": "Questionário",
+                    "videos": "Vídeos",
+                    "desempenho": "Desempenho",
+                    "sala-trofeus": "Sala de Troféus",
+                    "tutorial-ia": "Tutorial IA",
+                    "trophy-title": "🏆 Sua Galeria de Conquistas",
+                    "trophy-desc": "Acompanhe seu progresso e exiba seus troféus conquistados. Continue estudando para desbloquear novos prêmios!",
+                    "stat-total": "Total de Troféus",
+                    "stat-unlocked": "Desbloqueados",
+                    "stat-locked": "Trancados",
+                    "stat-points": "Pontos Totais",
+                    "filter-all": "Todos",
+                    "filter-common": "Comuns",
+                    "filter-rare": "Raros",
+                    "filter-epic": "Épicos",
+                    "filter-legendary": "Lendários",
+                    "trophy-name-1": "Trophée de l'Histoire",
+                    "trophy-desc-1": "100% em Revolução Francesa",
+                    "trophy-name-2": "Mestre das Moléculas",
+                    "trophy-desc-2": "Gabarite Estequiometria",
+                    "trophy-name-3": "Célula de Ouro",
+                    "trophy-desc-3": "Gabarite Citologia",
+                    "progress": "Seu Progresso",
+                    "rewards": "Recompensas",
+                    "points": "Pontos",
+                    "experience": "Experiência",
+                    "achievement-unlocked": "Conquista Desbloqueada!",
+                    "privacy": "Política de Privacidade",
+                    "terms": "Termos de Uso",
+                    "contact": "Contato"
+                }},
+                en: { translation: {
+                    "config-btn": "Account Settings",
+                    "home": "Home",
+                    "questionario": "Questionnaire",
+                    "videos": "Videos",
+                    "desempenho": "Performance",
+                    "sala-trofeus": "Trophy Room",
+                    "tutorial-ia": "AI Tutorial",
+                    "trophy-title": "🏆 Your Achievement Gallery",
+                    "trophy-desc": "Track your progress and show off your earned trophies. Keep studying to unlock new rewards!",
+                    "stat-total": "Total Trophies",
+                    "stat-unlocked": "Unlocked",
+                    "stat-locked": "Locked",
+                    "stat-points": "Total Points",
+                    "filter-all": "All",
+                    "filter-common": "Common",
+                    "filter-rare": "Rare",
+                    "filter-epic": "Epic",
+                    "filter-legendary": "Legendary",
+                    "trophy-name-1": "Trophée de l'Histoire",
+                    "trophy-desc-1": "100% in French Revolution",
+                    "trophy-name-2": "Master of Molecules",
+                    "trophy-desc-2": "Perfect Score in Stoichiometry",
+                    "trophy-name-3": "Golden Cell",
+                    "trophy-desc-3": "Perfect Score in Cytology",
+                    "progress": "Your Progress",
+                    "rewards": "Rewards",
+                    "points": "Points",
+                    "experience": "Experience",
+                    "achievement-unlocked": "Achievement Unlocked!",
+                    "privacy": "Privacy Policy",
+                    "terms": "Terms of Use",
+                    "contact": "Contact"
+                }},
+                es: { translation: {
+                    "config-btn": "Configuraciones de la cuenta",
+                    "home": "Inicio",
+                    "questionario": "Cuestionario",
+                    "videos": "Vídeos",
+                    "desempenho": "Desempeño",
+                    "sala-trofeus": "Sala de Trofeos",
+                    "tutorial-ia": "Tutorial IA",
+                    "trophy-title": "🏆 Tu Galería de Conquistas",
+                    "trophy-desc": "Realiza un seguimiento de tu progreso y muestra tus trofeos ganados. ¡Sigue estudiando para desbloquear nuevas recompensas!",
+                    "stat-total": "Total de Trofeos",
+                    "stat-unlocked": "Desbloqueados",
+                    "stat-locked": "Bloqueados",
+                    "stat-points": "Puntos Totales",
+                    "filter-all": "Todos",
+                    "filter-common": "Comunes",
+                    "filter-rare": "Raros",
+                    "filter-epic": "Épicos",
+                    "filter-legendary": "Legendarios",
+                    "trophy-name-1": "Trophée de l'Histoire",
+                    "trophy-desc-1": "100% en Revolución Francesa",
+                    "trophy-name-2": "Maestro de Moléculas",
+                    "trophy-desc-2": "Puntuación Perfecta en Estequiometría",
+                    "trophy-name-3": "Célula de Oro",
+                    "trophy-desc-3": "Puntuación Perfecta en Citología",
+                    "progress": "Tu Progreso",
+                    "rewards": "Recompensas",
+                    "points": "Puntos",
+                    "experience": "Experiencia",
+                    "achievement-unlocked": "¡Conquista Desbloqueada!",
+                    "privacy": "Política de Privacidad",
+                    "terms": "Términos de Uso",
+                    "contact": "Contacto"
+                }}
+            }
+        }, function(err, t) {
+            updateContent();
+        });
+
+        // ========== FUNÇÕES DE ATUALIZAÇÃO DE CONTEÚDO ==========
+        // Atualiza todos os textos baseado no idioma selecionado
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(function(element) {
+                const key = element.getAttribute('data-i18n');
+                element.innerHTML = i18next.t(key);
+            });
+        }
+
+        // ========== CONTROLE DO DROPDOWN DE IDIOMA ==========
+        const langToggle = document.getElementById('lang-toggle');
+        const langMenu = document.getElementById('lang-menu');
+        const currentLang = document.getElementById('current-lang');
+        const arrow = langToggle.querySelector('.arrow');
+
+        langToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langMenu.classList.toggle('show');
+            langToggle.classList.toggle('active');
+            if (langToggle.classList.contains('active')) {
+                arrow.style.transform = 'rotate(90deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const newLang = this.getAttribute('data-lang');
+                currentLang.textContent = newLang.toUpperCase();
+                i18next.changeLanguage(newLang, function() {
+                    updateContent();
+                });
+                langMenu.classList.remove('show');
+                langToggle.classList.remove('active');
+                arrow.style.transform = 'rotate(0deg)';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!langToggle.contains(e.target)) {
+                langMenu.classList.remove('show');
+                langToggle.classList.remove('active');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // ========== CONTROLE DE FILTROS ==========
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const trophyCards = document.querySelectorAll('.trophy-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Atualiza estado dos botões
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filtra os troféus
+                trophyCards.forEach(card => {
+                    if (filter === 'todos') {
+                        card.style.display = '';
+                    } else {
+                        const rarity = card.getAttribute('data-rarity');
+                        if (rarity === filter) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // ========== CONTROLE DO MODAL ==========
+        const modal = document.getElementById('trophyModal');
+        const modalClose = document.getElementById('modalClose');
+
+        trophyCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.trophy-title').textContent;
+                const desc = this.querySelector('.trophy-desc').textContent;
+                const icon = this.querySelector('.trophy-icon').textContent;
+                const isLocked = this.classList.contains('locked');
+                
+                document.getElementById('modalIcon').textContent = icon;
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalDescription').textContent = desc;
+
+                if (isLocked) {
+                    document.getElementById('progressSection').style.display = 'block';
+                } else {
+                    document.getElementById('progressSection').style.display = 'none';
+                }
+
+                modal.style.display = 'flex';
+            });
+        });
+
+        modalClose.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // ========== ATUALIZAR ANO DO RODAPÉ ==========
+        const yearEl = document.getElementById('year');
+        if (yearEl) {
+            yearEl.textContent = new Date().getFullYear();
+        }
+    </script>
 </body>
 </html>

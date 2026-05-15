@@ -1,37 +1,47 @@
 /* ================================================
-     ARQUIVO: sala-trofeus.css
-     LOCALIZAÇÃO: d:\TCC\css\sala-trofeus.css
-     DESCRIÇÃO: Estilos para o sistema completo de troféus e conquistas
-     FUNCIONALIDADE:
-       - Layout responsivo para galeria de troféus
-       - Sistema de filtros e categorias
-       - Modal de detalhes dos troféus
-       - Animações e efeitos visuais
-       - Design profissional com gradientes
-     ================================================ */
+   ARQUIVO: sala-trofeus.css
+   LOCALIZAÇÃO: /css/sala-trofeus.css
+   DESCRIÇÃO: Estilos da Sala de Troféus (Página de Conquistas)
+   FUNCIONALIDADE:
+     - Layout responsivo para galeria de troféus
+     - Cards com estado bloqueado/desbloqueado
+     - Modal interativo com detalhes
+     - Filtros por raridade (Comum, Raro, Épico, Lendário)
+     - Estatísticas de progresso
+     - Notificações de conquistas
+     - Animações suaves e efeitos hover
+   ================================================ */
 
-/* ===== VARIÁVEIS CSS ===== */
+/* ================================================
+   VARIÁVEIS CSS - Cores, Tipografia e Espaçamento
+   ================================================ */
 :root {
-    --color-primary: #0984e3;
-    --color-secondary: #6c5ce7;
-    --color-accent: #00b894;
-    --color-success: #00b894;
-    --color-warning: #fdcb6e;
-    --color-danger: #e17055;
-    --color-info: #74b9ff;
+    /* Cores Principais */
+    --color-primary: #0984e3;          /* Azul dominante */
+    --color-secondary: #6c5ce7;        /* Roxo complementar */
+    --color-accent: #00b894;           /* Verde para sucesso */
+    --color-success: #00b894;          /* Verde de conquista */
+    --color-warning: #fdcb6e;          /* Amarelo de aviso */
+    --color-danger: #e17055;           /* Vermelho de perigo */
+    --color-info: #74b9ff;             /* Azul claro info */
 
-    --color-text-primary: #2d3436;
-    --color-text-secondary: #636e72;
-    --color-text-light: #b2bec3;
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f8f9fa;
-    --color-bg-tertiary: #ecf0f1;
+    /* Cores de Texto */
+    --color-text-primary: #2d3436;     /* Texto principal escuro */
+    --color-text-secondary: #636e72;   /* Texto secundário médio */
+    --color-text-light: #b2bec3;       /* Texto leve */
 
-    --color-trophy-gold: #ffd700;
-    --color-trophy-silver: #c0c0c0;
-    --color-trophy-bronze: #cd7f32;
-    --color-trophy-locked: #95a5a6;
+    /* Cores de Fundo */
+    --color-bg-primary: #ffffff;       /* Branco primário */
+    --color-bg-secondary: #f8f9fa;     /* Cinza muito claro */
+    --color-bg-tertiary: #ecf0f1;      /* Cinza claro */
 
+    /* Raridades de Troféus */
+    --color-trophy-gold: #ffd700;      /* Ouro - Lendário */
+    --color-trophy-silver: #c0c0c0;    /* Prata - Raro */
+    --color-trophy-bronze: #cd7f32;    /* Bronze - Comum */
+    --color-trophy-locked: #95a5a6;    /* Cinza - Bloqueado */
+
+    /* Tipografia */
     --font-family: 'Poppins', sans-serif;
     --font-size-base: 16px;
     --font-size-sm: 14px;
@@ -39,20 +49,28 @@
     --font-size-xl: 24px;
     --font-size-2xl: 32px;
 
+    /* Bordas e Raios */
     --border-radius: 12px;
     --border-radius-sm: 8px;
     --border-radius-lg: 16px;
 
+    /* Sombras */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
 
+    /* Transições */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
+
+    /* Layout */
+    --max-width: 1200px;
 }
 
-/* ===== RESET E BASE ===== */
+/* ================================================
+   RESET E ESTILOS BASE
+   ================================================ */
 * {
     margin: 0;
     padding: 0;
@@ -64,11 +82,13 @@ body {
     font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--color-text-primary);
-    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+    background: var(--color-bg-secondary);
     min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
+/* ================================================
+   CABEÇALHO - Mesmo padrão do index.css
+   ================================================ */
 header {
     background: var(--color-bg-primary);
     box-shadow: var(--shadow-sm);
@@ -78,7 +98,7 @@ header {
 }
 
 .main-header {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
     padding: 1rem 2rem;
     display: flex;
@@ -105,7 +125,7 @@ header {
     gap: 1rem;
 }
 
-/* Dropdown de idioma */
+/* Dropdown de Idioma */
 .language-dropdown {
     position: relative;
 }
@@ -130,18 +150,19 @@ header {
 
 .arrow {
     font-size: var(--font-size-sm);
-    transition: var(--transition-fast);
+    transition: transform var(--transition-fast);
 }
 
 .lang-menu {
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--color-bg-primary);
-    border: 1px solid var(--color-text-light);
+    background: white;
+    border: 1px solid #dfe6e9;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
-    min-width: 60px;
+    list-style: none;
+    min-width: 80px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -162,13 +183,15 @@ header {
     cursor: pointer;
     text-align: center;
     transition: var(--transition-fast);
+    color: var(--color-text-primary);
 }
 
 .lang-option:hover {
     background: var(--color-bg-secondary);
 }
 
-.back-btn {
+/* Botão de Configurações */
+.config-btn {
     background: var(--color-primary);
     color: white;
     border: none;
@@ -177,21 +200,25 @@ header {
     font-weight: 500;
     text-decoration: none;
     transition: var(--transition-fast);
+    font-size: var(--font-size-base);
+    cursor: pointer;
 }
 
-.back-btn:hover {
-    background: var(--color-secondary);
+.config-btn:hover {
+    background: #0652a0;
     transform: translateY(-2px);
 }
 
-/* ===== NAVEGAÇÃO ===== */
+/* ================================================
+   NAVEGAÇÃO SECUNDÁRIA
+   ================================================ */
 .nav-buttons {
-    background: var(--color-bg-primary);
+    background: white;
     border-bottom: 1px solid var(--color-bg-tertiary);
     padding: 0 2rem;
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
@@ -230,14 +257,18 @@ header {
     border-radius: 2px;
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
+/* ================================================
+   CONTEÚDO PRINCIPAL
+   ================================================ */
 main {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
     padding: 2rem;
 }
 
-/* ===== HEADER DOS TROFÉUS ===== */
+/* ================================================
+   SEÇÃO DE CABEÇALHO DA SALA DE TROFÉUS
+   ================================================ */
 .trophy-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -257,7 +288,9 @@ main {
     margin: 0 auto 2rem;
 }
 
-/* ===== ESTATÍSTICAS GERAIS ===== */
+/* ================================================
+   ESTATÍSTICAS GERAIS
+   ================================================ */
 .stats-overview {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -278,6 +311,7 @@ main {
 .stat-item:hover {
     transform: translateY(-2px);
     border-color: var(--color-primary);
+    box-shadow: var(--shadow-lg);
 }
 
 .stat-number {
@@ -294,7 +328,9 @@ main {
     letter-spacing: 0.5px;
 }
 
-/* ===== FILTROS ===== */
+/* ================================================
+   FILTROS DE RARIDADE
+   ================================================ */
 .trophy-filters {
     display: flex;
     justify-content: center;
@@ -325,7 +361,9 @@ main {
     border-color: var(--color-primary);
 }
 
-/* ===== GALERIA DE TROFÉUS ===== */
+/* ================================================
+   GALERIA DE TROFÉUS
+   ================================================ */
 .trophy-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -462,6 +500,9 @@ main {
 }
 
 /* ===== MODAL ===== */
+/* ================================================
+   MODAL - Detalhes do Troféu
+   ================================================ */
 .trophy-modal {
     position: fixed;
     top: 0;
@@ -577,7 +618,9 @@ main {
     border-left: 4px solid var(--color-success);
 }
 
-/* ===== NOTIFICAÇÃO DE CONQUISTA ===== */
+/* ================================================
+   NOTIFICAÇÃO DE CONQUISTA
+   ================================================ */
 .achievement-notification {
     position: fixed;
     top: 20px;
@@ -622,7 +665,9 @@ main {
     opacity: 0.8;
 }
 
-/* ===== FOOTER ===== */
+/* ================================================
+   RODAPÉ
+   ================================================ */
 footer {
     background: var(--color-bg-primary);
     border-top: 1px solid var(--color-bg-tertiary);
@@ -646,7 +691,9 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* ===== RESPONSIVIDADE ===== */
+/* ================================================
+   RESPONSIVIDADE - Tablets (768px e abaixo)
+   ================================================ */
 @media (max-width: 768px) {
     .main-header {
         padding: 1rem;
@@ -707,6 +754,9 @@ footer a:hover {
     }
 }
 
+/* ================================================
+   RESPONSIVIDADE - Celulares (480px e abaixo)
+   ================================================ */
 @media (max-width: 480px) {
     .trophy-icon {
         font-size: 2.5rem;
@@ -726,64 +776,5 @@ footer a:hover {
 
     .stats-overview {
         grid-template-columns: 1fr;
-    }
-}
-
-
-.trophy-card.locked .trophy-icon {
-    color: #ccc;
-    filter: grayscale(100%);
-}
-
-.trophy-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.trophy-description {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.trophy-progress {
-    background: #f0f0f0;
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.trophy-progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-    transition: width 0.5s;
-}
-
-.trophy-status {
-    font-size: 12px;
-    color: #888;
-}
-
-@keyframes trophyGlow {
-    from {
-        filter: drop-shadow(0 0 5px var(--color-primary));
-    }
-    to {
-        filter: drop-shadow(0 0 20px var(--color-primary));
-    }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .trophy-room {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .trophy-card {
-        width: 100%;
-        max-width: 300px;
     }
 }
