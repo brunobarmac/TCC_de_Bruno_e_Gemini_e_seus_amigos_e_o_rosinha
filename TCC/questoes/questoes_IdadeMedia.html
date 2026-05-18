@@ -23,7 +23,6 @@
      height: 75px";
      >Pequeno Rosa</a>
 <!-- copia o botão para mandar para outras paginas -->
-
 </nav>
 </div>
 <div class="container">
@@ -39,7 +38,12 @@
                 <li>d.A economia do feudo era dinâmica, estando voltada para o comércio dos feudos vizinhos.</li>
                 <li>e.As relações de produção eram escravocratas.</li>
             </ul>
-        </div>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar"> Favoritar</button>
+            </div>
+        
+        
 
         <div class="question" data-answer="0">
             <h2>2. (Enem 2015) A casa de Deus, que acreditam una, está, portanto, dividida em três: uns oram, outros combatem, outros, enfim, trabalham. Essas três partes que coexistem não suportam ser separadas; os serviços prestados por uma são a condição das obras das outras duas; cada uma por sua vez encarrega-se de aliviar o conjunto… Assim a lei pode triunfar e o mundo gozar da paz.</h2>
@@ -51,7 +55,11 @@
                 <li>d.Controlar a exploração econômica / unificação monetária.</li>
                 <li>e.Questionar a ordem divina / Reforma Católica.</li>
             </ul>
-        </div>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar"> Favoritar</button>
+            </div>
+       
 
         <div class="question" data-answer="3">
             <h2>3. (Fatec-SP) Dentre as causas da desagregação da ordem econômica feudal, é possível mencionar:</h2>
@@ -60,9 +68,12 @@
                 <li>b.O desinteresse da nobreza e do clero pela manutenção do Feudalismo.</li>
                 <li>c.O surgimento das corporações de oficio e a substituição do “justo preço” pelo preço de mercado.</li>
                 <li>d.O revivescimento do comércio e a conseqüente circulação monetária, que abalaram a auto-suficiência.</li>
-                <li>e.A substituição gradativa do trabalho escravo pelo trabalho assalariado.</li>
+                <li>e.A substituição gradativa do trabalho escravizado pelo trabalho assalariado.</li>
             </ul>
-        </div>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar"> Favoritar</button>
+            </div>
         
          <div class="question" data-answer="2">
             <h2>4. (MACKENZIE-SP) A desintegração do Modo de Produção Feudal na Baixa Idade Média foi, em grande parte, consequência:</h2>
@@ -73,12 +84,15 @@
                 <li>d.do crescimento da população européia no século XIV e da grande oferta de mão-de-obra barata que este fato gerou economicamente.</li>
                 <li>e.da consolidação do localismo político, fruto direto da Guerra dos Cem anos que favoreceu a nobreza feudal.</li>
             </ul>
-        </div>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar"> Favoritar</button>   
+            </div>
     </div>
         <button id="submit-btn">Verificar Respostas</button>
 </div>
 <script>
-    // 1. Seleção: Limpa quem estava selecionado e marca o novo
+    // --- LÓGICA EXISTENTE DO QUIZ ---
     document.querySelectorAll('.options li').forEach(li => {
         li.onclick = () => {
             li.parentNode.querySelector('.selected')?.classList.remove('selected');
@@ -86,20 +100,70 @@
         };
     });
 
-    // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
     document.getElementById('submit-btn').onclick = () => {
+        let score = 0;
+        const totalQuestions = document.querySelectorAll('.question').length;
+
         document.querySelectorAll('.question').forEach(q => {
             const opts = q.querySelectorAll('li');
             const selected = q.querySelector('.selected');
+            const correctAnswer = opts[q.dataset.answer];
             
             opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+            correctAnswer.classList.add('correct');
             
-            opts[q.dataset.answer].classList.add('correct'); // A certa sempre fica verde
-            if (selected && selected !== opts[q.dataset.answer]) {
-                selected.classList.add('wrong'); // A do aluno fica vermelha se errou
+            if (selected) {
+                if (selected === correctAnswer) {
+                    score++; 
+                } else {
+                    selected.classList.add('wrong'); 
+                }
             }
         });
+
+        if (score === totalQuestions) {
+            window.alert("Parabéns! Você acertou todas as questões. Pressione OK para receber seu troféu!");
+            document.dispatchEvent(new Event('gabaritou'));
+        } else {
+            window.alert(`Você acertou ${score} de ${totalQuestions}. Tente novamente!`);
+        }
     };
+
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR E ENVIAR ---
+    document.querySelectorAll('.question').forEach(q => {
+        const btnCopiar = q.querySelector('.btn-copiar');
+        const btnEnviar = q.querySelector('.btn-enviar-rosa');
+
+        // Função interna para extrair o texto limpo (título + opções)
+        const extrairTextoQuestao = () => {
+            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); // Tira as quebras de linha sujas do HTML
+            let textoFinal = titulo + "\n";
+            
+            q.querySelectorAll('.options li').forEach(li => {
+                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
+            });
+            
+            return textoFinal;
+        };
+
+        // Evento: Copiar para o CTRL+C
+        btnCopiar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            navigator.clipboard.writeText(texto).then(() => {
+                btnCopiar.innerText = "Copiado! ✓";
+                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); // Volta ao normal depois de 2s
+            });
+        };
+
+        // Evento: Enviar para o Pequeno Rosa
+        btnEnviar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            // Salva a questão na memória do navegador antes de trocar de tela
+            sessionStorage.setItem('questao_transferida', texto);
+            // Redireciona para o chat passando o tema
+            window.location.href = "../IA/pequeno_rosa.html?tema=RevolucaoFrancesa";
+        };
+    });
 </script>
 </body>
 </html>

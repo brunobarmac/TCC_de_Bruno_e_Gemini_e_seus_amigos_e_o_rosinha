@@ -109,3 +109,29 @@
             margin-top: 20px;
             display: none;
         }
+        
+        .btn-copiar, .btn-enviar-rosa, .btn-favoritar {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .btn-copiar {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .btn-copiar:hover { background-color: #ccc; }
+        
+        .btn-enviar-rosa {
+            background-color: #ff69b4;
+            color: white;
+        }
+        .btn-enviar-rosa:hover { background-color: #ff1493; 
+        }        
+        .btn-favoritar { background-color: #05ca05;
+            color: white;
+        }
+        .btn-favoritar:hover { background-color: #027002;
+         }

@@ -43,8 +43,11 @@
                     <li>d. o fortalecimento do feudalismo e da servidão<br>na Europa Ocidental.</li>
                     <li>e. a colonização do tipo mercantilista, sem a interferência<br>do Estado e da Igreja.</li>
                 </ul>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>
             </div>
-
+       
             <div class="question" data-answer="4">
                 <h2>2. (ENEM) A expansão marítima e comercial empreendida pelos portugueses<br>nos séculos XV e XVI está ligada:</h2>
                 <ul class="options">
@@ -54,7 +57,11 @@
                     <li>d. a diversas casualidades que, aliadas aos conhecimentos muçulmanos,<br>permitiram avançar para o Sul.</li>
                     <li>e. ao caráter sistemático que assumiu a empresa mercantil, explorando<br>o litoral africano em busca da "passagem" para as Índias.</li>
                 </ul>
+               <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>    
             </div>
+      
 
             <div class="question" data-answer="2">
                 <h2>3. (MACKENZIE) A primazia portuguesa na expansão marítima do século XV<br>pode ser explicada, entre outros fatores, pela:</h2>
@@ -65,8 +72,12 @@
                     <li>d. aliança militar estabelecida precocemente<br>com a Inglaterra e a França.</li>
                     <li>e. descoberta de imensas minas de ouro no sul da Europa,<br>que financiaram as caravelas.</li>
                 </ul>
+                
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>
             </div>
-
+                   
             <div class="question" data-answer="2">
                 <h2>4. (UNICAMP) O processo de expansão marítima da Península Ibérica<br>iniciou-se no século XV. É correto afirmar que, nesse processo:</h2>
                 <ul class="options">
@@ -75,9 +86,13 @@
                     <li>c. a conquista de Ceuta em 1415 marcou o início da expansão portuguesa,<br>impulsionada por interesses comerciais e estratégicos.</li>
                     <li>d. a Igreja Católica opôs-se ativamente às navegações por considerar<br>que o oceano Atlântico era o limite do mundo.</li>
                     <li>e. a expansão foi exclusivamente focada na África, sem nenhum<br>projeto de chegar até o continente asiático.</li>
-                </ul>
+                    </ul>
+                    
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>    
             </div>
-
+        
             <div class="question" data-answer="0">
                 <h2>5. (UNESP) Os séculos XV e XVI foram marcados pela expansão<br>comercial e marítima europeia. Sobre esse processo, é correto afirmar que:</h2>
                 <ul class="options">
@@ -87,8 +102,12 @@
                     <li>d. provocou o declínio imediato dos grandes impérios asiáticos,<br>devido exclusivamente à superioridade europeia.</li>
                     <li>e. transferiu o principal eixo econômico do comércio global<br>do Oceano Atlântico para o Mar Mediterrâneo.</li>
                 </ul>
-            </div>
-
+                
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>    
+                  </div>
+           
             <div class="question" data-answer="1">
                 <h2>6. (FGV) A conquista de Ceuta em 1415 é considerada o marco inicial<br>da expansão marítima portuguesa. Um dos principais objetivos era:</h2>
                 <ul class="options">
@@ -98,39 +117,110 @@
                     <li>d. encontrar rapidamente o caminho marítimo para a América do Norte<br>contornando o continente africano.</li>
                     <li>e. cristianizar imediatamente todo o continente asiático<br>para barrar o forte avanço da Reforma Protestante.</li>
                 </ul>
-            </div>
+                <button class="btn-copiar">Copiar Questão</button>
+                <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                <button class="btn-favoritar">Favoritar</button>
+    
+                  </div>
 
         </div>
         
         <button id="submit-btn">Verificar Respostas</button>
     </div>
+<script>
+    // --- LÓGICA EXISTENTE DO QUIZ ---
+    document.querySelectorAll('.options li').forEach(li => {
+        li.onclick = () => {
+            li.parentNode.querySelector('.selected')?.classList.remove('selected');
+            li.classList.add('selected');
+        };
+    });
 
-    <script>
-        // 1. Seleção: Limpa quem estava selecionado e marca o novo
-        document.querySelectorAll('.options li').forEach(li => {
-            li.onclick = () => {
-                li.parentNode.querySelector('.selected')?.classList.remove('selected');
-                li.classList.add('selected');
-            };
-        });
+    document.getElementById('submit-btn').onclick = () => {
+        let score = 0;
+        const totalQuestions = document.querySelectorAll('.question').length;
 
-        // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
-        document.getElementById('submit-btn').onclick = () => {
-            document.querySelectorAll('.question').forEach(q => {
-                const opts = q.querySelectorAll('li');
-                const selected = q.querySelector('.selected');
-                
-                opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
-                
-                // Pega a resposta correta baseada no data-answer
-                opts[q.dataset.answer].classList.add('correct'); 
-                
-                // Se marcou algo e não é a correta, pinta de vermelho
-                if (selected && selected !== opts[q.dataset.answer]) {
+        document.querySelectorAll('.question').forEach(q => {
+            const opts = q.querySelectorAll('li');
+            const selected = q.querySelector('.selected');
+            const correctAnswer = opts[q.dataset.answer];
+            
+            opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+            correctAnswer.classList.add('correct');
+            
+            if (selected) {
+                if (selected === correctAnswer) {
+                    score++; 
+                } else {
                     selected.classList.add('wrong'); 
                 }
+            }
+        });
+
+        if (score === totalQuestions) {
+            window.alert("Parabéns! Você acertou todas as questões. Pressione OK para receber seu troféu!");
+            document.dispatchEvent(new Event('gabaritou'));
+        } else {
+            window.alert(`Você acertou ${score} de ${totalQuestions}. Tente novamente!`);
+        }
+    };
+
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR, ENVIAR E FAVORITAR ---
+    document.querySelectorAll('.question').forEach(q => {
+        const btnCopiar = q.querySelector('.btn-copiar');
+        const btnEnviar = q.querySelector('.btn-enviar-rosa');
+        // Capturando o botão de favoritar corretamente
+        const btnFavoritar = q.querySelector('.btn-favoritar');
+
+        // Função interna para extrair o texto limpo (título + opções)
+        const extrairTextoQuestao = () => {
+            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); 
+            let textoFinal = titulo + "\n";
+            
+            q.querySelectorAll('.options li').forEach(li => {
+                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
+            });
+            
+            return textoFinal;
+        };
+
+        // Evento: Copiar para o CTRL+C
+        btnCopiar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            navigator.clipboard.writeText(texto).then(() => {
+                btnCopiar.innerText = "Copiado! ✓";
+                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); 
             });
         };
-    </script>
+
+        // Evento: Enviar para o Pequeno Rosa
+        btnEnviar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            sessionStorage.setItem('questao_transferida', texto);
+            // Corrigido o tema para Expansão Marítima
+            window.location.href = "../IA/pequeno_rosa.html?tema=ExpansaoMaritima";
+        };
+
+        // Evento: Favoritar (agora DENTRO do forEach)
+        btnFavoritar.onclick = () => {
+            // Busca o array de favoritos salvo no navegador ou cria um novo
+            let favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
+            
+            // Pega todo o HTML da div atual
+            const htmlDaQuestao = q.outerHTML;
+
+            // Para evitar duplicatas, checamos se essa exata questão já foi salva
+            if (!favoritos.includes(htmlDaQuestao)) {
+                favoritos.push(htmlDaQuestao);
+                localStorage.setItem('questoesFavoritas', JSON.stringify(favoritos));
+            }
+
+            // Feedback visual no botão
+            btnFavoritar.innerText = "Salvo nos Favoritos!";
+            btnFavoritar.style.backgroundColor = "#027002";
+            btnFavoritar.style.color = "white"; // Adicionado para dar contraste
+        };
+    });
+</script>
 </body>
 </html>

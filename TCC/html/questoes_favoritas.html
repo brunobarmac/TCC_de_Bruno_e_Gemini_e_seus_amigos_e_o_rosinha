@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões Favoritas - StudyPro</title>
+    <!-- Mantenha as mesmas referências de CSS da sua página original -->
+    <link rel="stylesheet" href="../css/questoes.css">
+    <style>
+                .btn-copiar, .btn-enviar-rosa, .btn-favoritar, .btn-remover {
+            padding: 8px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+        }
+        .btn-copiar { background-color: #e0e0e0; color: #333; }
+        .btn-enviar-rosa { background-color: #ff69b4; color: white; }
+        .btn-remover { background-color: #ff4c4c; color: white; margin-top: 10px; }
+        .container { max-width: 800px; margin: auto; padding: 20px; font-family: sans-serif;}
+        .vazio { text-align: center; color: #666; margin-top: 50px;}
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()">← Voltar</a>
+
+    <div class="container">
+        <h1>⭐ Suas Questões Favoritas</h1>
+        
+        <!-- Onde as questões vão aparecer -->
+        <div id="lista-favoritos"></div>
+    </div>
+
+    <script>
+        const listaFavoritosDiv = document.getElementById('lista-favoritos');
+        let favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
+
+        if (favoritos.length === 0) {
+            listaFavoritosDiv.innerHTML = "<h3 class='vazio'>Você ainda não favoritou nenhuma questão.</h3>";
+        } else {
+            // Renderiza as divs originais no HTML
+            favoritos.forEach((questaoHTML, index) => {
+                // Criamos um 'container' temporário para injetar o HTML da questão
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = questaoHTML;
+                
+                // Removemos o botão de favoritar e adicionamos um botão de "Remover dos Favoritos"
+                const btnFavoritar = wrapper.querySelector('.btn-favoritar');
+                if (btnFavoritar) {
+                    btnFavoritar.outerHTML = `<button class="btn-remover" onclick="removerFavorito(${index})">❌ Remover dos Favoritos</button>`;
+                }
+
+                listaFavoritosDiv.appendChild(wrapper.firstElementChild);
+            });
+        }
+
+        // Função para remover uma questão da lista
+        function removerFavorito(index) {
+            favoritos.splice(index, 1);
+            localStorage.setItem('questoesFavoritas', JSON.stringify(favoritos));
+            window.location.reload(); // Recarrega a página para atualizar a lista
+        }
+
+        // Obs: Como o HTML vem 'cru', se você quiser que os botões de copiar e enviar
+        // também funcionem nesta página, será necessário recriar os listeners de clique 
+        // neles aqui dentro usando uma lógica igual à da página principal.
+    </script>
+</body>
+</html>

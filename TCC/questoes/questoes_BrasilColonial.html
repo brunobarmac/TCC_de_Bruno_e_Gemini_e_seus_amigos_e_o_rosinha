@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/questoes.css">
 </head>
 <body>
-    
     <nav>
         <a href="../questoes/questoes.html">← Voltar para o Início</a>
         <a href="../IA/pequeno_rosa.html?tema=BrasilColonial"
@@ -43,6 +42,10 @@
                     <li>d. promover o imediato descobrimento de minas de ouro<br>na região central do território brasileiro.</li>
                     <li>e. iniciar um processo de industrialização focado<br>no mercado interno da colônia.</li>
                 </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                
             </div>
 
             <div class="question" data-answer="3">
@@ -54,6 +57,10 @@
                     <li>d. o surgimento de um forte mercado interno e uma maior mobilidade<br>social se comparada à tradicional economia açucareira.</li>
                     <li>e. a total isenção de impostos por parte da metrópole portuguesa,<br>visando incentivar a extração aurífera.</li>
                 </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                
             </div>
 
             <div class="question" data-answer="0">
@@ -65,6 +72,10 @@
                     <li>d. pela forte presença do Estado português administrando diretamente<br>cada um dos engenhos instalados na colônia.</li>
                     <li>e. por um modelo econômico sustentável que preservava<br>a Mata Atlântica ao redor das plantações de cana.</li>
                 </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                
             </div>
 
             <div class="question" data-answer="4">
@@ -76,6 +87,10 @@
                     <li>d. a oposição frontal aos ideais iluministas, considerados<br>uma grave ameaça à tradição católica da região.</li>
                     <li>e. a forte insatisfação da elite local com a intensa cobrança<br>de impostos pela Coroa, especialmente a ameaça da "derrama".</li>
                 </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                </div>
             </div>
 
             <div class="question" data-answer="1">
@@ -87,39 +102,89 @@
                     <li>d. foi desenvolvida majoritariamente por nobres portugueses<br>que receberam vastas sesmarias no litoral do país.</li>
                     <li>e. impediu o avanço dos bandeirantes paulistas, criando<br>barreiras de currais que fechavam as rotas para o oeste.</li>
                 </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                </div>
             </div>
 
-        </div>
         
         <button id="submit-btn">Verificar Respostas</button>
     </div>
 
     <script>
-        // 1. Seleção: Limpa quem estava selecionado e marca o novo
-        document.querySelectorAll('.options li').forEach(li => {
-            li.onclick = () => {
-                li.parentNode.querySelector('.selected')?.classList.remove('selected');
-                li.classList.add('selected');
-            };
-        });
+    // --- LÓGICA EXISTENTE DO QUIZ ---
+    document.querySelectorAll('.options li').forEach(li => {
+        li.onclick = () => {
+            li.parentNode.querySelector('.selected')?.classList.remove('selected');
+            li.classList.add('selected');
+        };
+    });
 
-        // 2. Verificação: Mostra a certa (verde) e, se o aluno errou, a dele (vermelho)
- document.getElementById('submit-btn').onclick = () => {
-            document.querySelectorAll('.question').forEach(q => {
-                const opts = q.querySelectorAll('li');
-                const selected = q.querySelector('.selected');
-                
-                opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
-                
-                // Pega a resposta correta baseada no data-answer
-                opts[q.dataset_answer].classList.add('correct'); 
-                
-                // Se marcou algo e não é a correta, pinta de vermelho
-                if (selected && selected !== opts[q.dataset_answer]) {
+    document.getElementById('submit-btn').onclick = () => {
+        let score = 0;
+        const totalQuestions = document.querySelectorAll('.question').length;
+
+        document.querySelectorAll('.question').forEach(q => {
+            const opts = q.querySelectorAll('li');
+            const selected = q.querySelector('.selected');
+            const correctAnswer = opts[q.dataset.answer];
+            
+            opts.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+            correctAnswer.classList.add('correct');
+            
+            if (selected) {
+                if (selected === correctAnswer) {
+                    score++; 
+                } else {
                     selected.classList.add('wrong'); 
                 }
+            }
+        });
+
+        if (score === totalQuestions) {
+            window.alert("Parabéns! Você acertou todas as questões. Pressione OK para receber seu troféu!");
+            document.dispatchEvent(new Event('gabaritou'));
+        } else {
+            window.alert(`Você acertou ${score} de ${totalQuestions}. Tente novamente!`);
+        }
+    };
+
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR E ENVIAR ---
+    document.querySelectorAll('.question').forEach(q => {
+        const btnCopiar = q.querySelector('.btn-copiar');
+        const btnEnviar = q.querySelector('.btn-enviar-rosa');
+
+        // Função interna para extrair o texto limpo (título + opções)
+        const extrairTextoQuestao = () => {
+            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); // Tira as quebras de linha sujas do HTML
+            let textoFinal = titulo + "\n";
+            
+            q.querySelectorAll('.options li').forEach(li => {
+                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
+            });
+            
+            return textoFinal;
+        };
+
+        // Evento: Copiar para o CTRL+C
+        btnCopiar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            navigator.clipboard.writeText(texto).then(() => {
+                btnCopiar.innerText = "Copiado! ✓";
+                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); // Volta ao normal depois de 2s
             });
         };
-    </script>
+
+        // Evento: Enviar para o Pequeno Rosa
+        btnEnviar.onclick = () => {
+            const texto = extrairTextoQuestao();
+            // Salva a questão na memória do navegador antes de trocar de tela
+            sessionStorage.setItem('questao_transferida', texto);
+            // Redireciona para o chat passando o tema
+            window.location.href = "../IA/pequeno_rosa.html?tema=RevolucaoFrancesa";
+        };
+    });
+</script>
 </body>
 </html>
