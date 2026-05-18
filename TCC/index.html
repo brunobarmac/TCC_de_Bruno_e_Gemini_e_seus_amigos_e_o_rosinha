@@ -44,7 +44,8 @@
                     </ul>
                 </div>
                 <!-- Integração: botão agora abre a página de configurações -->
-                    <a href="html/configuracoes.html" class="btn config-btn" data-i18n="config-btn">Configurações da conta</a>                <div class="auth">
+                <a href="html/configuracoes.html" class="btn config-btn" data-i18n="config-btn">Configurações da conta</a>
+                <div class="auth">
                     <a href="html/login.html" class="btn login" data-i18n="login">Login</a>
                     <a href="html/cadastro.html" class="btn cadastro" data-i18n="cadastro">Cadastro</a>
                 </div>
@@ -58,6 +59,7 @@
         <div class="cta-buttons">
             <a href="html/cadastro.html" class="btn btn-primary" data-i18n="get-started">Começar agora</a>
             <a href="html/login.html" class="btn btn-secondary" data-i18n="already-account">Já tenho conta</a>
+            <a href ="html/termos-de-uso.html" class="btn btn-terceary" data-i18n="terms">Termos de Uso</a>   
         </div>
     </section>
     <main>
@@ -83,10 +85,7 @@
                 <span class="icon">📝</span>
                 <p data-i18n="paste-text">Cole o texto por completo da questão que você teve dificuldade</p>
             </div>
-            <div class="input-option">
-                <span class="icon">📸</span>
-                <p data-i18n="paste-photo">Cole uma foto de um exercício que você teve dificuldade</p>
-            </div>
+           
         </section>
     </main>
 
@@ -95,7 +94,7 @@
         <p>&copy; <span id="year"></span> StudyPro. Todos os direitos reservados.</p>
         <p>
             <a href="html/privacy.html" data-i18n="privacy">Política de Privacidade</a> |
-            <a href="html/terms.html" data-i18n="terms">Termos de Uso</a> |
+            <a href="html/termos-de-uso.html" data-i18n="terms">Termos de Uso</a> |
             <a href="html/contact.html" data-i18n="contact">Contato</a>
         </p>
     </footer>
@@ -233,6 +232,48 @@
         if (yearEl) {
             yearEl.textContent = new Date().getFullYear();
         }
+    </script>
+<script>
+// Busca no HTML a caixa do aviso (o modal) usando o ID dele e o guarda na constante 'modal'
+const modal = document.getElementById('aviso-termos-modal');
+
+// Cria uma variável vazia chamada 'link' que vai servir para "lembrar" qual página o usuário tentou acessar
+let link = '';
+
+// 'querySelectorAll' procura na página todos os botões que tenham a classe '.nav-btn'
+// O '.forEach(btn =>' cria um laço de repetição, passando por cada um desses botões um por um
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    
+    // Para cada botão, adiciona um "escutador" que fica aguardando o usuário clicar ('click')
+    // O '(e)' representa o evento do clique em si, que usaremos para controlar o que acontece
+    btn.addEventListener('click', (e) => {
+        
+        // Verifica na memória do navegador (localStorage) se os termos já foram aceitos ('true')
+        // Se a resposta for sim, o 'return' encerra essa função imediatamente, e o botão funciona normal
+        if (localStorage.getItem('termosStudyProAceitos') === 'true') return;
+
+        // Se o código passou pela linha de cima, significa que os termos NÃO foram aceitos
+        // O 'e.preventDefault()' age como um freio: ele impede que o navegador mude de página na mesma hora
+        e.preventDefault();
+        
+        // Pega o endereço de destino do botão que foi clicado (href) e guarda na nossa variável 'link'
+        link = btn.href;
+        
+        // Muda o estilo da caixa de aviso de invisível ('none') para visível ('flex'), fazendo ela aparecer na tela
+        modal.style.display = 'flex';
+    });
+});
+
+// Busca no HTML o botão "Depois" usando o ID dele e adiciona um escutador de cliques exclusivo para ele
+document.getElementById('btn-depois').addEventListener('click', () => {
+    
+    // Quando o usuário clica no "Depois", o aviso volta a ficar invisível na tela
+    modal.style.display = 'none'; 
+    
+    // Verifica se a variável 'link' tem algum endereço salvo nela
+    // Se tiver, o 'window.location.href' redireciona o usuário para aquela página que ele queria ir no começo
+    if (link) window.location.href = link; 
+});
     </script>
 </body>
 </html>
