@@ -41,6 +41,12 @@ Define aparência base da página de configurações
 Fundo claro e limpo para foco no conteúdo
 Fonte Poppins para consistência com identidade visual
 */
+
+body.dark-theme {
+    background: #1e1e1e;
+    color: white;
+}
+
 body {
     font-family: 'Poppins', sans-serif; /* Família tipográfica principal */
     background: #fafafa; /* Fundo cinza muito claro */
@@ -211,6 +217,7 @@ Consistente com outros botões da interface
 Cor primária para identificação como ação principal
 */
 .back-btn {
+    margin-right: 20px;
     background: #0984e3; /* Azul primário */
     color: white; /* Texto branco */
     border: none; /* Sem borda */
