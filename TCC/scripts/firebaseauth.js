@@ -28,7 +28,20 @@ if (signUp) {
         email,
         firstName,
         lastName,
-        phoneVerified: false
+        phoneVerified: false,
+
+        //GAMIFICAÇÃO
+        pontos: 0,
+        xp: 0,
+        nivel: 1,
+        trofeus:{},
+
+        estatisticas: {
+          questoesRespondidas: 0,
+          questoesCorretas: 0,
+          provasPerfeitas: 0,
+          provasConcluidas: 0
+        }
       });
 
       alert("Conta criada! Faça login.");

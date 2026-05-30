@@ -45,13 +45,13 @@
         document.getElementById('btn-aceitar').addEventListener('click', function() {
             localStorage.setItem('termosStudyProAceitos', 'true');
             alert("Obrigado por aceitar! Você será redirecionado.");
-            window.location.href = '../index.html'; // Volta para a página inicial
+           window.history.back(); // Volta para a página inicial
         });
 
         document.getElementById('btn-recusar').addEventListener('click', function() {
             localStorage.setItem('termosStudyProAceitos', 'false'); // Registra a recusa
             alert("Você recusou os termos. O aviso continuará aparecendo.");
-            window.location.href = '../index.html'; // Volta para a página inicial
+            window.history.back(); // Volta para a página inicial
         });
     </script>
 </body>
