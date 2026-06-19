@@ -29,7 +29,8 @@
     <script type="module" src="../scripts/homepage.js"></script>
     <!-- i18next para sistema de tradução multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
     <!--
     ================================================================================
@@ -38,49 +39,7 @@
     Contém logo, seletor de idioma e botão voltar
     ================================================================================
     -->
-    <header>
-        <div class="main-header">
-            <!--
-            LOGO DO SITE
-            Link visual para identificação da marca StudyPro
-            Ícone de cérebro + texto para reconhecimento imediato
-            -->
-            <div class="logo">
-                <span class="brain">🧠</span> StudyPro
-            </div>
-
-            <!--
-            ÁREA DIREITA DO HEADER
-            Contém controles de idioma e navegação
-            -->
-            <div class="header-right">
-                <!--
-                SELETOR DE IDIOMA (DROPDOWN)
-                Permite alternar entre PT/EN/ES dinamicamente
-                Mesma implementação das outras páginas para consistência
-                -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span>
-                    </button>
-                    <!-- Menu suspenso com opções de idioma -->
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">PT</button></li>
-                        <li><button class="lang-option" data-lang="en">EN</button></li>
-                        <li><button class="lang-option" data-lang="es">ES</button></li>
-                    </ul>
-                </div>
-
-                <!--
-                BOTÃO VOLTAR
-                Navegação para retornar à página inicial
-                Mantém usuário orientado na estrutura do site
-                -->
-                <a href="/TCC/comLogin.html" class="btn back-btn" data-i18n="voltar">Página inicial</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
     <!--
     ================================================================================
@@ -505,4 +464,8 @@
         });
     </script>
 </body>
+<!-- Site common: auto-inject header, footer and translator -->
+<script src="../scripts/site-common.js"></script>
 </html>
+
+

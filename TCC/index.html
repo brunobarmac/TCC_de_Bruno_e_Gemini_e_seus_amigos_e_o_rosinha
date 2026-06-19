@@ -23,31 +23,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- i18next para tradução -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="css/site-common.css">
+    </head>
 <body>
-    <header>
-        <div class="main-header">
-            <div class="logo">
-                <span class="brain">🧠</span> StudyPro
-            </div>
-            <div class="header-right">
-                <!-- Botão de idioma com seta que gira suavemente -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span> <!-- seta começa apontando para direita -->
-                    </button>
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">PT</button></li>
-                        <li><button class="lang-option" data-lang="en">EN</button></li>
-                        <li><button class="lang-option" data-lang="es">ES</button></li>
-                    </ul>
-                </div>
-                <!-- Integração: botão agora abre a página de configurações -->
-                <a href="html/login.html" class="btn config-btn" data-i18n="config-btn">Configurações da conta</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
     <!-- hero section profissional inspirada em Duolingo/Khan/Coursera: chamada com título grande e CTA -->
     <section class="hero">
         <h1 data-i18n="title">seu principal assistente de estudos</h1>
@@ -230,6 +209,7 @@
     </script>
 <script>
 // Busca no HTML a caixa do aviso (o modal) usando o ID dele e o guarda na constante 'modal'
+// VERIFICAÇÃO: Se o elemento não existir, não tenta usar (evita erro null)
 const modal = document.getElementById('aviso-termos-modal');
 
 // Cria uma variável vazia chamada 'link' que vai servir para "lembrar" qual página o usuário tentou acessar
@@ -242,6 +222,9 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     // Para cada botão, adiciona um "escutador" que fica aguardando o usuário clicar ('click')
     // O '(e)' representa o evento do clique em si, que usaremos para controlar o que acontece
     btn.addEventListener('click', (e) => {
+        
+        // Se o modal não existe na página, permite navegação normal
+        if (!modal) return;
         
         // Verifica na memória do navegador (localStorage) se os termos já foram aceitos ('true')
         // Se a resposta for sim, o 'return' encerra essa função imediatamente, e o botão funciona normal
@@ -260,15 +243,22 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 });
 
 // Busca no HTML o botão "Depois" usando o ID dele e adiciona um escutador de cliques exclusivo para ele
-document.getElementById('btn-depois').addEventListener('click', () => {
-    
-    // Quando o usuário clica no "Depois", o aviso volta a ficar invisível na tela
-    modal.style.display = 'none'; 
-    
-    // Verifica se a variável 'link' tem algum endereço salvo nela
-    // Se tiver, o 'window.location.href' redireciona o usuário para aquela página que ele queria ir no começo
-    if (link) window.location.href = link; 
-});
+// VERIFICAÇÃO: Se o elemento não existir, não tenta usar (evita erro null)
+const btnDepois = document.getElementById('btn-depois');
+if (btnDepois) {
+    btnDepois.addEventListener('click', () => {
+        
+        // Quando o usuário clica no "Depois", o aviso volta a ficar invisível na tela
+        modal.style.display = 'none'; 
+        
+        // Verifica se a variável 'link' tem algum endereço salvo nela
+        // Se tiver, o 'window.location.href' redireciona o usuário para aquela página que ele queria ir no começo
+        if (link) window.location.href = link; 
+    });
+}
     </script>
+    <!-- Site common: auto-inject header, footer and translator -->
+    <script src="scripts/site-common.js"></script>
 </body>
 </html>
+

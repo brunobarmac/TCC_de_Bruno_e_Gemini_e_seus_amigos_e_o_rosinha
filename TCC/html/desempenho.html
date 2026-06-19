@@ -12,6 +12,8 @@
      ================================================ -->
 
 <!DOCTYPE html>
+    <!-- Site common: auto-inject header, footer and translator -->
+    <script src="../scripts/site-common.js"></script>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -26,50 +28,10 @@
 
     <!-- i18next para traduções -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
-    <!--
-    ================================================================================
-    CABEÇALHO DA PÁGINA
-    Estrutura de navegação superior consistente com outras páginas
-    ================================================================================
-    -->
-    <header>
-        <div class="main-header">
-            <!--
-            LOGO DO STUDYPRO
-            Elemento de identificação visual com ícone e texto
-            Link visual para reconhecimento da marca
-            -->
-            <div class="logo">
-                <span class="brain">🧠</span> StudyPro
-            </div>
-            <div class="header-right">
-                <!--
-                SELETOR DE IDIOMA
-                Dropdown para alternância entre português, inglês e espanhol
-                Mantém consistência com outras páginas da aplicação
-                -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span>
-                    </button>
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">PT</button></li>
-                        <li><button class="lang-option" data-lang="en">EN</button></li>
-                        <li><button class="lang-option" data-lang="es">ES</button></li>
-                    </ul>
-                </div>
-                <!--
-                BOTÃO VOLTAR
-                Navegação para retornar à página inicial
-                Importante para orientação do usuário na estrutura do site
-                -->
-                <a href="../index.html" class="btn back-btn" data-i18n="voltar">Voltar</a>
-            </div>
-        </div>
-    </header>
+    <!-- CABEÇALHO SERÁ INJETADO POR site-common.js -->
 
     <!--
     ================================================================================
@@ -349,14 +311,7 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; <span id="year"></span> StudyPro. Todos os direitos reservados.</p>
-        <p>
-            <a href="privacy.html" data-i18n="privacy">Política de Privacidade</a> |
-            <a href="terms.html" data-i18n="terms">Termos de Uso</a> |
-            <a href="contact.html" data-i18n="contact">Contato</a>
-        </p>
-    </footer>
+    <!-- RODAPÉ SERÁ INJETADO POR site-common.js -->
 
     <!--
     ================================================================================

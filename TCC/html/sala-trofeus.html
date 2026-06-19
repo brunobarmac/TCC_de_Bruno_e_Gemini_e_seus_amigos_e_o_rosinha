@@ -25,35 +25,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- i18next para tradução (mesmo que index.html) -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
     <!-- ================================================
          CABEÇALHO - Mesmo padrão do index.html
          Inclui logo, seletor de idioma, configurações e logout
          ================================================ -->
-    <header>
-        <div class="main-header">
-            <div class="logo">
-                <span class="brain">🧠</span> StudyPro
-            </div>
-            <div class="header-right">
-                <!-- Dropdown de idioma com animação de seta -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span>
-                    </button>
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">PT</button></li>
-                        <li><button class="lang-option" data-lang="en">EN</button></li>
-                        <li><button class="lang-option" data-lang="es">ES</button></li>
-                    </ul>
-                </div>
-                <!-- Botão de configurações da conta -->
-                <a href="configuracoes.html" class="btn config-btn" data-i18n="config-btn">Configurações da conta</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
     <!-- ================================================
          NAVEGAÇÃO SECUNDÁRIA
@@ -456,4 +435,7 @@
         }
     </script>
 </body>
+<!-- Site common: auto-inject header, footer and translator -->
+<script src="../scripts/site-common.js"></script>
 </html>
+

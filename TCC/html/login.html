@@ -31,30 +31,11 @@
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 
     <script type="module" src="../scripts/firebaseauth.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
     <!-- CABEÇALHO COM SELETOR DE IDIOMA -->
-    <header class="login-header">
-        <div class="header-content">
-            <!-- Logo com ícone -->
-            <a href="../index.html" class="logo-link">
-                <span class="brain">🧠</span> StudyPro
-            </a>
-            
-            <!-- Dropdown de idioma -->
-            <div class="language-dropdown">
-                <button class="lang-btn" id="lang-toggle">
-                    <span id="current-lang">PT</span>
-                    <span class="arrow">▶</span>
-                </button>
-                <ul class="lang-menu" id="lang-menu">
-                    <li><button class="lang-option" data-lang="pt">PT</button></li>
-                    <li><button class="lang-option" data-lang="en">EN</button></li>
-                    <li><button class="lang-option" data-lang="es">ES</button></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
 
     <div class="container" id="signIn"> <!-- // Container centralizado para o formulário LOGIN-->
@@ -255,4 +236,7 @@
         });
     </script>
 </body>
+<!-- Site common: auto-inject header, footer and translator -->
+<script src="../scripts/site-common.js"></script>
 </html>
+

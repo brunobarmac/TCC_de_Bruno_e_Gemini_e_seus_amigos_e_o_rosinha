@@ -1,0 +1,564 @@
+/* ================================================================
+   SITE-COMMON.CSS - Estilos Globais do StudyPro
+   Design: Profissional, Moderno e Responsivo
+   Cores: Azul #0b84ff, Verde #00b894, Texto #2d3436
+   Font: Poppins (Google Fonts)
+   ================================================================ */
+
+/* Variáveis CSS */
+:root {
+  --primary-blue: #0b84ff;
+  --primary-green: #00b894;
+  --text-dark: #2d3436;
+  --text-light: #636e72;
+  --bg-light: #f5f7fa;
+  --bg-white: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 12px rgba(11, 132, 255, 0.15);
+  --shadow-hover: 0 6px 16px rgba(11, 132, 255, 0.2);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   HEADER GLOBAL - Cabeçalho Padronizado
+   ======================================== */
+
+.site-header {
+  background: linear-gradient(135deg, #0b84ff 0%, #0a6cc9 100%);
+  box-shadow: var(--shadow);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  font-family: 'Poppins', sans-serif;
+  border-bottom: 1px solid rgba(11, 132, 255, 0.2);
+}
+
+.site-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  max-width: 100%;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* ========== LOGO ========== */
+.site-logo {
+  flex-shrink: 0;
+}
+
+.site-logo a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bg-white);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.site-logo a:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.site-brain {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+/* ========== NAVEGAÇÃO PRINCIPAL ========== */
+.site-nav {
+  display: flex;
+  gap: 28px;
+  flex: 1;
+  justify-content: center;
+}
+
+.site-nav a {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+}
+
+.site-nav a:hover {
+  color: var(--bg-white);
+  border-bottom-color: var(--primary-green);
+}
+
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.site-nav a:hover::after {
+  width: 100%;
+}
+
+/* ========== CONTROLES (Idioma + Voltar) ========== */
+.site-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ========== SELETOR DE IDIOMA ========== */
+.site-language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.site-lang-btn {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: var(--bg-white);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
+
+.site-lang-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.site-lang-btn:active {
+  transform: scale(0.98);
+}
+
+.site-arrow {
+  font-size: 0.65rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.site-lang-btn:hover .site-arrow {
+  transform: rotate(90deg);
+}
+
+/* Menu Dropdown */
+.site-lang-menu {
+  display: none;
+  position: absolute;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  list-style: none;
+  padding: 8px 0;
+  border-radius: 10px;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 140px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-lang-menu.show {
+  display: block;
+}
+
+.site-lang-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.site-lang-option {
+  background-color: transparent;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  transition: var(--transition);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-lang-option:hover {
+  background-color: var(--bg-light);
+  color: var(--primary-blue);
+  padding-left: 20px;
+}
+
+.site-lang-option:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.site-lang-option:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* ========== BOTÃO VOLTAR ========== */
+.site-back-btn {
+  background-color: var(--primary-green);
+  border: none;
+  color: var(--bg-white);
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 184, 148, 0.2);
+}
+
+.site-back-btn:hover {
+  background-color: #00a080;
+  transform: translateX(-3px);
+  box-shadow: 0 6px 16px rgba(0, 184, 148, 0.3);
+}
+
+.site-back-btn:active {
+  transform: translateX(-1px) scale(0.98);
+}
+
+.site-arrow-left {
+  font-size: 1.1rem;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* ========================================
+   FOOTER GLOBAL - Rodapé Padronizado
+   ======================================== */
+
+.site-footer {
+  background: linear-gradient(135deg, var(--bg-light) 0%, #e8eef7 100%);
+  border-top: 2px solid var(--border-color);
+  padding: 40px 32px 30px;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  margin-top: 60px;
+}
+
+.site-footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.site-footer-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+/* Links do Footer */
+.site-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.site-footer-links a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+}
+
+.site-footer-links a:hover {
+  color: var(--primary-green);
+}
+
+.site-footer-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.site-footer-links a:hover::after {
+  width: 100%;
+}
+
+.site-footer-links span {
+  color: var(--border-color);
+}
+
+/* ========================================
+   RESPONSIVIDADE - Tablet
+   ======================================== */
+@media (max-width: 992px) {
+  .site-header-content {
+    padding: 14px 24px;
+    gap: 16px;
+  }
+
+  .site-nav {
+    gap: 20px;
+    flex: none;
+    order: 3;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-top: 12px;
+  }
+
+  .site-nav a {
+    font-size: 0.9rem;
+  }
+
+  .site-logo a {
+    font-size: 1.2rem;
+  }
+
+  .site-brain {
+    font-size: 1.6rem;
+  }
+
+  .site-footer-content {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .site-footer-links {
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   RESPONSIVIDADE - Mobile
+   ======================================== */
+@media (max-width: 768px) {
+  .site-header-content {
+    padding: 12px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .site-logo a {
+    font-size: 1.1rem;
+  }
+
+  .site-brain {
+    font-size: 1.4rem;
+  }
+
+  .site-nav {
+    display: flex !important;
+    gap: 12px;
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 0;
+  }
+
+  .site-nav a {
+    font-size: 0.85rem;
+    padding: 6px 0;
+  }
+
+  .site-controls {
+    gap: 8px;
+    order: 2;
+  }
+
+  .site-lang-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+
+  .site-back-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .site-arrow-left {
+    font-size: 0.9rem;
+  }
+
+  .site-footer {
+    padding: 24px 16px 16px;
+    margin-top: 40px;
+  }
+
+  .site-footer-content {
+    gap: 16px;
+  }
+
+  .site-footer-content p {
+    font-size: 0.85rem;
+  }
+
+  .site-footer-links {
+    font-size: 0.85rem;
+    gap: 12px;
+  }
+}
+
+/* ========================================
+   RESPONSIVIDADE - Celular Pequeno
+   ======================================== */
+@media (max-width: 480px) {
+  .site-header-content {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .site-logo a {
+    font-size: 0.95rem;
+    gap: 6px;
+  }
+
+  .site-brain {
+    font-size: 1.2rem;
+  }
+
+  .site-nav {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    order: 3;
+    flex-basis: 100%;
+    margin-top: 8px;
+  }
+
+  .site-nav a {
+    font-size: 0.8rem;
+    padding: 6px 0;
+  }
+
+  .site-controls {
+    gap: 6px;
+    flex-wrap: wrap;
+    width: 100%;
+    order: 2;
+  }
+
+  .site-lang-btn,
+  .site-back-btn {
+    flex: 1;
+    min-width: 45%;
+    justify-content: center;
+    padding: 8px 6px;
+    font-size: 0.7rem;
+  }
+
+  .site-arrow,
+  .site-arrow-left {
+    display: none;
+  }
+
+  .site-footer {
+    padding: 16px 12px 12px;
+    margin-top: 32px;
+  }
+
+  .site-footer-content {
+    gap: 12px;
+  }
+
+  .site-footer-content p {
+    font-size: 0.8rem;
+  }
+
+  .site-footer-links {
+    font-size: 0.8rem;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .site-footer-links span {
+    display: none;
+  }
+}
+
+/* ========================================
+   COMPATIBILIDADE - Ocultar Headers Antigos
+   ======================================== */
+
+/* Oculta headers originais que possam estar nas páginas */
+header:not(.site-header) {
+  display: none !important;
+}
+
+/* Oculta footers originais que possam estar nas páginas */
+footer:not(.site-footer) {
+  display: none !important;
+}
+
+/* ========================================
+   AJUSTES GERAIS
+   ======================================== */
+
+/* Garante que o body tenha a fonte correta */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Rola suavemente */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Garante espaço entre header e conteúdo */
+body > main,
+body > section:not(.site-header):not(.site-footer),
+body > article:not(.site-header):not(.site-footer),
+body > nav:not(.site-nav) {
+  margin-top: 16px;
+}

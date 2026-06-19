@@ -34,46 +34,15 @@
     
     <!-- Biblioteca i18next para tradução/internacionalização multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
     <!-- 
     ================================================================================
         CABEÇALHO (HEADER) - Topo da página com logo, idioma e botão voltar
     ================================================================================
     -->
-    <header>
-        <div class="main-header">
-            <!-- Logo do site com emoji de livro -->
-            <div class="logo">
-                <span class="brain">📚</span> Desafio Histórico
-            </div>
-            
-            <!-- Área direita do cabeçalho: seletor de idioma e botão voltar -->
-            <div class="header-right">
-                <!-- 
-                DROPDOWN DE IDIOMA
-                Permite alternar entre Português, Inglês e Espanhol
-                Não reinicia a página, muda os textos em tempo real
-                -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <!-- Exibe idioma atual (PT/EN/ES) -->
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span>
-                    </button>
-                    <!-- Menu suspenso com opções de idioma -->
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">🇧🇷 PT</button></li>
-                        <li><button class="lang-option" data-lang="en">🇺🇸 EN</button></li>
-                        <li><button class="lang-option" data-lang="es">🇪🇸 ES</button></li>
-                    </ul>
-                </div>
-                
-                <!-- Botão voltar à página anterior com confirmação -->
-                <button class="btn back-btn" id="back-btn">← Voltar</button>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
     <main>
         <!-- 
@@ -1320,4 +1289,7 @@
         }
     </script>
 </body>
+<!-- Site common: auto-inject header, footer and translator -->
+<script src="../scripts/site-common.js"></script>
 </html>
+

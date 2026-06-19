@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="../css/tutorial-ia.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
-</head>
+    <link rel="stylesheet" href="../css/site-common.css">
+    </head>
 <body>
     <!--
     ================================================================================
@@ -27,52 +28,7 @@
     Contém logo, seletor de idioma e botão de retorno
     ================================================================================
     -->
-    <header>
-        <!--
-        CABEÇALHO PRINCIPAL
-        Estrutura superior da página com elementos de navegação global
-        -->
-        <div class="main-header">
-            <!--
-            LOGO DA APLICAÇÃO
-            Identidade visual consistente em todas as páginas
-            Emoji de cérebro representa o foco em aprendizado
-            -->
-            <div class="logo">
-                <span class="brain">🧠</span> StudyPro
-            </div>
-
-            <!--
-            CONTROLES DO CABEÇALHO DIREITO
-            Agrupa seletor de idioma e botão de navegação
-            -->
-            <div class="header-right">
-                <!--
-                DROPDOWN DE SELEÇÃO DE IDIOMA
-                Permite alternar entre português, inglês e espanhol
-                Salva preferência do usuário no localStorage
-                -->
-                <div class="language-dropdown">
-                    <button class="lang-btn" id="lang-toggle">
-                        <span id="current-lang">PT</span>
-                        <span class="arrow">▶</span>
-                    </button>
-                    <ul class="lang-menu" id="lang-menu">
-                        <li><button class="lang-option" data-lang="pt">PT</button></li>
-                        <li><button class="lang-option" data-lang="en">EN</button></li>
-                        <li><button class="lang-option" data-lang="es">ES</button></li>
-                    </ul>
-                </div>
-
-                <!--
-                BOTÃO DE RETORNO
-                Link para página inicial com ícone e texto traduzível
-                Mantém consistência de navegação
-                -->
-                <a href="javascript:void(0)" onclick="window.history.back()" class="btn back-btn" data-i18n="voltar">Voltar</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
     <!--
     ================================================================================
@@ -294,4 +250,7 @@
         if(yearEl) yearEl.textContent=new Date().getFullYear();
     </script>
 </body>
+<!-- Site common: auto-inject header, footer and translator -->
+<script src="../scripts/site-common.js"></script>
 </html>
+
