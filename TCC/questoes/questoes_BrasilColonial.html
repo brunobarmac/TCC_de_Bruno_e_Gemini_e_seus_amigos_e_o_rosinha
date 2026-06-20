@@ -6,28 +6,16 @@
     <title>Questões - Brasil Colonial - StudyPro</title>
     <link rel="stylesheet" href="../css/questoes.css">
     <link rel="stylesheet" href="../css/site-common.css">
+    <link rel="stylesheet" href="css/pequeno-rosa.css">
     </head>
 <body>
 
 <!-- Site common: auto-inject header, footer and translator -->
 <script src="../scripts/site-common.js"></script>
+<script src="../scripts/funcaoBoton.js"></script>
 
-</html>
-        <a href="../IA/pequeno_rosa.html?tema=BrasilColonial"
-           style="position: fixed;
-                  bottom: 100px;
-                  right: 50px;
-                  background-color: #ff69b4;
-                  color: white;
-                  text-align: center;
-                  font-size: 20px;
-                  text-decoration: none;
-                  border-radius: 20px;
-                  width: 100px;
-                  height: 75px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;">
+<nav>
+        <a href="../IA/pequeno_rosa.html?tema=BrasilColonial" class="btn-pequeno-rosa">
             Pequeno Rosa
         </a>
     </nav>
@@ -154,40 +142,15 @@
         }
     };
 
-    // --- NOVA LÓGICA: BOTÕES DE COPIAR E ENVIAR ---
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR, ENVIAR E FAVORITAR (USANDO funcoes externas) ---
     document.querySelectorAll('.question').forEach(q => {
         const btnCopiar = q.querySelector('.btn-copiar');
         const btnEnviar = q.querySelector('.btn-enviar-rosa');
+        const btnFavoritar = q.querySelector('.btn-favoritar');
 
-        // Função interna para extrair o texto limpo (título + opções)
-        const extrairTextoQuestao = () => {
-            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); // Tira as quebras de linha sujas do HTML
-            let textoFinal = titulo + "\n";
-            
-            q.querySelectorAll('.options li').forEach(li => {
-                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
-            });
-            
-            return textoFinal;
-        };
-
-        // Evento: Copiar para o CTRL+C
-        btnCopiar.onclick = () => {
-            const texto = extrairTextoQuestao();
-            navigator.clipboard.writeText(texto).then(() => {
-                btnCopiar.innerText = "Copiado! ✓";
-                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); // Volta ao normal depois de 2s
-            });
-        };
-
-        // Evento: Enviar para o Pequeno Rosa
-        btnEnviar.onclick = () => {
-            const texto = extrairTextoQuestao();
-            // Salva a questão na memória do navegador antes de trocar de tela
-            sessionStorage.setItem('questao_transferida', texto);
-            // Redireciona para o chat passando o tema
-            window.location.href = "../IA/pequeno_rosa.html?tema=RevolucaoFrancesa";
-        };
+        if (btnCopiar) btnCopiar.onclick = () => copyQuestion(q, btnCopiar);
+        if (btnEnviar) btnEnviar.onclick = () => sendToPequenoRosa(q, 'BrasilColonial');
+        if (btnFavoritar) btnFavoritar.onclick = () => favoriteQuestion(q, btnFavoritar);
     });
 </script>
 </body>

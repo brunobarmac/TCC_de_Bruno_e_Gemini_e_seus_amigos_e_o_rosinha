@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="../css/site-common.css">
     </head>
 <body>
-    <a href="javascript:history.back()">← Voltar</a>
-
     <div class="container">
         <h1>⭐ Suas Questões Favoritas</h1>
         
@@ -28,39 +26,55 @@
         <div id="lista-favoritos"></div>
     </div>
 
+    <script src="../scripts/funcaoBoton.js"></script>
     <script>
         const listaFavoritosDiv = document.getElementById('lista-favoritos');
-        let favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
 
-        if (favoritos.length === 0) {
-            listaFavoritosDiv.innerHTML = "<h3 class='vazio'>Você ainda não favoritou nenhuma questão.</h3>";
-        } else {
-            // Renderiza as divs originais no HTML
+        function refreshFavorites(){
+            const favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
+            listaFavoritosDiv.innerHTML = '';
+            if (favoritos.length === 0) {
+                listaFavoritosDiv.innerHTML = "<h3 class='vazio'>Você ainda não favoritou nenhuma questão.</h3>";
+                return;
+            }
+
             favoritos.forEach((questaoHTML, index) => {
-                // Criamos um 'container' temporário para injetar o HTML da questão
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = questaoHTML;
-                
-                // Removemos o botão de favoritar e adicionamos um botão de "Remover dos Favoritos"
-                const btnFavoritar = wrapper.querySelector('.btn-favoritar');
+                const questDiv = wrapper.firstElementChild;
+
+                // Substitui botão de favoritar por remover
+                const btnFavoritar = questDiv.querySelector('.btn-favoritar');
                 if (btnFavoritar) {
-                    btnFavoritar.outerHTML = `<button class="btn-remover" onclick="removerFavorito(${index})">❌ Remover dos Favoritos</button>`;
+                    const btnRemover = document.createElement('button');
+                    btnRemover.className = 'btn-remover';
+                    btnRemover.textContent = '❌ Remover dos Favoritos';
+                    btnRemover.addEventListener('click', ()=> removerFavorito(index));
+                    btnFavoritar.replaceWith(btnRemover);
                 }
 
-                listaFavoritosDiv.appendChild(wrapper.firstElementChild);
+                // Ativa botões de copiar e enviar usando funções compartilhadas
+                const btnCopiar = questDiv.querySelector('.btn-copiar');
+                const btnEnviar = questDiv.querySelector('.btn-enviar-rosa');
+                if (btnCopiar) btnCopiar.addEventListener('click', ()=> copyQuestion(questDiv, btnCopiar));
+                if (btnEnviar) btnEnviar.addEventListener('click', ()=> sendToPequenoRosa(questDiv, ''));
+
+                listaFavoritosDiv.appendChild(questDiv);
             });
         }
 
-        // Função para remover uma questão da lista
-        function removerFavorito(index) {
-            favoritos.splice(index, 1);
+        function removerFavorito(index){
+            const favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
+            favoritos.splice(index,1);
             localStorage.setItem('questoesFavoritas', JSON.stringify(favoritos));
-            window.location.reload(); // Recarrega a página para atualizar a lista
+            refreshFavorites();
         }
 
-        // Obs: Como o HTML vem 'cru', se você quiser que os botões de copiar e enviar
-        // também funcionem nesta página, será necessário recriar os listeners de clique 
-        // neles aqui dentro usando uma lógica igual à da página principal.
+        // Atualiza quando outra aba modificar localStorage
+        window.addEventListener('storage', (e)=>{ if (e.key === 'questoesFavoritas') refreshFavorites(); });
+
+        // Inicializa
+        refreshFavorites();
     </script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->

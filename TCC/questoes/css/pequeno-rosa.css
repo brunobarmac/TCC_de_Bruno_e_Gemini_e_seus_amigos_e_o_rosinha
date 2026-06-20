@@ -1,0 +1,34 @@
+.btn-pequeno-rosa {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: none;
+    cursor: pointer;
+    flex-wrap: wrap;
+    padding: 10px;
+    z-index: 999;
+}
+
+.btn-pequeno-rosa:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.6);
+    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+}
+
+.btn-pequeno-rosa:active {
+    transform: translateY(-2px) scale(1.05);
+}

@@ -69,9 +69,9 @@
         </div>
         
         <nav class="site-nav" aria-label="Navegação principal">
-          <a href="${getRelativePath('html/questoes-favoritas.html')}" class="nav-link" data-i18n="questoes-favoritas">Questões Favoritas</a>
-          <a href="${getRelativePath('videos/videos.html')}" class="nav-link">Vídeos</a>
-          <a href="${getRelativePath('html/desempenho.html')}" class="nav-link" data-i18n="desempenho">Desempenho</a>
+          <a href="${getRelativePath('questoes/questoes.html')}" class="nav-link" data-i18n="questoes">Questões</a>
+          <a href="${getRelativePath('html/questoes_favoritas.html')}" class="nav-link" data-i18n="questoes-favoritas">Questões Favoritas</a>
+          <a href="${getRelativePath('videos/videos.html')}" class="nav-link" data-i18n="videos">Vídeos</a>
           <a href="${getRelativePath('html/sala-trofeus.html')}" class="nav-link" data-i18n="sala-trofeus">Sala de Troféus</a>
           <a href="${getRelativePath('html/tutorial-ia.html')}" class="nav-link" data-i18n="tutorial-ia">Tutorial IA</a>
         </nav>

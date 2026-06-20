@@ -6,29 +6,17 @@
     <title>Questões - Expansão Marítima - StudyPro</title>
     <link rel="stylesheet" href="../css/questoes.css">
     <link rel="stylesheet" href="../css/site-common.css">
+    <link rel="stylesheet" href="css/pequeno-rosa.css">
     </head>
 <body>
 
 <!-- Site common: auto-inject header, footer and translator -->
 <script src="../scripts/site-common.js"></script>
+<script src="../scripts/funcaoBoton.js"></script>
 
-</html>
+<nav>
         <a href="javascript:void(0)" onclick="window.history.back()">← Voltar para o Início</a>
-        <a href="../IA/pequeno_rosa.html?tema=Expansao Maritima"
-           style="position: fixed;
-                  bottom: 100px;
-                  right: 50px;
-                  background-color: #ff69b4;
-                  color: white;
-                  text-align: center;
-                  font-size: 20px;
-                  text-decoration: none;
-                  border-radius: 20px;
-                  width: 100px;
-                  height: 75px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;">
+        <a href="../IA/pequeno_rosa.html?tema=Expansao Maritima" class="btn-pequeno-rosa">
             Pequeno Rosa
         </a>
     </nav>
@@ -169,61 +157,15 @@
         }
     };
 
-    // --- NOVA LÓGICA: BOTÕES DE COPIAR, ENVIAR E FAVORITAR ---
+    // --- NOVA LÓGICA: BOTÕES DE COPIAR, ENVIAR E FAVORITAR (USANDO funcoes externas) ---
     document.querySelectorAll('.question').forEach(q => {
         const btnCopiar = q.querySelector('.btn-copiar');
         const btnEnviar = q.querySelector('.btn-enviar-rosa');
-        // Capturando o botão de favoritar corretamente
         const btnFavoritar = q.querySelector('.btn-favoritar');
 
-        // Função interna para extrair o texto limpo (título + opções)
-        const extrairTextoQuestao = () => {
-            const titulo = q.querySelector('h2').innerText.replace(/\n/g, ' '); 
-            let textoFinal = titulo + "\n";
-            
-            q.querySelectorAll('.options li').forEach(li => {
-                textoFinal += li.innerText.replace(/\n/g, ' ') + "\n";
-            });
-            
-            return textoFinal;
-        };
-
-        // Evento: Copiar para o CTRL+C
-        btnCopiar.onclick = () => {
-            const texto = extrairTextoQuestao();
-            navigator.clipboard.writeText(texto).then(() => {
-                btnCopiar.innerText = "Copiado! ✓";
-                setTimeout(() => btnCopiar.innerText = "Copiar Questão", 2000); 
-            });
-        };
-
-        // Evento: Enviar para o Pequeno Rosa
-        btnEnviar.onclick = () => {
-            const texto = extrairTextoQuestao();
-            sessionStorage.setItem('questao_transferida', texto);
-            // Corrigido o tema para Expansão Marítima
-            window.location.href = "../IA/pequeno_rosa.html?tema=ExpansaoMaritima";
-        };
-
-        // Evento: Favoritar (agora DENTRO do forEach)
-        btnFavoritar.onclick = () => {
-            // Busca o array de favoritos salvo no navegador ou cria um novo
-            let favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
-            
-            // Pega todo o HTML da div atual
-            const htmlDaQuestao = q.outerHTML;
-
-            // Para evitar duplicatas, checamos se essa exata questão já foi salva
-            if (!favoritos.includes(htmlDaQuestao)) {
-                favoritos.push(htmlDaQuestao);
-                localStorage.setItem('questoesFavoritas', JSON.stringify(favoritos));
-            }
-
-            // Feedback visual no botão
-            btnFavoritar.innerText = "Salvo nos Favoritos!";
-            btnFavoritar.style.backgroundColor = "#027002";
-            btnFavoritar.style.color = "white"; // Adicionado para dar contraste
-        };
+        if (btnCopiar) btnCopiar.onclick = () => copyQuestion(q, btnCopiar);
+        if (btnEnviar) btnEnviar.onclick = () => sendToPequenoRosa(q, 'ExpansaoMaritima');
+        if (btnFavoritar) btnFavoritar.onclick = () => favoriteQuestion(q, btnFavoritar);
     });
 </script>
 </body>
