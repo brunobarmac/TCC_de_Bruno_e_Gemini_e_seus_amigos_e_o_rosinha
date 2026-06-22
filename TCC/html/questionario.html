@@ -15,34 +15,51 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <!-- Configurações básicas do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Desafio Histórico - Teste seus conhecimentos sobre História">
     <title>Desafio Histórico - StudyPro</title>
-    
+
     <!-- Importar fontes do Google Fonts (Merriweather para títulos históricos, Poppins para corpo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Stylesheet do quiz (estilos específicos desta página) -->
     <link rel="stylesheet" href="../css/questionario.css">
     <link rel="stylesheet" href="../css/gamificacao.css">
-    
+
+     <script type="module">
+        import {
+            desbloquearTrofeu,
+            adicionarXP,
+            atualizarEstatisticas,
+            registrarProva
+        }
+            from "../scripts/gamificacao/gamificacao.js";
+    </script>
+
+
     <!-- Font Awesome para ícones (check, times, clock, etc) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-papd4gzXrh8A+X2oWcH6yZqsQ9s7eEClw6sY2I1uJvZ1LIQGZC8YVoSHWpsKcUVp8QLYJ0MWXK5y+Y61cY9cYw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Biblioteca i18next para tradução/internacionalização multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
     <link rel="stylesheet" href="../css/site-common.css">
-    </head>
+</head>
+
 <body>
     <!-- 
     ================================================================================
         CABEÇALHO (HEADER) - Topo da página com logo, idioma e botão voltar
     ================================================================================
     -->
-    <!-- Header antigo removido - substitu�do por site-common.js -->
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
     <main>
         <!-- 
@@ -99,16 +116,16 @@
                 <div class="question-card-header">
                     <!-- Número da questão atual -->
                     <div class="question-number">Questão <span id="q-number">1</span></div>
-                    
+
                     <!-- Botão para salvar como favorita -->
                     <button class="btn-favorite" id="btn-favorite" title="Favoritar questão">
                         <i class="far fa-star"></i>
                     </button>
                 </div>
-                
+
                 <!-- Texto da pergunta (muda conforme o idioma selecionado) -->
                 <h2 class="question-text" id="question-text"></h2>
-                
+
                 <!-- 
                 CONTAINER DE OPÇÕES
                 Será preenchido dinamicamente com 4 botões de opções (A, B, C, D)
@@ -153,7 +170,7 @@
                         <span class="score-percentage" id="score-percentage">0%</span>
                         <div class="score-label">Desempenho</div>
                     </div>
-                    
+
                     <!-- Estatísticas detalhadas (acertos e tempo) -->
                     <div class="score-details">
                         <!-- Número de acertos em formato X/15 -->
@@ -206,17 +223,17 @@
             <div class="modal-icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            
+
             <!-- Título -->
             <h3 class="modal-title">Tem certeza que deseja sair?</h3>
-            
+
             <!-- Mensagem descritiva -->
             <p class="modal-message">
                 Você perderá todo o progresso do quiz! Os dados não foram salvos.
                 <br><br>
                 <strong>Tem certeza que quer continuar?</strong>
             </p>
-            
+
             <!-- Botões de ação -->
             <div class="modal-actions">
                 <button class="modal-btn cancel-btn" id="modal-cancel">
@@ -450,50 +467,56 @@
             lng: localStorage.getItem('studyPro_lang') || 'pt',
             resources: {
                 // Dicionário português
-                pt: { translation: {
-                    "voltar": "← Voltar",
-                    "tentar-novamente": "Tentar Novamente",
-                    "ver-desempenho": "Ver Desempenho",
-                    "desempenho": "Desempenho",
-                    "seus-resultados": "Seus Resultados",
-                    "parabens": "Parabéns por completar o desafio!",
-                    "acertos": "Acertos",
-                    "tempo-total": "Tempo Total",
-                    "excelente": "Excelente! Você dominou a história!",
-                    "bom": "Bom trabalho! Você tem conhecimento sólido.",
-                    "regular": "Desempenho aceitável. Revise os conteúdos.",
-                    "insuficiente": "Você precisa estudar mais história."
-                }},
+                pt: {
+                    translation: {
+                        "voltar": "← Voltar",
+                        "tentar-novamente": "Tentar Novamente",
+                        "ver-desempenho": "Ver Desempenho",
+                        "desempenho": "Desempenho",
+                        "seus-resultados": "Seus Resultados",
+                        "parabens": "Parabéns por completar o desafio!",
+                        "acertos": "Acertos",
+                        "tempo-total": "Tempo Total",
+                        "excelente": "Excelente! Você dominou a história!",
+                        "bom": "Bom trabalho! Você tem conhecimento sólido.",
+                        "regular": "Desempenho aceitável. Revise os conteúdos.",
+                        "insuficiente": "Você precisa estudar mais história."
+                    }
+                },
                 // Dicionário inglês
-                en: { translation: {
-                    "voltar": "← Back",
-                    "tentar-novamente": "Try Again",
-                    "ver-desempenho": "View Performance",
-                    "desempenho": "Performance",
-                    "seus-resultados": "Your Results",
-                    "parabens": "Congratulations on completing the challenge!",
-                    "acertos": "Correct",
-                    "tempo-total": "Total Time",
-                    "excelente": "Excellent! You mastered history!",
-                    "bom": "Good work! You have solid knowledge.",
-                    "regular": "Acceptable performance. Review the content.",
-                    "insuficiente": "You need to study more history."
-                }},
+                en: {
+                    translation: {
+                        "voltar": "← Back",
+                        "tentar-novamente": "Try Again",
+                        "ver-desempenho": "View Performance",
+                        "desempenho": "Performance",
+                        "seus-resultados": "Your Results",
+                        "parabens": "Congratulations on completing the challenge!",
+                        "acertos": "Correct",
+                        "tempo-total": "Total Time",
+                        "excelente": "Excellent! You mastered history!",
+                        "bom": "Good work! You have solid knowledge.",
+                        "regular": "Acceptable performance. Review the content.",
+                        "insuficiente": "You need to study more history."
+                    }
+                },
                 // Dicionário espanhol
-                es: { translation: {
-                    "voltar": "← Volver",
-                    "tentar-novamente": "Intentar de Nuevo",
-                    "ver-desempenho": "Ver Rendimiento",
-                    "desempenho": "Rendimiento",
-                    "seus-resultados": "Tus Resultados",
-                    "parabens": "¡Felicidades por completar el desafío!",
-                    "acertos": "Correctas",
-                    "tempo-total": "Tiempo Total",
-                    "excelente": "¡Excelente! ¡Dominaste la historia!",
-                    "bom": "¡Buen trabajo! Tienes conocimiento sólido.",
-                    "regular": "Desempeño aceptable. Revisa el contenido.",
-                    "insuficiente": "Necesitas estudiar más historia."
-                }}
+                es: {
+                    translation: {
+                        "voltar": "← Volver",
+                        "tentar-novamente": "Intentar de Nuevo",
+                        "ver-desempenho": "Ver Rendimiento",
+                        "desempenho": "Rendimiento",
+                        "seus-resultados": "Tus Resultados",
+                        "parabens": "¡Felicidades por completar el desafío!",
+                        "acertos": "Correctas",
+                        "tempo-total": "Tiempo Total",
+                        "excelente": "¡Excelente! ¡Dominaste la historia!",
+                        "bom": "¡Buen trabajo! Tienes conocimiento sólido.",
+                        "regular": "Desempeño aceptable. Revisa el contenido.",
+                        "insuficiente": "Necesitas estudiar más historia."
+                    }
+                }
             }
         });
 
@@ -504,22 +527,22 @@
          * 
          * Armazenam o estado do quiz durante a execução
          */
-        
+
         // Índice da questão atual (0-14)
         let currentQuestionIndex = 0;
-        
+
         // Array com respostas do usuário: userAnswers[0] = resposta da questão 1, etc
         let userAnswers = [];
-        
+
         // Tempo total em segundos desde o início do quiz
         let totalTime = 0;
-        
+
         // ID do intervalo do timer (usado para parar o timer)
         let timerInterval;
-        
+
         // Idioma atual do quiz ('pt', 'en' ou 'es')
         let currentLang = localStorage.getItem('studyPro_lang') || 'pt';
-        
+
         // Array de questões favoritadas (IDs das questões)
         let favoriteQuestions = JSON.parse(localStorage.getItem('studyPro_favorites') || '[]');
 
@@ -531,43 +554,43 @@
          * Estas variáveis armazenam referências aos elementos HTML
          * para que possamos atualizá-los dinamicamente com JavaScript
          */
-        
+
         // Seção principal do quiz (questões)
         const quizContainer = document.getElementById('quiz-container');
-        
+
         // Seção de resultados finais
         const resultsContainer = document.getElementById('results-container');
-        
+
         // Elemento que mostra o texto da questão
         const questionText = document.getElementById('question-text');
-        
+
         // Elemento que mostra o número da questão (1, 2, 3...)
         const qNumber = document.getElementById('q-number');
-        
+
         // Elemento que mostra questão atual / total
         const questionCounter = document.getElementById('question-counter');
-        
+
         // Container onde as 4 opções de resposta serão adicionadas
         const optionsContainer = document.getElementById('options-container');
-        
+
         // Elemento que mostra o tempo decorrido (00:00)
         const timerDisplay = document.getElementById('timer-display');
-        
+
         // Div que contém feedback (correto/incorreto + explicação)
         const feedbackDiv = document.getElementById('feedback');
-        
+
         // Elemento que mostra "Correto!" ou "Incorreto!"
         const feedbackResult = document.getElementById('feedback-result');
-        
+
         // Elemento que mostra a explicação da resposta
         const explanationDiv = document.getElementById('explanation');
-        
+
         // Botão para voltar à página anterior
         const backBtn = document.getElementById('back-btn');
-        
+
         // Botão de favoritar questão
         const btnFavorite = document.getElementById('btn-favorite');
-        
+
         // Navegação rápida por questões (quadradinhos)
         const questionNav = document.getElementById('question-nav');
         const prevBtn = document.getElementById('prev-btn');
@@ -576,7 +599,7 @@
 
         // Barra de progresso visual
         const progressFill = document.getElementById('progress-fill');
-        
+
         // Total de questões (15)
         const totalQuestions = document.getElementById('total-questions');
 
@@ -589,16 +612,16 @@
          * Configura o comportamento do dropdown de idioma
          * Inicia o quiz chamando a função init()
          */
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Define o número total de questões (15)
             totalQuestions.textContent = questionsData.length;
-            
+
             /**
              * BOTÃO VOLTAR
              * Ao clicar, mostra um modal customizado de confirmação
              * Ao invés de usar o alert do navegador, exibe um modal bonito centralizado
              */
-            backBtn.addEventListener('click', function() {
+            backBtn.addEventListener('click', function () {
                 showExitModal();
             });
 
@@ -610,7 +633,7 @@
             const langMenu = document.getElementById('lang-menu');
 
             // Ao clicar no botão de idioma, abre/fecha o menu
-            langToggle.addEventListener('click', function() {
+            langToggle.addEventListener('click', function () {
                 langMenu.classList.toggle('show');
             });
 
@@ -623,28 +646,28 @@
              * 4. Fecha o menu
              */
             document.querySelectorAll('.lang-option').forEach(option => {
-                option.addEventListener('click', function() {
+                option.addEventListener('click', function () {
                     // Pega o código do idioma (pt, en, es)
                     const lang = this.dataset.lang;
-                    
+
                     // Atualiza a variável global
                     currentLang = lang;
-                    
+
                     // Usa i18next para trocar idioma (sem recarregar página)
                     i18next.changeLanguage(lang);
-                    
+
                     // Salva preferência do usuário
                     localStorage.setItem('studyPro_lang', lang);
-                    
+
                     // Mostra idioma escolhido no botão
                     document.getElementById('current-lang').textContent = lang.toUpperCase();
-                    
+
                     // Fecha o menu
                     langMenu.classList.remove('show');
-                    
+
                     // Recarrega questão com novo idioma
                     loadQuestion(currentQuestionIndex);
-                    
+
                     // Atualiza exibição de resultados se estiver na tela de resultados
                     updateResultsUI();
                 });
@@ -655,7 +678,7 @@
              * Quando clica em qualquer lugar da página (exceto no menu),
              * o dropdown de idioma fecha
              */
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
                     langMenu.classList.remove('show');
                 }
@@ -665,31 +688,31 @@
              * BOTÕES DE AÇÃO EM RESULTADOS
              * Configurados aqui para usar quando os resultados forem exibidos
              */
-            
+
             // "Tentar Novamente": Reinicia o quiz
             document.getElementById('retry-btn').addEventListener('click', retryQuiz);
-            
+
             // "Ver Desempenho": Leva à página de desempenho
-            document.getElementById('view-performance-btn').addEventListener('click', function() {
+            document.getElementById('view-performance-btn').addEventListener('click', function () {
                 window.location.href = 'desempenho.html';
             });
 
             // Controle de navegação de questões
-            prevBtn.addEventListener('click', function() {
+            prevBtn.addEventListener('click', function () {
                 if (currentQuestionIndex > 0) {
                     currentQuestionIndex -= 1;
                     loadQuestion(currentQuestionIndex);
                 }
             });
 
-            nextBtn.addEventListener('click', function() {
+            nextBtn.addEventListener('click', function () {
                 if (currentQuestionIndex < questionsData.length - 1) {
                     currentQuestionIndex += 1;
                     loadQuestion(currentQuestionIndex);
                 }
             });
 
-            finishBtn.addEventListener('click', function() {
+            finishBtn.addEventListener('click', function () {
                 if (userAnswers.filter((ans) => typeof ans !== 'undefined').length === questionsData.length) {
                     showResults();
                 } else {
@@ -705,7 +728,7 @@
              * Permite salvar a questão atual na lista de favoritos
              * Alterna entre favoritado e não favoritado ao clicar
              */
-            btnFavorite.addEventListener('click', function() {
+            btnFavorite.addEventListener('click', function () {
                 toggleFavorite(currentQuestionIndex);
             });
 
@@ -736,7 +759,7 @@
             const goToQuestion = sessionStorage.getItem('goToQuestion');
             currentQuestionIndex = goToQuestion ? parseInt(goToQuestion) : 0;
             sessionStorage.removeItem('goToQuestion'); // Limpa após usar
-            
+
             userAnswers = [];
             totalTime = 0;
             quizContainer.style.display = 'block';
@@ -791,7 +814,7 @@
 
             // Limpa opções antigas
             optionsContainer.innerHTML = '';
-            
+
             // Para cada uma das 4 opções, cria um botão (A, B, C, D)
             options.forEach((option, optionIndex) => {
                 const optionElement = document.createElement('div');
@@ -833,7 +856,7 @@
             updateProgressBar();
             updateQuestionNavUI();
             updateNavigationButtons();
-            
+
             // Atualiza estado do botão de favoritar
             updateFavoriteButton();
         }
@@ -924,6 +947,13 @@
             // Verifica se a opção clicada é a resposta correta
             const isCorrect = optionIndex === questionsData[questionIndex].correct;
             
+            atualizarEstatisticas(isCorrect);
+            //Desbloquear trofeu
+            if (isCorrect) {
+                adicionarXP(10);
+                desbloquearTrofeu("primeiro_acerto");
+            }
+
             // Armazena a resposta para calcular pontuação depois
             userAnswers[questionIndex] = optionIndex;
 
@@ -947,7 +977,7 @@
                 <i class="fas fa-${isCorrect ? 'check' : 'times'}-circle"></i>
                 <span>${isCorrect ? 'Correto!' : 'Incorreto!'}</span>
             `;
-            
+
             // Explicação detalhada da resposta
             explanationDiv.innerHTML = `<strong>Explicação:</strong> ${getQuestion(questionIndex).explanation}`;
 
@@ -993,16 +1023,16 @@
         function startTimer() {
             // Se houver timer ativo, cancela antes de criar novo
             if (timerInterval) clearInterval(timerInterval);
-            
+
             // Intervalo que executa a cada 1 segundo (1000ms)
             timerInterval = setInterval(() => {
                 // Incrementa 1 segundo ao tempo total
                 totalTime++;
-                
+
                 // Calcula minutos e segundos
                 const mins = Math.floor(totalTime / 60);
                 const secs = totalTime % 60;
-                
+
                 // Exibe no formato MM:SS (ex: 00:45, 01:30)
                 timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }, 1000);
@@ -1027,10 +1057,10 @@
          * - subject: sempre 'historia' para este quiz
          * - score: percentual de acerto (ex: 80)
          */
-        function showResults() {
+        async function showResults() {
             // Para a contagem do timer
             clearInterval(timerInterval);
-            
+
             // Oculta quiz, mostra tela de resultados
             quizContainer.style.display = 'none';
             resultsContainer.style.display = 'block';
@@ -1042,9 +1072,22 @@
              * .length conta quantos acertos houve
              */
             const correctCount = userAnswers.filter((ans, idx) => ans === questionsData[idx].correct).length;
-            
+            adicionarXP(correctCount + 50);
+
+            registrarProva(correctCount === 15);
+
+            //Trofeu de acertas todas as questões
+            if (correctCount === 15) {
+                adicionarXP(100);
+                desbloquearTrofeu("historiador");
+            }
             // Calcula percentual: acertos / total * 100
             const percentage = Math.round((correctCount / questionsData.length) * 100);
+
+            //Registrar conclusão da prova
+            await registrarProva(
+                correctCount === questionsData.length
+            );
 
             /**
              * SALVAR DESEMPENHO em localStorage
@@ -1098,10 +1141,10 @@
         function updateResultsUI() {
             // Calcula número de acertos (conta quantas respostas conferiram com o gabarito)
             const correctCount = userAnswers.filter((ans, idx) => ans === questionsData[idx].correct).length;
-            
+
             // Calcula percentual de acerto: acertos / total * 100, arredonda para inteiro
             const percentage = Math.round((correctCount / questionsData.length) * 100);
-            
+
             // Converte tempo em segundos para minutos:segundos
             // Ex: 245 segundos = 4 minutos e 5 segundos
             const mins = Math.floor(totalTime / 60);
@@ -1109,10 +1152,10 @@
 
             // Atualiza elemento que mostra o percentual (0-100)
             document.getElementById('score-percentage').textContent = percentage;
-            
+
             // Atualiza elemento que mostra número de acertos (ex: "12" em "12 de 15")
             document.getElementById('correct-answers').textContent = correctCount;
-            
+
             // Atualiza elemento que mostra tempo total (ex: "04:05")
             document.getElementById('total-time').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
@@ -1126,7 +1169,7 @@
             else if (percentage >= 70) message = i18next.t('bom');               // 70-89%: "Bom!"
             else if (percentage >= 50) message = i18next.t('regular');           // 50-69%: "Regular"
             else message = i18next.t('insuficiente');                            // < 50%: "Insuficiente"
-            
+
             // Exibe a mensagem na tela
             document.getElementById('performance-message').textContent = message;
         }
@@ -1162,10 +1205,10 @@
             // Dados da questão atual
             const question = questionsData[questionIndex];
             const currentLangKey = currentLang; // 'pt', 'en' ou 'es'
-            
+
             // Procura se a questão já está nos favoritos por índice
             const existingIndex = favoriteQuestions.findIndex(fav => fav.questionIndex === questionIndex);
-            
+
             if (existingIndex === -1) {
                 // Não está favoritada: adiciona à lista com dados completos
                 const favoriteData = {
@@ -1183,7 +1226,7 @@
                 favoriteQuestions.splice(existingIndex, 1);
                 btnFavorite.classList.remove('favorited');
             }
-            
+
             // Salva no localStorage
             localStorage.setItem('studyPro_favorites', JSON.stringify(favoriteQuestions));
         }
@@ -1237,7 +1280,7 @@
              * BOTÃO CANCELAR (Continuar Respondendo)
              * Quando clica, fecha o modal e volta ao quiz
              */
-            modalCancel.addEventListener('click', function() {
+            modalCancel.addEventListener('click', function () {
                 hideExitModal();
             });
 
@@ -1245,7 +1288,7 @@
              * BOTÃO CONFIRMAR (Sair Mesmo Assim)
              * Quando clica, deixa sair e volta à página inicial
              */
-            modalConfirm.addEventListener('click', function() {
+            modalConfirm.addEventListener('click', function () {
                 window.history.back();
             });
 
@@ -1254,7 +1297,7 @@
              * Se o usuário clicar fora do modal, ele fecha
              * Isso oferece uma forma adicional de cancelar
              */
-            modalOverlay.addEventListener('click', function(event) {
+            modalOverlay.addEventListener('click', function (event) {
                 // Verifica se clicou no overlay exatamente, não no modal
                 if (event.target === modalOverlay) {
                     hideExitModal();
@@ -1276,7 +1319,7 @@
             // Remove os listeners de clique dos botões para evitar duplicação
             const modalCancel = document.getElementById('modal-cancel');
             const modalConfirm = document.getElementById('modal-confirm');
-            
+
             // Clona os elementos para remover todos os listeners anteriores
             const newCancel = modalCancel.cloneNode(true);
             const newConfirm = modalConfirm.cloneNode(true);
@@ -1288,8 +1331,18 @@
             modalDialog.style.display = 'none';
         }
     </script>
+
+    <script type="module">
+
+        import {
+            desbloquearTrofeu
+        } from "../scripts/gamificacao/gamificacao.js";
+
+        window.desbloquearTrofeu = desbloquearTrofeu;
+
+    </script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
 <script src="../scripts/site-common.js"></script>
-</html>
 
+</html>
