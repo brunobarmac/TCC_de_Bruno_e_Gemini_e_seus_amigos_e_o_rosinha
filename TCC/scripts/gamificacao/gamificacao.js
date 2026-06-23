@@ -4,7 +4,7 @@
 
 import { doc, updateDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 import { db, auth } from "../firebaseConfig.js";
-import { conquistas } from "./conquistas.js";
+import { getTrofeu } from "./conquistas.js";
 
 console.log("DB:", db);
 console.log("AUTH:", auth);
@@ -173,14 +173,10 @@ export async function atualizarEstatisticas(
 // NOTIFICAÇÃO
 // =====================================
 export function mostrarNotificacaoTrofeu(idTrofeu) {
-
-    const trofeu = TROFEUS[idTrofeu];
-
+    const trofeu = getTrofeu(idTrofeu);
     if (!trofeu) return;
 
-    alert(
-        `🏆 Conquista Desbloqueada!\n\n${trofeu.nome}`
-    );
+    alert(`🏆 Conquista Desbloqueada!\n\n${trofeu.nome}`);
 }
 
 window.mostrarNotificacaoTrofeu = mostrarNotificacaoTrofeu;
