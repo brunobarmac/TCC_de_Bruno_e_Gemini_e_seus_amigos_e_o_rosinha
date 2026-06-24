@@ -32,72 +32,6 @@
     <link rel="stylesheet" href="../css/site-common.css">
     </head>
 <body>
-    <!--
-    ================================================================================
-    CABEÇALHO DA PÁGINA
-    Mantém consistência visual com outras páginas do site
-    Contém logo, seletor de idioma e botão voltar
-    ================================================================================
-    -->
-    <!-- Header antigo removido - substitu�do por site-common.js -->
-
-    <!--
-    ================================================================================
-    CONTEÚDO PRINCIPAL
-    Área central da página contendo todas as configurações organizadas em seções
-    ================================================================================
-    -->
-    <main>
-        <!--
-        TÍTULO PRINCIPAL DA PÁGINA
-        Identifica claramente o propósito da página para o usuário
-        Texto traduzível via sistema i18next
-        -->
-        <h1 data-i18n="config-title">Configurações da Conta</h1>
-
-        <!--
-        CONTAINER PRINCIPAL DAS CONFIGURAÇÕES
-        Layout em grid com dois painéis laterais para organização lógica
-        -->
-        <div class="settings-container">
-
-            <!--
-            PAINEL ESQUERDO - SEÇÃO DE PERFIL
-            Contém informações pessoais e dados básicos do usuário
-            Organizado em grupos de formulário para melhor usabilidade
-            -->
-            <section class="settings-section profile-section">
-                <h2 data-i18n="perfil">Perfil</h2>
-
-                <!--
-                CAMPO: FOTO DE PERFIL
-                Permite upload e visualização da imagem do usuário
-                Interface intuitiva com preview e botão de alteração
-                -->
-                <div class="form-group">
-                    <label data-i18n="foto-perfil">Foto de Perfil</label>
-                    <div class="profile-picture-wrapper">
-                        <!--
-                        IMAGEM DE PERFIL ATUAL
-                        Exibe foto atual ou placeholder
-                        Atualizada dinamicamente quando usuário faz upload
-                        -->
-                        <img id="profile-image" src="https://via.placeholder.com/120" alt="Foto de Perfil" class="profile-picture">
-                        <!--
-                        BOTÃO PARA ALTERAR FOTO
-                        Gatilho visual para abrir seletor de arquivo
-                        Texto traduzível para suporte multilíngue
-                        -->
-                        <button class="btn btn-change-photo" data-i18n="mudar-foto">Mudar Foto</button>
-                        <!--
-                        INPUT DE ARQUIVO OCULTO
-                        Seletor nativo do navegador para upload de imagem
-                        Aceita apenas arquivos de imagem para validação
-                        -->
-                        <input type="file" id="photo-input" class="file-input" accept="image/*" style="display: none;">
-                    </div>
-                </div>
-
                 <!--
                 CAMPO: NOME COMPLETO
                 Campo de texto para o nome completo do usuário
@@ -123,6 +57,82 @@
                     <div class="input-field"><span id="loggedUserEmail"></span></div>
                 </div>
             </section>
+
+        <!--
+        PAINEL DO JOGADOR
+        Seção integrada com dados do perfil e progresso de gamificação
+        -->
+        <section class="settings-section player-panel-section" id="playerPanel" aria-labelledby="player-panel-title">
+            <h2 id="player-panel-title">Meu Perfil</h2>
+            <div class="player-panel">
+                <div class="player-summary">
+                    <div class="player-avatar">
+                        <img id="player-photo" src="https://via.placeholder.com/120" alt="Foto do jogador" />
+                    </div>
+                    <div class="player-details">
+                        <p class="player-label">Nome</p>
+                        <h3 id="playerName">Usuário</h3>
+                        <p class="player-label">Email</p>
+                        <p id="playerEmail" class="player-email">user@example.com</p>
+                    </div>
+                </div>
+
+                <div class="player-progress-card" role="region" aria-label="Progresso de experiência">
+                    <div class="progress-card-header">
+                        <div>
+                            <p class="player-label">Nível</p>
+                            <h3 id="playerLevel">1</h3>
+                        </div>
+                        <div>
+                            <p class="player-label">XP Atual</p>
+                            <h3 id="xpCurrentVal">0</h3>
+                        </div>
+                    </div>
+                    <div class="progress-bar-wrapper" aria-label="Barra de XP do jogador">
+                        <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar-fill" id="xpBarFill">0%</div>
+                        </div>
+                        <div class="progress-meta">
+                            <span><strong id="xpCurrentText">0</strong> / <strong id="xpNextVal">100</strong> XP</span>
+                            <span id="xpNeededVal">100</span> XP para o próximo nível
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-stats-grid">
+                    <div class="stat-card" tabindex="0" aria-label="Total de troféus">
+                        <span>🏆</span>
+                        <p>Total de troféus</p>
+                        <strong id="totalTrophies">0</strong>
+                    </div>
+                    <div class="stat-card" tabindex="0" aria-label="Questões respondidas">
+                        <span>📚</span>
+                        <p>Questões respondidas</p>
+                        <strong id="questionsAnswered">0</strong>
+                    </div>
+                    <div class="stat-card" tabindex="0" aria-label="Questões corretas">
+                        <span>✅</span>
+                        <p>Questões corretas</p>
+                        <strong id="questionsCorrect">0</strong>
+                    </div>
+                    <div class="stat-card" tabindex="0" aria-label="Taxa de acerto">
+                        <span>🎯</span>
+                        <p>Taxa de acerto</p>
+                        <strong id="accuracyRate">0%</strong>
+                    </div>
+                    <div class="stat-card" tabindex="0" aria-label="Provas concluídas">
+                        <span>📝</span>
+                        <p>Provas concluídas</p>
+                        <strong id="testsCompleted">0</strong>
+                    </div>
+                    <div class="stat-card" tabindex="0" aria-label="Provas perfeitas">
+                        <span>💎</span>
+                        <p>Provas perfeitas</p>
+                        <strong id="perfectTests">0</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!--
         SEÇÃO DE PREFERÊNCIAS - LARGURA TOTAL
@@ -320,12 +330,12 @@
             updateContent();
         });
 
-        <!--
+        /*
         ===== FUNÇÃO: ATUALIZAR CONTEÚDO DA PÁGINA =====
         Percorre todos os elementos com atributo data-i18n
         Substitui o conteúdo interno pelas traduções correspondentes
         Usa innerHTML para preservar formatação HTML se necessário
-        -->
+        */
         function updateContent() {
             document.querySelectorAll('[data-i18n]').forEach(function(element) {
                 const key = element.getAttribute('data-i18n');
@@ -333,7 +343,7 @@
             });
         }
 
-        <!--
+        /*
         ===== CONTROLE DO DROPDOWN DE IDIOMA =====
         Sistema interativo para seleção de idioma
         Mesma implementação das outras páginas para consistência
@@ -347,7 +357,7 @@
         EVENTO: CLIQUE NO BOTÃO DE IDIOMA
         Abre/fecha menu dropdown com animação visual da seta
         Previne propagação para evitar conflitos com outros eventos
-        -->
+        */
         langToggle.addEventListener('click', function(e) {
             e.stopPropagation();
             langMenu.classList.toggle('show'); // Exibe/oculta menu
@@ -361,11 +371,11 @@
             }
         });
 
-        <!--
+        /*
         EVENTO: SELEÇÃO DE IDIOMA
         Atualiza idioma atual e aplica mudanças em toda a interface
         Fecha automaticamente o dropdown após seleção
-        -->
+        */
         document.querySelectorAll('.lang-option').forEach(option => {
             option.addEventListener('click', function() {
                 const newLang = this.getAttribute('data-lang');
@@ -383,11 +393,11 @@
             });
         });
 
-        <!--
+        /*
         EVENTO: CLIQUE FORA DO DROPDOWN
         Fecha menu automaticamente quando usuário clica em outro lugar
         Melhora UX evitando dropdowns abertos desnecessariamente
-        -->
+        */
         document.addEventListener('click', function(e) {
             if (!langToggle.contains(e.target)) {
                 langMenu.classList.remove('show');
@@ -396,7 +406,7 @@
             }
         });
 
-        <!--
+        /*
         ===== FUNCIONALIDADE: UPLOAD DE FOTO DE PERFIL =====
         Sistema para alteração da imagem de perfil do usuário
         Interface intuitiva com preview em tempo real
@@ -405,16 +415,16 @@
         EVENTO: CLIQUE NO BOTÃO "MUDAR FOTO"
         Gatilho para abrir seletor de arquivo nativo do navegador
         Usa input oculto para melhor controle da experiência
-        -->
+        */
         document.querySelector('.btn-change-photo').addEventListener('click', function() {
             document.getElementById('photo-input').click();
         });
 
-        <!--
+        /*
         EVENTO: SELEÇÃO DE ARQUIVO DE IMAGEM
         Processa arquivo selecionado e atualiza preview
         Usa FileReader API para converter imagem em data URL
-        -->
+        */
         document.getElementById('photo-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -427,35 +437,34 @@
             }
         });
 
-        <!--
+        /*
         ===== FUNCIONALIDADES DOS BOTÕES DE AÇÃO =====
         Handlers para os três botões principais da página
         Cada um executa ação específica com feedback apropriado
-        -->
-        <!--
+       
         BOTÃO SALVAR ALTERAÇÕES
         Ação primária - deveria enviar dados para servidor
         Atualmente mostra placeholder com alert (TODO: implementar backend)
-        -->
+        */
         document.querySelector('.btn-primary').addEventListener('click', function() {
             alert(i18next.t('salvar') + ' clicado! Aqui você salvaria os dados no servidor.');
             // TODO: Implementar envio dos dados para o servidor via AJAX/fetch
         });
 
-        <!--
+        /*
         BOTÃO CANCELAR
         Descarta mudanças e retorna à página inicial
         Redirecionamento imediato sem confirmação
-        -->
+        */
         document.querySelector('.btn-secondary').addEventListener('click', function() {
             window.location.href = '../index.html';
         });
 
-        <!--
+        /*
         BOTÃO SAIR DA CONTA
         Ação crítica que requer confirmação do usuário
         Implementa logout básico (TODO: implementar logout completo)
-        -->
+        */
         document.querySelector('.btn-danger').addEventListener('click', function() {
             if (confirm(i18next.t('sair') + '?')) {
                 // TODO: Implementar logout completo (limpar sessão, cookies, etc.)
@@ -467,5 +476,3 @@
 <!-- Site common: auto-inject header, footer and translator -->
 <script src="../scripts/site-common.js"></script>
 </html>
-
-

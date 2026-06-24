@@ -5,7 +5,7 @@ import { criarElemento, criarBadgeRaridade, formatarPorcentagem } from "./uiGami
 import { abrirModalTrofeu, fecharModalTrofeu } from "./modalTrofeu.js";
 import { aplicarHoverGlow } from "./animacoes.js";
 import "./gamificacao.js";
-import { filtrarTrofeus, pesquisarTrofeus } from "./filtros.js";
+import { filtrarTrofeus } from "./filtros.js";
 
 const galeria = document.getElementById("galeriaTrofeus");
 const totalTrofeusEl = document.getElementById("total-trofeus");
@@ -17,51 +17,54 @@ const modalClose = document.getElementById("modalClose");
 
 let trofeusUsuario = {};
 let filtroAtivo = "todos";
-let pesquisaAtiva = "";
 let trofeusOrdenados = [];
 
 function criarCardTrofeu(trofeu, desbloqueado, progressoPercentual) {
-    const card = criarElemento("article", `trophy-card ${desbloqueado ? "unlocked" : "locked"}`);
+    const estado = desbloqueado ? "unlocked" : "locked";
+    const raridadeClass = trofeu.raridade || "comum";
+    const card = criarElemento("article", `trophy-card ${estado} ${raridadeClass}`);
     card.dataset.raridade = trofeu.raridade;
     card.tabIndex = 0;
     card.setAttribute("role", "button");
-    card.setAttribute("aria-label", `${trofeu.nome} - ${desbloqueado ? "Desbloqueado" : "Bloqueado"}`);
+    card.setAttribute("aria-label", `${trofeu.nome} - ${desbloqueado ? "Desbloqueado" : trofeu.oculto ? "Oculto" : "Bloqueado"}`);
 
     const statusLabel = desbloqueado ? "Desbloqueado" : trofeu.oculto ? "Secreto" : "Bloqueado";
     const emoji = criarElemento("div", "trophy-emoji");
-    emoji.textContent = desbloqueado ? trofeu.icone : "🔒";
+    emoji.textContent = desbloqueado ? trofeu.icone : trofeu.oculto ? "❓" : "🔒";
 
     const title = criarElemento("h3", "trophy-title");
-    title.textContent = desbloqueado ? trofeu.nome : "Conquista Secreta";
+    title.textContent = desbloqueado ? trofeu.nome : trofeu.oculto ? "Conquista Secreta" : "Troféu Trancado";
 
     const description = criarElemento("p", "trophy-description");
     description.textContent = desbloqueado
         ? trofeu.descricao
         : trofeu.oculto
             ? "Continue estudando para descobrir esta conquista."
-            : "Continue estudando para desbloquear.";
+            : "Continue estudando para desbloquear esta conquista.";
 
     const meta = criarElemento("div", "trophy-meta");
-    meta.innerHTML = `
-        <span class="trophy-status">${statusLabel}</span>
-        <span class="trophy-category">${trofeu.categoria}</span>
-    `;
+    const statusBadge = criarElemento("span", "trophy-status");
+    statusBadge.textContent = statusLabel;
+    const categoryBadge = criarElemento("span", "trophy-category");
+    categoryBadge.textContent = trofeu.categoria;
+    const rarityBadge = criarBadgeRaridade(trofeu.raridade);
+    meta.append(statusBadge, categoryBadge, rarityBadge);
 
     const footer = criarElemento("div", "trophy-footer");
-    const rarityBadge = criarBadgeRaridade(trofeu.raridade);
     const progressBar = criarElemento("div", "trophy-progress");
     progressBar.innerHTML = `
         <div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width: ${progressoPercentual}%"></div></div>
         <span class="trophy-progress-text">${formatarPorcentagem(progressoPercentual / 100)}</span>
     `;
 
-    footer.append(rarityBadge, progressBar);
+    footer.append(progressBar);
     card.append(emoji, title, description, meta, footer);
 
-    card.addEventListener("click", () => abrirModalTrofeu(trofeu, desbloqueado, progressoPercentual / 100));
+    const infoTrofeu = trofeusUsuario[trofeu.id];
+    card.addEventListener("click", () => abrirModalTrofeu(trofeu, desbloqueado, progressoPercentual / 100, infoTrofeu));
     card.addEventListener("keypress", (event) => {
         if (event.key === "Enter" || event.key === " ") {
-            abrirModalTrofeu(trofeu, desbloqueado, progressoPercentual / 100);
+            abrirModalTrofeu(trofeu, desbloqueado, progressoPercentual / 100, infoTrofeu);
         }
     });
     aplicarHoverGlow(card);
@@ -88,7 +91,7 @@ function atualizarGaleria(trofeus) {
     galeria.innerHTML = "";
 
     trofeus.forEach((trofeu) => {
-        const desbloqueado = Boolean(trofeusUsuario[trofeu.id]);
+        const desbloqueado = trofeusUsuario[trofeu.id]?.desbloqueado === true;
         const progresso = trofeu.progresso ? trofeu.progresso.atual / Math.max(1, trofeu.progresso.meta) : 0;
         const progressoPercentual = Math.round(progresso * 100);
         const card = criarCardTrofeu(trofeu, desbloqueado, progressoPercentual);
@@ -97,8 +100,7 @@ function atualizarGaleria(trofeus) {
 }
 
 function aplicarFiltrosEOrdenacao() {
-    let listaFiltrada = filtrarTrofeus(trofeusOrdenados, filtroAtivo);
-    listaFiltrada = pesquisarTrofeus(listaFiltrada, pesquisaAtiva);
+    const listaFiltrada = filtrarTrofeus(trofeusOrdenados, filtroAtivo);
     atualizarGaleria(listaFiltrada);
     atualizarPainelEstatisticas(trofeusOrdenados);
 }
@@ -135,7 +137,13 @@ function configurarFiltros() {
 
 function configurarModal() {
     if (!modalClose) return;
+    const modal = document.getElementById("trophyModal");
     modalClose.addEventListener("click", fecharModalTrofeu);
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            fecharModalTrofeu();
+        }
+    });
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
             fecharModalTrofeu();

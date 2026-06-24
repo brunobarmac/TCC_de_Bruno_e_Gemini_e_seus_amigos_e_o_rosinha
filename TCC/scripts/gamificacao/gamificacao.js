@@ -9,6 +9,26 @@ import { getTrofeu } from "./conquistas.js";
 console.log("DB:", db);
 console.log("AUTH:", auth);
 
+export function getLevelData(xp = 0) {
+    const thresholds = [100, 250, 500, 1000];
+    let nivel = 1;
+
+    if (xp >= thresholds[3]) nivel = 5;
+    else if (xp >= thresholds[2]) nivel = 4;
+    else if (xp >= thresholds[1]) nivel = 3;
+    else if (xp >= thresholds[0]) nivel = 2;
+
+    const proxNivelXP = thresholds.find((valor) => xp < valor) ?? thresholds[thresholds.length - 1];
+    const xpParaProximo = Math.max(0, proxNivelXP - xp);
+
+    return {
+        xp,
+        nivel,
+        proxNivelXP,
+        xpParaProximo
+    };
+}
+
 // =====================================
 // VERIFICAR TROFÉUS
 // =====================================
@@ -69,7 +89,10 @@ export async function desbloquearTrofeu(idTrofeu) {
     }
 
     await updateDoc(userRef, {
-        [`trofeus.${idTrofeu}`]: true
+        [`trofeus.${idTrofeu}`]: {
+            desbloqueado: true,
+            data: new Date().toISOString()
+        }
     });
 
     mostrarNotificacaoTrofeu(idTrofeu);
@@ -119,15 +142,8 @@ export async function verificarNivel() {
     const dados =
         snap.data();
 
-    const xp =
-        dados.xp || 0;
-
-    let nivel = 1;
-
-    if (xp >= 100) nivel = 2;
-    if (xp >= 250) nivel = 3;
-    if (xp >= 500) nivel = 4;
-    if (xp >= 1000) nivel = 5;
+    const xp = dados.xp || 0;
+    const { nivel } = getLevelData(xp);
 
     if (nivel > dados.nivel) {
 

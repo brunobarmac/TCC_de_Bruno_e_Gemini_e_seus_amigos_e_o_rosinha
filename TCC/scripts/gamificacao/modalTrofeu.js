@@ -1,7 +1,8 @@
-export function abrirModalTrofeu(trofeu, desbloqueado = false, progresso = 0) {
+export function abrirModalTrofeu(trofeu, desbloqueado = false, progresso = 0, infoTrofeu = null) {
     const modal = document.getElementById("trophyModal");
     const modalIcon = document.getElementById("modalIcon");
     const modalTitle = document.getElementById("modalTitle");
+    const modalData = document.getElementById("modalData");
     const modalRarity = document.getElementById("modalRarity");
     const modalDescription = document.getElementById("modalDescription");
     const modalPoints = document.getElementById("modalPoints");
@@ -9,6 +10,9 @@ export function abrirModalTrofeu(trofeu, desbloqueado = false, progresso = 0) {
     const progressSection = document.getElementById("progressSection");
     const modalProgressBar = document.getElementById("modalProgressBar");
     const modalProgressText = document.getElementById("modalProgressText");
+
+    const dataDesbloqueio = infoTrofeu?.data;
+    const dataFormatada = dataDesbloqueio ? new Date(dataDesbloqueio).toLocaleDateString("pt-BR") : "Não desbloqueado";
 
     if (!modal || !modalIcon || !modalTitle) {
         return;
@@ -22,6 +26,7 @@ export function abrirModalTrofeu(trofeu, desbloqueado = false, progresso = 0) {
         : "Continue estudando para descobrir esta conquista.";
     modalPoints.textContent = `+${trofeu.pontos}`;
     modalXP.textContent = `+${trofeu.xp}`;
+    modalData.textContent = dataFormatada;
 
     if (!desbloqueado && trofeu.oculto) {
         progressSection.style.display = "none";
