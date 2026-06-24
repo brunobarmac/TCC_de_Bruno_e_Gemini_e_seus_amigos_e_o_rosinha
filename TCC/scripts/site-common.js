@@ -48,6 +48,21 @@
     console.log('[site-common] Inicialização concluída');
   }
 
+  function getSavedLanguage() {
+    return localStorage.getItem('i18nextLng') || localStorage.getItem('studyPro_lang') || 'pt';
+  }
+
+  function setSavedLanguage(lang) {
+    localStorage.setItem('i18nextLng', lang);
+    localStorage.setItem('studyPro_lang', lang);
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  function isHomePage() {
+    const path = window.location.pathname.toLowerCase();
+    return path.endsWith('/index.html') || path.endsWith('/index.htm') || path.endsWith('/') || path.endsWith('index.html') || path.endsWith('index.htm');
+  }
+
   /**
    * Injeta header padronizado no topo da página
    */
@@ -60,6 +75,11 @@
 
     const header = document.createElement('header');
     header.className = 'site-header';
+    const backButtonHtml = isHomePage() ? '' : `
+          <button class="site-back-btn" id="site-back-btn" title="Voltar para página anterior">
+            <span class="site-arrow-left">←</span> <span data-i18n="voltar">Voltar</span>
+          </button>
+    `;
     header.innerHTML = `
       <div class="site-header-content">
         <div class="site-logo">
@@ -88,10 +108,7 @@
               <li><button class="site-lang-option" data-lang="es">🇪🇸 ES</button></li>
             </ul>
           </div>
-          
-          <button class="site-back-btn" id="site-back-btn" title="Voltar para página anterior">
-            <span class="site-arrow-left">←</span> <span data-i18n="voltar">Voltar</span>
-          </button>
+          ${backButtonHtml}
         </div>
       </div>
     `;
@@ -185,7 +202,7 @@
     if (!langToggle || !langMenu) return;
 
     // Recupera idioma salvo
-    const savedLang = localStorage.getItem('i18nextLng') || 'pt';
+    const savedLang = getSavedLanguage();
     currentLangSpan.textContent = savedLang.toUpperCase();
 
     // Abre/fecha dropdown
@@ -214,7 +231,7 @@
         const lang = option.getAttribute('data-lang');
         
         // Salva no localStorage (principal objetivo)
-        localStorage.setItem('i18nextLng', lang);
+        setSavedLanguage(lang);
         localStorage.setItem('selectedLanguage', lang); // compatibilidade
         
         // Atualiza indicador
@@ -251,7 +268,7 @@
    * Sincroniza i18next com localStorage
    */
   function setupI18nextSync() {
-    const savedLang = localStorage.getItem('i18nextLng') || 'pt';
+    const savedLang = getSavedLanguage();
 
     // Aguarda i18next ficar disponível (cada página inicializa seu próprio)
     setTimeout(() => {

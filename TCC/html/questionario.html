@@ -40,6 +40,11 @@
             registrarProva
         }
             from "../scripts/gamificacao/gamificacao.js";
+
+        window.desbloquearTrofeu = desbloquearTrofeu;
+        window.adicionarXP = adicionarXP;
+        window.atualizarEstatisticas = atualizarEstatisticas;
+        window.registrarProva = registrarProva;
     </script>
 
 
@@ -469,7 +474,7 @@
                 // Dicionário português
                 pt: {
                     translation: {
-                        "voltar": "← Voltar",
+                        "voltar": "Voltar",
                         "tentar-novamente": "Tentar Novamente",
                         "ver-desempenho": "Ver Desempenho",
                         "desempenho": "Desempenho",
@@ -486,7 +491,7 @@
                 // Dicionário inglês
                 en: {
                     translation: {
-                        "voltar": "← Back",
+                        "voltar": "Back",
                         "tentar-novamente": "Try Again",
                         "ver-desempenho": "View Performance",
                         "desempenho": "Performance",
@@ -503,7 +508,7 @@
                 // Dicionário espanhol
                 es: {
                     translation: {
-                        "voltar": "← Volver",
+                        "voltar": "Volver",
                         "tentar-novamente": "Intentar de Nuevo",
                         "ver-desempenho": "Ver Rendimiento",
                         "desempenho": "Rendimiento",
@@ -621,21 +626,26 @@
              * Ao clicar, mostra um modal customizado de confirmação
              * Ao invés de usar o alert do navegador, exibe um modal bonito centralizado
              */
-            backBtn.addEventListener('click', function () {
-                showExitModal();
-            });
+            if (backBtn) {
+                backBtn.addEventListener('click', function () {
+                    showExitModal();
+                });
+            }
 
             /**
              * DROPDOWN DE IDIOMA
              * Permite abrir/fechar o menu de seleção de idioma
              */
-            const langToggle = document.getElementById('lang-toggle');
-            const langMenu = document.getElementById('lang-menu');
+            const langToggle = document.getElementById('lang-toggle') || document.getElementById('site-lang-toggle');
+            const langMenu = document.getElementById('lang-menu') || document.getElementById('site-lang-menu');
+            const currentLangDisplay = document.getElementById('current-lang') || document.getElementById('site-current-lang');
 
-            // Ao clicar no botão de idioma, abre/fecha o menu
-            langToggle.addEventListener('click', function () {
-                langMenu.classList.toggle('show');
-            });
+            if (langToggle && langMenu) {
+                // Ao clicar no botão de idioma, abre/fecha o menu
+                langToggle.addEventListener('click', function () {
+                    langMenu.classList.toggle('show');
+                });
+            }
 
             /**
              * SELEÇÃO DE IDIOMA
@@ -645,7 +655,7 @@
              * 3. Recarrega a questão com novo idioma
              * 4. Fecha o menu
              */
-            document.querySelectorAll('.lang-option').forEach(option => {
+            document.querySelectorAll('.lang-option, .site-lang-option').forEach(option => {
                 option.addEventListener('click', function () {
                     // Pega o código do idioma (pt, en, es)
                     const lang = this.dataset.lang;
@@ -660,10 +670,14 @@
                     localStorage.setItem('studyPro_lang', lang);
 
                     // Mostra idioma escolhido no botão
-                    document.getElementById('current-lang').textContent = lang.toUpperCase();
+                    if (currentLangDisplay) {
+                        currentLangDisplay.textContent = lang.toUpperCase();
+                    }
 
                     // Fecha o menu
-                    langMenu.classList.remove('show');
+                    if (langMenu) {
+                        langMenu.classList.remove('show');
+                    }
 
                     // Recarrega questão com novo idioma
                     loadQuestion(currentQuestionIndex);
@@ -678,11 +692,13 @@
              * Quando clica em qualquer lugar da página (exceto no menu),
              * o dropdown de idioma fecha
              */
-            document.addEventListener('click', function (e) {
-                if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
-                    langMenu.classList.remove('show');
-                }
-            });
+            if (langToggle && langMenu) {
+                document.addEventListener('click', function (e) {
+                    if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
+                        langMenu.classList.remove('show');
+                    }
+                });
+            }
 
             /**
              * BOTÕES DE AÇÃO EM RESULTADOS
