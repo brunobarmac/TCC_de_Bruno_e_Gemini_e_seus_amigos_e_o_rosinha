@@ -90,7 +90,7 @@
         para português, inglês e espanhol
         */
         i18next.init({
-            lng:'pt', // Idioma padrão
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt', // Idioma salvo ou padrão
             debug:false, // Desabilita debug em produção
             resources:{
                 // RECURSOS DE TRADUÇÃO EM PORTUGUÊS
@@ -189,6 +189,8 @@
             option.addEventListener('click',function(){
                 const newLang=this.getAttribute('data-lang'); // Obtém código do idioma
                 currentLang.textContent=newLang.toUpperCase(); // Atualiza texto do botão
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang,updateContent); // Muda idioma e atualiza conteúdo
                 langMenu.classList.remove('show'); // Fecha menu
                 langToggle.classList.remove('active'); // Remove classe ativa

@@ -69,7 +69,7 @@
     <script>
         // Inicialização da tradução
         i18next.init({
-            lng: 'pt',
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt',
             debug: false,
             resources: {
                 pt: { translation: {
@@ -178,6 +178,8 @@
             option.addEventListener('click', function() {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase(); // mantém maiúscula
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang, function() {
                     updateContent(); // garante que TODOS os textos sejam atualizados
                 });

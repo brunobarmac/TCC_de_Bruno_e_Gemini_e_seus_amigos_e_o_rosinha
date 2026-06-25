@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questões Favoritas - StudyPro</title>
+    <title data-i18n-title="favoritas-page-title">Questões Favoritas - StudyPro</title>
     <!-- Mantenha as mesmas referências de CSS da sua página original -->
     <style>
                 .btn-copiar, .btn-enviar-rosa, .btn-favoritar, .btn-remover {
@@ -16,10 +16,162 @@
         .vazio { text-align: center; color: #666; margin-top: 50px;}
     </style>
     <link rel="stylesheet" href="../css/site-common.css">
+    <style>
+        body {
+            background: radial-gradient(circle at top, #fff8ff 0%, #f3e7ff 40%, #e9eefb 100%);
+            color: #1f1f3f;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 36px auto 60px;
+            padding: 0 20px 40px;
+        }
+
+        .page-header {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: -0.03em;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #4c4c6b;
+            max-width: 780px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.55;
+        }
+
+        .favorite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+            align-items: start;
+        }
+
+        .favorite-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            color: #3d327f;
+        }
+
+        .section-header span {
+            color: #776cb9;
+            font-size: 0.98rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .favorite-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .favorite-card .info-tag {
+            margin-top: 14px;
+            background: rgba(106, 92, 255, 0.08);
+            color: #4b3f98;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        .favorite-card {
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(109, 90, 248, 0.16);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 24px 60px rgba(60, 45, 130, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 30px 70px rgba(60, 45, 130, 0.14);
+        }
+
+        .favorite-card h2 {
+            margin: 0 0 16px;
+            font-size: 1.15rem;
+            line-height: 1.4;
+            color: #2a2457;
+        }
+
+        .favorite-card .options {
+            margin: 0 0 18px;
+            padding-left: 22px;
+            color: #4d4a6c;
+            line-height: 1.8;
+        }
+
+        .favorite-card .options li {
+            margin-bottom: 10px;
+        }
+
+        .favorite-card footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .favorite-card .info-tag {
+            color: #6f6b92;
+            font-size: 0.92rem;
+            margin-right: auto;
+        }
+
+        .favorite-card button {
+            cursor: pointer;
+        }
+
+        .vazio {
+            text-align: center;
+            color: #5d5a82;
+            margin-top: 50px;
+            font-size: 1.1rem;
+        }
+    </style>
     </head>
 <body>
     <div class="container">
-        <h1>⭐ Suas Questões Favoritas</h1>
+        <div class="page-header">
+            <h1 data-i18n="favoritas-title">⭐ Suas Questões Favoritas</h1>
+            <p data-i18n="favoritas-description">Clique em qualquer lugar da questão para retornar à página original e responder na fonte da pergunta.</p>
+        </div>
         
         <!-- Onde as questões vão aparecer -->
         <div id="lista-favoritos"></div>
@@ -33,32 +185,83 @@
             const favoritos = JSON.parse(localStorage.getItem('questoesFavoritas')) || [];
             listaFavoritosDiv.innerHTML = '';
             if (favoritos.length === 0) {
-                listaFavoritosDiv.innerHTML = "<h3 class='vazio'>Você ainda não favoritou nenhuma questão.</h3>";
+                const emptyText = window.i18next && typeof window.i18next.t === 'function'
+                    ? window.i18next.t('favoritas-empty')
+                    : 'Você ainda não favoritou nenhuma questão.';
+                listaFavoritosDiv.innerHTML = `<h3 class='vazio'>${emptyText}</h3>`;
                 return;
             }
 
-            favoritos.forEach((questaoHTML, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.innerHTML = questaoHTML;
-                const questDiv = wrapper.firstElementChild;
+            const grouped = favoritos.reduce((acc, item, index) => {
+                const favoriteItem = (typeof item === 'string') ? { html: item, sourcePage: 'questionario.html' } : item;
+                const sourcePage = favoriteItem.sourcePage || 'questionario.html';
+                if (!acc[sourcePage]) acc[sourcePage] = [];
+                acc[sourcePage].push({ item: favoriteItem, index });
+                return acc;
+            }, {});
 
-                // Substitui botão de favoritar por remover
-                const btnFavoritar = questDiv.querySelector('.btn-favoritar');
-                if (btnFavoritar) {
-                    const btnRemover = document.createElement('button');
-                    btnRemover.className = 'btn-remover';
-                    btnRemover.textContent = '❌ Remover dos Favoritos';
-                    btnRemover.addEventListener('click', ()=> removerFavorito(index));
-                    btnFavoritar.replaceWith(btnRemover);
-                }
+            Object.keys(grouped).forEach(sourcePage => {
+                const section = document.createElement('section');
+                section.className = 'favorite-section';
 
-                // Ativa botões de copiar e enviar usando funções compartilhadas
-                const btnCopiar = questDiv.querySelector('.btn-copiar');
-                const btnEnviar = questDiv.querySelector('.btn-enviar-rosa');
-                if (btnCopiar) btnCopiar.addEventListener('click', ()=> copyQuestion(questDiv, btnCopiar));
-                if (btnEnviar) btnEnviar.addEventListener('click', ()=> sendToPequenoRosa(questDiv, ''));
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.innerHTML = `
+                    <h2>${formatSourceName(sourcePage)}</h2>
+                    <span>${grouped[sourcePage].length} questão${grouped[sourcePage].length === 1 ? '' : 'ões'}</span>
+                `;
 
-                listaFavoritosDiv.appendChild(questDiv);
+                section.appendChild(header);
+
+                const sectionGrid = document.createElement('div');
+                sectionGrid.className = 'section-grid';
+
+                grouped[sourcePage].forEach(({ item, index }) => {
+                    const wrapper = document.createElement('div');
+                    const htmlText = item.html || '';
+                    if (!htmlText) return;
+                    wrapper.innerHTML = htmlText;
+                    const questDiv = wrapper.firstElementChild;
+                    if (!questDiv) return;
+                    questDiv.classList.add('favorite-card');
+
+                    const btnFavoritar = questDiv.querySelector('.btn-favoritar');
+                    if (btnFavoritar) {
+                        const btnRemover = document.createElement('button');
+                        btnRemover.className = 'btn-remover';
+                        btnRemover.textContent = window.i18next && typeof window.i18next.t === 'function'
+                            ? window.i18next.t('remove-favorite')
+                            : '❌ Remover dos Favoritos';
+                        btnRemover.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            removerFavorito(index);
+                        });
+                        btnFavoritar.replaceWith(btnRemover);
+                    }
+
+                    const btnCopiar = questDiv.querySelector('.btn-copiar');
+                    const btnEnviar = questDiv.querySelector('.btn-enviar-rosa');
+                    if (btnCopiar) btnCopiar.addEventListener('click', (event) => { event.stopPropagation(); copyQuestion(questDiv, btnCopiar); });
+                    if (btnEnviar) btnEnviar.addEventListener('click', (event) => { event.stopPropagation(); sendToPequenoRosa(questDiv, ''); });
+
+                    let questionId = questDiv.dataset.questionarioId || questDiv.dataset.questionId || item.questionId || questDiv.id || null;
+                    const footer = document.createElement('div');
+                    footer.className = 'info-tag';
+                    footer.textContent = window.i18next && typeof window.i18next.t === 'function'
+                        ? (sourcePage === 'questionario.html'
+                            ? window.i18next.t('favoritas-open-quiz')
+                            : window.i18next.t('favoritas-open-source', { source: formatSourceName(sourcePage) }))
+                        : (sourcePage === 'questionario.html'
+                            ? 'Clique para abrir no quiz geral.'
+                            : `Clique para abrir em ${formatSourceName(sourcePage)}.`);
+                    questDiv.appendChild(footer);
+
+                    questDiv.addEventListener('click', () => goToSource(sourcePage, questionId));
+                    sectionGrid.appendChild(questDiv);
+                });
+
+                section.appendChild(sectionGrid);
+                listaFavoritosDiv.appendChild(section);
             });
         }
 
@@ -69,8 +272,44 @@
             refreshFavorites();
         }
 
+        function getSourceHref(sourcePage) {
+            if (!sourcePage) return 'questionario.html';
+            if (sourcePage === 'questionario.html') return 'questionario.html';
+            if (sourcePage.startsWith('questoes_') || sourcePage.startsWith('questoes/')) {
+                return `../questoes/${sourcePage.replace(/^questoes\//, '')}`;
+            }
+            return sourcePage;
+        }
+
+        function formatSourceName(sourcePage) {
+            if (!sourcePage) return 'Questionário';
+            if (sourcePage === 'questionario.html') return 'Questionário';
+            return sourcePage.replace(/^questoes_/, '').replace('.html', '').replace(/([A-Z])/g, ' $1').trim();
+        }
+
+        function goToSource(sourcePage, questionId) {
+            const href = getSourceHref(sourcePage);
+            if (sourcePage === 'questionario.html') {
+                const index = parseInt(questionId, 10);
+                if (!Number.isNaN(index)) {
+                    sessionStorage.setItem('goToQuestion', index);
+                }
+                window.location.href = href;
+                return;
+            }
+
+            if (questionId) {
+                window.location.href = `${href}#${encodeURIComponent(questionId)}`;
+            } else {
+                window.location.href = href;
+            }
+        }
+
         // Atualiza quando outra aba modificar localStorage
         window.addEventListener('storage', (e)=>{ if (e.key === 'questoesFavoritas') refreshFavorites(); });
+
+        // Atualiza quando o idioma do site for alterado globalmente
+        window.addEventListener('siteLanguageChanged', () => refreshFavorites());
 
         // Inicializa
         refreshFavorites();

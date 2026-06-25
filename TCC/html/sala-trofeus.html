@@ -159,7 +159,7 @@
         // ========== INICIALIZAÇÃO DA TRADUÇÃO ==========
         // Configuração de idiomas com i18next
         i18next.init({
-            lng: 'pt',
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt',
             debug: false,
             resources: {
                 pt: {
@@ -305,6 +305,8 @@
             option.addEventListener('click', function () {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase();
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang, function () {
                     updateContent();
                 });

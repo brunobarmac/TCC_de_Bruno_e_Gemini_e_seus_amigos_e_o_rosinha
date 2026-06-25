@@ -182,6 +182,8 @@
             option.addEventListener('click', function() {
                 const newLang = this.getAttribute('data-lang');
                 if (currentLang) currentLang.textContent = newLang.toUpperCase(); // mantém maiúscula
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang, function() {
                     updateContent(); // garante que TODOS os textos sejam atualizados
                 });

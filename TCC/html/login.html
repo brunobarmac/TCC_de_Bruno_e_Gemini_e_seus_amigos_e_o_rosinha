@@ -109,7 +109,7 @@
         // ===== INICIALIZAÇÃO DO i18next =====
         // Configura o sistema de tradução com suporte a Português, Inglês e Espanhol
         i18next.init({
-            lng: 'pt', // idioma padrão é português
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt', // idioma salvo ou padrão português
             debug: false,
             resources: {
                 // Traduções em Português
@@ -124,7 +124,11 @@
                     "cadastrese": "Cadastre-se",
                     "cadastrar": "Cadastrar",
                     "tem-conta": "Já tem uma conta?",
-                    "voltar-inicio": "Voltar para a página inicial"
+                    "voltar-inicio": "Voltar para a página inicial",
+                    "Email": "Email",
+                    "Nome": "Nome",
+                    "Senha": "Senha",
+                    "Sobrenome": "Sobrenome"
                 }},
                 // Traduções em Inglês
                 en: { translation: {
@@ -138,7 +142,11 @@
                     "cadastrese": "Sign Up",
                     "cadastrar": "Register",
                     "tem-conta": "Already have an account?",
-                    "voltar-inicio": "Back to homepage"
+                    "voltar-inicio": "Back to homepage",
+                    "Email": "Email",
+                    "Nome": "Name",
+                    "Senha": "Password",
+                    "Sobrenome": "Last Name"
                 }},
                 // Traduções em Espanhol
                 es: { translation: {
@@ -152,7 +160,11 @@
                     "cadastrese": "Regístrate",
                     "cadastrar": "Registrarse",
                     "tem-conta": "¿Ya tienes una cuenta?",
-                    "voltar-inicio": "Volver a la página de inicio"
+                    "voltar-inicio": "Volver a la página de inicio",
+                    "Email": "Correo Electrónico",
+                    "Nome": "Nombre",
+                    "Senha": "Contraseña",
+                    "Sobrenome": "Apellido"
                 }}
             }
         }, function(err, t) {
@@ -197,6 +209,8 @@
             option.addEventListener('click', function() {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase();
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang, function() {
                     updateContent();
                 });
@@ -215,6 +229,7 @@
             }
         });
     </script>
+    <script src="../scripts/site-common.js"></script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
 </html>

@@ -469,7 +469,7 @@
          * - resources: dicionário com textos em cada idioma
          */
         i18next.init({
-            lng: localStorage.getItem('studyPro_lang') || 'pt',
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt',
             resources: {
                 // Dicionário português
                 pt: {
@@ -548,8 +548,8 @@
         // Idioma atual do quiz ('pt', 'en' ou 'es')
         let currentLang = localStorage.getItem('studyPro_lang') || 'pt';
 
-        // Array de questões favoritadas (IDs das questões)
-        let favoriteQuestions = JSON.parse(localStorage.getItem('studyPro_favorites') || '[]');
+        // Array de questões favoritas armazenadas como HTML para a página de favoritos
+        let favoriteQuestions = JSON.parse(localStorage.getItem('questoesFavoritas') || '[]');
 
         /**
          * ================================================================================
@@ -655,10 +655,12 @@
              * 3. Recarrega a questão com novo idioma
              * 4. Fecha o menu
              */
-            document.querySelectorAll('.lang-option').forEach(option => {
+            document.querySelectorAll('.lang-option, .site-lang-option').forEach(option => {
                 option.addEventListener('click', function () {
                     // Pega o código do idioma (pt, en, es)
                     const lang = this.dataset.lang;
+
+                    if (!lang) return;
 
                     // Atualiza a variável global
                     currentLang = lang;
@@ -690,6 +692,20 @@
                     // Atualiza exibição de resultados se estiver na tela de resultados
                     updateResultsUI();
                 });
+            });
+
+            // Atualiza o quiz quando o idioma for alterado pelo cabeçalho compartilhado
+            window.addEventListener('siteLanguageChanged', function (event) {
+                const newLang = event?.detail?.lang;
+                if (!newLang || newLang === currentLang) return;
+
+                currentLang = newLang;
+                loadQuestion(currentQuestionIndex);
+                updateResultsUI();
+
+                if (currentLangDisplay) {
+                    currentLangDisplay.textContent = newLang.toUpperCase();
+                }
             });
 
             /**
@@ -1225,33 +1241,51 @@
          * - Atualiza visual do botão (estrela vazia ou preenchida)
          */
         function toggleFavorite(questionIndex) {
-            // Dados da questão atual
-            const question = questionsData[questionIndex];
-            const currentLangKey = currentLang; // 'pt', 'en' ou 'es'
+            const favoriteIndex = getQuestionarioFavoriteIndex(questionIndex);
 
-            // Procura se a questão já está nos favoritos por índice
-            const existingIndex = favoriteQuestions.findIndex(fav => fav.questionIndex === questionIndex);
-
-            if (existingIndex === -1) {
-                // Não está favoritada: adiciona à lista com dados completos
-                const favoriteData = {
-                    questionIndex: questionIndex,
-                    id: `questionario_${questionIndex}`,
-                    question: question[currentLangKey].question,
-                    options: question.options[currentLangKey],
-                    correct: question.correct,
-                    explanation: question[currentLangKey].explanation
-                };
-                favoriteQuestions.push(favoriteData);
+            if (favoriteIndex === -1) {
+                const html = buildQuestionarioFavoriteHTML(questionIndex);
+                favoriteQuestions.push(html);
+                localStorage.setItem('questoesFavoritas', JSON.stringify(favoriteQuestions));
                 btnFavorite.classList.add('favorited');
+                btnFavorite.innerHTML = '<i class="fas fa-star"></i>';
             } else {
-                // Já está favoritada: remove da lista
-                favoriteQuestions.splice(existingIndex, 1);
+                favoriteQuestions.splice(favoriteIndex, 1);
+                localStorage.setItem('questoesFavoritas', JSON.stringify(favoriteQuestions));
                 btnFavorite.classList.remove('favorited');
+                btnFavorite.innerHTML = '<i class="far fa-star"></i>';
             }
+        }
 
-            // Salva no localStorage
-            localStorage.setItem('studyPro_favorites', JSON.stringify(favoriteQuestions));
+        function getFavoriteHTML(item) {
+            return typeof item === 'string' ? item : (item.html || '');
+        }
+
+        function buildQuestionarioFavoriteHTML(questionIndex) {
+            const question = questionsData[questionIndex];
+            const currentLangKey = currentLang;
+            const questionText = question[currentLangKey].question;
+            const options = question.options[currentLangKey];
+
+            const optionsHTML = options.map(option => `<li>${option}</li>`).join('');
+            const questionNumber = questionIndex + 1;
+
+            return `
+                <div class="question" data-answer="${question.correct}" data-questionario-id="${questionIndex}">
+                    <h2>${questionNumber}. ${questionText}</h2>
+                    <ul class="options">
+                        ${optionsHTML}
+                    </ul>
+                    <button class="btn-copiar">Copiar Questão</button>
+                    <button class="btn-enviar-rosa">Mandar pro Pequeno Rosa</button>
+                    <button class="btn-favoritar"> Favoritar</button>
+                </div>
+            `;
+        }
+
+        function getQuestionarioFavoriteIndex(questionIndex) {
+            const searchId = `data-questionario-id="${questionIndex}"`;
+            return favoriteQuestions.findIndex(item => getFavoriteHTML(item).includes(searchId));
         }
 
         /**
@@ -1262,7 +1296,8 @@
          * Deve ser chamada ao carregar cada questão
          */
         function updateFavoriteButton() {
-            const isFavorited = favoriteQuestions.some(fav => fav.questionIndex === currentQuestionIndex);
+            const favoriteIndex = getQuestionarioFavoriteIndex(currentQuestionIndex);
+            const isFavorited = favoriteIndex !== -1;
             if (isFavorited) {
                 btnFavorite.classList.add('favorited');
                 btnFavorite.innerHTML = '<i class="fas fa-star"></i>';

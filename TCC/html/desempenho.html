@@ -294,7 +294,7 @@
         Callback para carregamento inicial dos dados após tradução
         */
         i18next.init({
-            lng: localStorage.getItem('studyPro_lang') || 'pt', // Idioma salvo ou padrão português
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt', // Idioma salvo ou padrão português
             debug: false, // Modo debug desabilitado para produção
             resources: {
                 // ===== RECURSOS DE TRADUÇÃO EM PORTUGUÊS =====

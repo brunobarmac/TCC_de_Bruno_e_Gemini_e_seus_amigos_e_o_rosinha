@@ -199,7 +199,7 @@
         Recursos extensivos para cobrir todas as strings da interface de configurações
         -->
         i18next.init({
-            lng: 'pt', // Idioma padrão: Português
+            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt', // Idioma salvo ou padrão Português
             debug: false, // Modo debug desabilitado para produção
             resources: {
                 // ===== RECURSOS DE TRADUÇÃO EM PORTUGUÊS =====
@@ -209,6 +209,8 @@
                     "perfil": "Perfil",
                     "foto-perfil": "Foto de Perfil",
                     "mudar-foto": "Mudar Foto",
+                    "nome": "Nome",
+                    "sobrenome": "Sobrenome",
                     "nome-completo": "Nome Completo",
                     "email": "Email",
                     "usuario": "Nome de Usuário",
@@ -239,6 +241,8 @@
                     "perfil": "Profile",
                     "foto-perfil": "Profile Picture",
                     "mudar-foto": "Change Photo",
+                    "nome": "Name",
+                    "sobrenome": "Last Name",
                     "nome-completo": "Full Name",
                     "email": "Email",
                     "usuario": "Username",
@@ -269,6 +273,8 @@
                     "perfil": "Perfil",
                     "foto-perfil": "Foto de Perfil",
                     "mudar-foto": "Cambiar Foto",
+                    "nome": "Nombre",
+                    "sobrenome": "Apellido",
                     "nome-completo": "Nombre Completo",
                     "email": "Correo Electrónico",
                     "usuario": "Nombre de Usuario",
@@ -349,6 +355,8 @@
             option.addEventListener('click', function() {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase(); // Atualiza indicador
+                localStorage.setItem('studyPro_lang', newLang);
+                localStorage.setItem('i18nextLng', newLang);
 
                 // Muda idioma no i18next e atualiza toda a página
                 i18next.changeLanguage(newLang, function() {
