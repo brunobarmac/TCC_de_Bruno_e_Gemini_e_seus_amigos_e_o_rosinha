@@ -234,10 +234,11 @@
         setSavedLanguage(lang);
         localStorage.setItem('selectedLanguage', lang); // compatibilidade
         
-        // Atualiza indicador
-        currentLangSpan.textContent = lang.toUpperCase();
-        
-        // Fecha menu
+        // Incrementa contador de trocas de idioma e verifica troféus
+        if (typeof window.incrementarTrocasIdioma === 'function') {
+          window.incrementarTrocasIdioma().catch((err) => console.error('[site-common] Erro ao atualizar trocasIdioma:', err));
+        }
+
         langMenu.classList.remove('show');
         const arrow = langToggle.querySelector('.site-arrow');
         if (arrow) arrow.style.transform = 'rotate(0deg)';
@@ -318,23 +319,32 @@
    * Calcula path relativo correto para um arquivo
    */
   function getRelativePath(filePath) {
-    const path = window.location.pathname;
-    
+    const path = window.location.pathname.replace(/\\/g, '/').toLowerCase();
+    const normalizedFilePath = filePath.replace(/\\/g, '/');
+
     if (path.includes('/html/')) {
-      // Está em /html/, precisa subir um nível
-      return '../' + filePath;
+      // Página dentro de /html/ precisa usar caminhos relativos ao mesmo diretório
+      if (normalizedFilePath.startsWith('html/')) {
+        return normalizedFilePath.replace(/^html\//, '');
+      }
+      return '../' + normalizedFilePath;
     } else if (path.includes('/questoes/')) {
-      // Está em /questoes/
-      return '../' + filePath;
+      if (normalizedFilePath.startsWith('questoes/')) {
+        return normalizedFilePath.replace(/^questoes\//, '');
+      }
+      return '../' + normalizedFilePath;
     } else if (path.includes('/videos/')) {
-      // Está em /videos/
-      return '../' + filePath;
-    } else if (path.includes('/IA/')) {
-      // Está em /IA/
-      return '../' + filePath;
+      if (normalizedFilePath.startsWith('videos/')) {
+        return normalizedFilePath.replace(/^videos\//, '');
+      }
+      return '../' + normalizedFilePath;
+    } else if (path.includes('/ia/')) {
+      if (normalizedFilePath.toLowerCase().startsWith('ia/')) {
+        return normalizedFilePath.replace(/^ia\//i, '');
+      }
+      return '../' + normalizedFilePath;
     } else {
-      // Está na raiz
-      return filePath;
+      return normalizedFilePath;
     }
   }
 

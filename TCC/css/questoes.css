@@ -1,137 +1,156 @@
-  :root {
-            --primary: #2c3e50;
-            --accent: #e67e22;
-            --success: #27ae60;
-            --error: #c0392b;
-            --bg: #f4f7f6;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: #333;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
+:root {
+    --primary: #2c3e50;
+    --accent: #e67e22;
+    --success: #27ae60;
+    --error: #c0392b;
+    --bg: #f4f7f6;
+}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
 
-        h1 {
-            color: var(--primary);
-            text-align: center;
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 10px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
 
-        .question {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
-        h2 {
-            font-size: 1.1rem;
-            color: var(--primary);
-            margin-top: 0;
-        }
+h1 {
+    color: var(--primary);
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 10px;
+}
 
-        .options {
-            list-style: none;
-            padding: 0;
-        }
+.question {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s;
+}
 
-        .options li {
-            margin: 10px 0;
-            padding: 12px;
-            background: #f9f9f9;
-            border: 2px solid #eee;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+h2 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-top: 0;
+}
 
-        .options li:hover {
-            border-color: var(--accent);
-            background: #fff5eb;
-        }
+.options {
+    list-style: none;
+    padding: 0;
+}
 
-        .options li.selected {
-            border-color: var(--primary);
-            background: #eef2f7;
-        }
+.options li {
+    margin: 10px 0;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
 
-        /* Cores de feedback */
-        .options li.correct {
-            background-color: #d4edda !important;
-            border-color: var(--success) !important;
-            color: #155724;
-            font-weight: bold;
-        }
+.options li:hover {
+    border-color: var(--accent);
+    background: #fff5eb;
+}
 
-        .options li.wrong {
-            background-color: #f8d7da !important;
-            border-color: var(--error) !important;
-            color: #721c24;
-        }
+.options li.selected {
+    border-color: var(--primary);
+    background: #eef2f7;
+}
 
-        button#submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+/* Cores de feedback */
+.options li.correct {
+    background-color: #d4edda !important;
+    border-color: var(--success) !important;
+    color: #155724;
+    font-weight: bold;
+}
 
-        button#submit-btn:hover {
-            background-color: #1a252f;
-        }
+.options li.wrong {
+    background-color: #f8d7da !important;
+    border-color: var(--error) !important;
+    color: #721c24;
+}
 
-        #result-summary {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .btn-copiar, .btn-enviar-rosa, .btn-favoritar {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .btn-copiar {
-            background-color: #e0e0e0;
-            color: #333;
-        }
-        .btn-copiar:hover { background-color: #ccc; }
-        
-        .btn-enviar-rosa {
-            background-color: #ff69b4;
-            color: white;
-        }
-        .btn-enviar-rosa:hover { background-color: #ff1493; 
-        }        
-        .btn-favoritar { background-color: #05ca05;
-            color: white;
-        }
-        .btn-favoritar:hover { background-color: #027002;
-         }
+button#submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button#submit-btn:hover {
+    background-color: #1a252f;
+}
+
+#result-summary {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    display: none;
+}
+
+.btn-copiar,
+.btn-enviar-rosa,
+.btn-favoritar {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-copiar {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-copiar:hover {
+    background-color: #ccc;
+}
+
+.btn-enviar-rosa {
+    background-color: #ff69b4;
+    color: white;
+}
+
+.btn-enviar-rosa:hover {
+    background-color: #ff1493;
+}
+
+.btn-favoritar {
+    background-color: #05ca05;
+    color: white;
+}
+
+.btn-favoritar:hover {
+    background-color: #027002;
+}

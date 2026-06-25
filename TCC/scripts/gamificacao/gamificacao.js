@@ -2,7 +2,7 @@
 // GAMIFICAÇÃO STUDYPRO
 // =====================================
 
-import { doc, updateDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { doc, updateDoc, getDoc, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 import { db, auth } from "../firebaseConfig.js";
 import { getTrofeu } from "./conquistas.js";
 
@@ -32,35 +32,61 @@ export function getLevelData(xp = 0) {
 // =====================================
 // VERIFICAR TROFÉUS
 // =====================================
-export async function verificarTrofeus() {
+export async function verificarTrofeus(currentAttempt = null) {
 
     const user = auth.currentUser;
 
     if (!user) return;
 
-    const userRef =
-        doc(db, "users", user.uid);
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+    const dados = snap.data() || {};
+    const estatisticas = dados.estatisticas || {};
 
-    const snap =
-        await getDoc(userRef);
-
-    const dados =
-        snap.data();
-
-    const estatisticas =
-        dados.estatisticas || {};
+    // =====================================
+    // PRIMEIRO ACERTO
+    // =====================================
+    if ((estatisticas.questoesCorretas || 0) >= 1) {
+        await desbloquearTrofeu("primeiro_acerto");
+    }
 
     // =====================================
     // HISTORIADOR
-    // 1 prova perfeita
     // =====================================
-
-    if (
-        (estatisticas.provasPerfeitas || 0) >= 1
-    ) {
+    if ((estatisticas.provasPerfeitas || 0) >= 1) {
         await desbloquearTrofeu("historiador");
     }
 
+    // =====================================
+    // MULTILÍNGUE
+    // =====================================
+    if ((estatisticas.trocasIdioma || 0) >= 3) {
+        await desbloquearTrofeu("multi_linguagens");
+    }
+
+    // =====================================
+    // DESASTRE HISTÓRICO
+    // =====================================
+    if (
+        currentAttempt &&
+        currentAttempt.questoesRespondidas > 0 &&
+        currentAttempt.questoesCorretas === 0
+    ) {
+        await desbloquearTrofeu("desastre_historica");
+    }
+}
+
+export async function incrementarTrocasIdioma() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+
+    await updateDoc(userRef, {
+        "estatisticas.trocasIdioma": increment(1)
+    });
+
+    await verificarTrofeus();
 }
 
 
@@ -74,12 +100,7 @@ export async function desbloquearTrofeu(idTrofeu) {
 
     if (!user) return;
 
-    const userRef = doc(
-        db,
-        "users",
-        user.uid
-    );
-
+    const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     const trofeus = userSnap.data().trofeus || {};
 
@@ -91,7 +112,7 @@ export async function desbloquearTrofeu(idTrofeu) {
     await updateDoc(userRef, {
         [`trofeus.${idTrofeu}`]: {
             desbloqueado: true,
-            data: new Date().toISOString()
+            data: serverTimestamp()
         }
     });
 
@@ -99,6 +120,8 @@ export async function desbloquearTrofeu(idTrofeu) {
 };
 
 window.desbloquearTrofeu = desbloquearTrofeu;
+window.verificarTrofeus = verificarTrofeus;
+window.incrementarTrocasIdioma = incrementarTrocasIdioma;
 
 
 // =====================================
@@ -170,19 +193,14 @@ export async function atualizarEstatisticas(
 
     if (!user) return;
 
-    const userRef =
-        doc(db, "users", user.uid);
+    const userRef = doc(db, "users", user.uid);
 
     await updateDoc(userRef, {
-
-        "estatisticas.questoesRespondidas":
-        increment(totalQuestoes),
-
-        "estatisticas.questoesCorretas":
-        increment(corretou ? 1 : 0)
-
+        "estatisticas.questoesRespondidas": increment(totalQuestoes),
+        "estatisticas.questoesCorretas": increment(corretou ? 1 : 0)
     });
 
+    await verificarTrofeus();
 }
 
 // =====================================
@@ -202,7 +220,8 @@ window.mostrarNotificacaoTrofeu = mostrarNotificacaoTrofeu;
 // REGISTRAR PROVA
 // =====================================
 export async function registrarProva(
-    perfeita = false
+    perfeita = false,
+    currentAttempt = null
 ) {
 
     const user = auth.currentUser;
@@ -222,5 +241,5 @@ export async function registrarProva(
 
     });
 
-    await verificarTrofeus();
+    await verificarTrofeus(currentAttempt);
 }

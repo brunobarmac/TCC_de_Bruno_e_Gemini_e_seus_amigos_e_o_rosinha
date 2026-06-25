@@ -12,8 +12,6 @@
      ================================================ -->
 
 <!DOCTYPE html>
-    <!-- Site common: auto-inject header, footer and translator -->
-    <script src="../scripts/site-common.js"></script>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -31,47 +29,6 @@
     <link rel="stylesheet" href="../css/site-common.css">
     </head>
 <body>
-    <!-- CABEÇALHO SERÁ INJETADO POR site-common.js -->
-
-    <!--
-    ================================================================================
-    NAVEGAÇÃO PRINCIPAL
-    Menu de navegação entre as principais seções da aplicação
-    Destaque visual para a página atual (Desempenho)
-    ================================================================================
-    -->
-    <nav class="nav-buttons">
-        <!--
-        LINK PARA QUESTIONÁRIO
-        Acesso à funcionalidade principal de realização de testes
-        -->
-        <a href="questionario.html" class="nav-btn" data-i18n="questionario"><i class="fas fa-question-circle"></i> Questionário</a>
-
-        <!--
-        LINK PARA QUESTÕES FAVORITAS
-        Acesso à lista de questões marcadas como favoritas pelo usuário
-        -->
-        <a href="questoes-favoritas.html" class="nav-btn" data-i18n="questoes-favoritas"><i class="fas fa-star"></i> Questões favoritas</a>
-
-        <!--
-        LINK PARA DESEMPENHO (PÁGINA ATUAL)
-        Página atual - destacado visualmente com classe 'active'
-        Dashboard de métricas e estatísticas de desempenho
-        -->
-        <a href="desempenho.html" class="nav-btn active" data-i18n="desempenho"><i class="fas fa-chart-line"></i> Desempenho</a>
-
-        <!--
-        LINK PARA SALA DE TROFÉUS
-        Seção de conquistas e achievements desbloqueados
-        -->
-        <a href="sala-trofeus.html" class="nav-btn" data-i18n="sala-trofeus"><i class="fas fa-trophy"></i> Sala de Troféus</a>
-
-        <!--
-        LINK PARA TUTORIAL DE IA
-        Seção educacional sobre inteligência artificial
-        -->
-        <a href="tutorial-ia.html" class="nav-btn" data-i18n="tutorial-ia"><i class="fas fa-robot"></i> Tutorial IA</a>
-    </nav>
 
     <!--
     ================================================================================
@@ -704,5 +661,6 @@
         */
         loadPerformanceData();
     </script>
+    <script src="../scripts/site-common.js"></script>
 </body>
 </html>

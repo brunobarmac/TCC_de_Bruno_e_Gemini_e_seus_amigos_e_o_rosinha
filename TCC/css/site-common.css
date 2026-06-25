@@ -6,6 +6,7 @@
    ================================================================ */
 
 /* Variáveis CSS */
+
 :root {
   --primary-blue: #0b84ff;
   --primary-green: #00b894;
@@ -17,6 +18,12 @@
   --shadow: 0 4px 12px rgba(11, 132, 255, 0.15);
   --shadow-hover: 0 6px 16px rgba(11, 132, 255, 0.2);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ========================================

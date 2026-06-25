@@ -86,6 +86,29 @@ function atualizarPainelEstatisticas(listaTrofeus) {
     if (pontosTotaisEl) pontosTotaisEl.textContent = pontosTotais;
 }
 
+function getProgressoTrofeu(trofeu, estatisticas, trofeusUsuario) {
+    const meta = trofeu.progresso?.meta || 1;
+    switch (trofeu.id) {
+        case "primeiro_acerto":
+            return { atual: Math.min(estatisticas.questoesCorretas || 0, meta), meta };
+        case "historiador":
+            return { atual: Math.min(estatisticas.provasPerfeitas || 0, meta), meta };
+        case "multi_linguagens":
+            return { atual: Math.min(estatisticas.trocasIdioma || 0, meta), meta };
+        case "desastre_historica":
+            return { atual: trofeusUsuario[trofeu.id]?.desbloqueado ? 1 : 0, meta };
+        default:
+            return { atual: trofeu.progresso?.atual || 0, meta };
+    }
+}
+
+function prepararTrofeusComProgresso(listaTrofeus, estatisticas, trofeusUsuario) {
+    return listaTrofeus.map((trofeu) => ({
+        ...trofeu,
+        progresso: getProgressoTrofeu(trofeu, estatisticas, trofeusUsuario)
+    }));
+}
+
 function atualizarGaleria(trofeus) {
     if (!galeria) return;
     galeria.innerHTML = "";
@@ -119,7 +142,8 @@ async function renderizarTrofeus() {
     if (!dadosUsuario) return;
 
     trofeusUsuario = dadosUsuario.trofeus || {};
-    trofeusOrdenados = getListaTrofeus();
+    const estatisticas = dadosUsuario.estatisticas || {};
+    trofeusOrdenados = prepararTrofeusComProgresso(getListaTrofeus(), estatisticas, trofeusUsuario);
 
     aplicarFiltrosEOrdenacao();
 }

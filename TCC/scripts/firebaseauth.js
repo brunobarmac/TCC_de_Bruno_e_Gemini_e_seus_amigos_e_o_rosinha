@@ -40,7 +40,8 @@ if (signUp) {
           questoesRespondidas: 0,
           questoesCorretas: 0,
           provasPerfeitas: 0,
-          provasConcluidas: 0
+          provasConcluidas: 0,
+          trocasIdioma: 0
         }
       });
 

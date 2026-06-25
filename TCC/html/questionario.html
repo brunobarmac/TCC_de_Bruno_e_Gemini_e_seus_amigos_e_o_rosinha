@@ -655,7 +655,7 @@
              * 3. Recarrega a questão com novo idioma
              * 4. Fecha o menu
              */
-            document.querySelectorAll('.lang-option, .site-lang-option').forEach(option => {
+            document.querySelectorAll('.lang-option').forEach(option => {
                 option.addEventListener('click', function () {
                     // Pega o código do idioma (pt, en, es)
                     const lang = this.dataset.lang;
@@ -668,6 +668,11 @@
 
                     // Salva preferência do usuário
                     localStorage.setItem('studyPro_lang', lang);
+
+                    // Incrementa contador de trocas de idioma e verifica conquistas
+                    if (typeof window.incrementarTrocasIdioma === 'function') {
+                        window.incrementarTrocasIdioma().catch(console.error);
+                    }
 
                     // Mostra idioma escolhido no botão
                     if (currentLangDisplay) {
@@ -710,7 +715,7 @@
 
             // "Ver Desempenho": Leva à página de desempenho
             document.getElementById('view-performance-btn').addEventListener('click', function () {
-                window.location.href = 'desempenho.html';
+                window.location.href = 'configuracoes.html';
             });
 
             // Controle de navegação de questões
@@ -1090,8 +1095,6 @@
             const correctCount = userAnswers.filter((ans, idx) => ans === questionsData[idx].correct).length;
             adicionarXP(correctCount + 50);
 
-            registrarProva(correctCount === 15);
-
             //Trofeu de acertas todas as questões
             if (correctCount === 15) {
                 adicionarXP(100);
@@ -1102,7 +1105,11 @@
 
             //Registrar conclusão da prova
             await registrarProva(
-                correctCount === questionsData.length
+                correctCount === questionsData.length,
+                {
+                    questoesRespondidas: questionsData.length,
+                    questoesCorretas: correctCount
+                }
             );
 
             /**

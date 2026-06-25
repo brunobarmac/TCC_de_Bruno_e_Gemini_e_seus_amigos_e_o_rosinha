@@ -1,6 +1,6 @@
 import { auth, db } from "./firebaseConfig.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getDoc, doc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 import { getLevelData } from "./gamificacao/gamificacao.js";
 import { getListaTrofeus } from "./gamificacao/conquistas.js";
 
@@ -19,14 +19,85 @@ if (userId) {
     if (docSnap.exists()) {
       const data = docSnap.data();
 
-      document.getElementById('loggedUserFName').innerText = data.firstName;
-      document.getElementById('loggedUserEmail').innerText = data.email;
-      document.getElementById('loggedUserLName').innerText = data.lastName;
+      const firstNameEl = document.getElementById('loggedUserFName');
+      const lastNameEl = document.getElementById('loggedUserLName');
+      const emailEl = document.getElementById('loggedUserEmail');
+
+      setElementTextOrValue(firstNameEl, data.firstName);
+      setElementTextOrValue(lastNameEl, data.lastName);
+      setElementTextOrValue(emailEl, data.email);
+
+      populateConfigInputs(data);
+
       if (document.getElementById('playerPanel')) {
         atualizarPainelDoJogador(data);
       }
     }
   });
+}
+
+function setElementTextOrValue(element, value) {
+  if (!element) return;
+  if ('value' in element) {
+    element.value = value || '';
+  } else {
+    element.innerText = value || '';
+  }
+}
+
+function populateConfigInputs(data) {
+  const firstNameInput = document.getElementById('loggedUserFName');
+  const lastNameInput = document.getElementById('loggedUserLName');
+  const playerNameHeading = document.getElementById('playerName');
+
+  if (firstNameInput) {
+    firstNameInput.value = data.firstName || '';
+  }
+
+  if (lastNameInput) {
+    lastNameInput.value = data.lastName || '';
+  }
+
+  if (playerNameHeading) {
+    const firstName = data.firstName || '';
+    const lastName = data.lastName || '';
+    playerNameHeading.textContent = [firstName, lastName].filter(Boolean).join(' ') || 'Usuário';
+  }
+}
+
+async function saveUserProfile() {
+  const firstNameInput = document.getElementById('loggedUserFName');
+  const lastNameInput = document.getElementById('loggedUserLName');
+  const playerNameHeading = document.getElementById('playerName');
+  const userId = localStorage.getItem('loggedInUserId');
+
+  if (!firstNameInput || !lastNameInput || !playerNameHeading || !userId) return;
+
+  const firstName = firstNameInput.value.trim();
+  const lastName = lastNameInput.value.trim();
+
+  if (!firstName || !lastName) {
+    alert('Preencha Nome e Sobrenome antes de salvar.');
+    return;
+  }
+
+  try {
+    await updateDoc(doc(db, 'users', userId), {
+      firstName,
+      lastName
+    });
+
+    playerNameHeading.textContent = `${firstName} ${lastName}`;
+    alert('Nome e sobrenome salvos com sucesso!');
+  } catch (error) {
+    console.error('Erro ao salvar dados do usuário:', error);
+    alert('Erro ao salvar alterações. Tente novamente.');
+  }
+}
+
+const saveChangesButton = document.getElementById('saveChanges');
+if (saveChangesButton) {
+  saveChangesButton.addEventListener('click', saveUserProfile);
 }
 
 function atualizarPainelDoJogador(data) {

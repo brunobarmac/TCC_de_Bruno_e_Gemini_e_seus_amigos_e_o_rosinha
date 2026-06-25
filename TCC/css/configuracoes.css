@@ -42,6 +42,11 @@ Fundo claro e limpo para foco no conteúdo
 Fonte Poppins para consistência com identidade visual
 */
 
+input[type="text"], input[type="email"], input[type="password"] {
+    border: none;
+    outline: none;
+}
+
 body.dark-theme {
     background: #1e1e1e;
     color: white;
@@ -54,185 +59,6 @@ body {
     padding: 40px 20px; /* Espaçamento interno responsivo */
     max-width: 1200px; /* Largura máxima para boa legibilidade */
     margin: 0 auto; /* Centralização horizontal */
-}
-
-/*
-===== CABEÇALHO PRINCIPAL =====
-Container flexível que organiza logo e controles no topo
-Responsivo com quebra de linha em telas pequenas
-*/
-.main-header {
-    display: flex;
-    justify-content: space-between; /* Logo à esquerda, controles à direita */
-    align-items: center; /* Alinhamento vertical central */
-    margin-bottom: 60px; /* Espaçamento inferior generoso */
-    flex-wrap: wrap; /* Permite quebra em múltiplas linhas */
-    gap: 20px; /* Espaçamento entre elementos quando quebrados */
-}
-
-/*
-===== LOGO DO STUDYPRO =====
-Elemento de identificação visual principal
-Fonte grande e em negrito para destaque
-Cor primária da paleta para consistência
-*/
-.logo {
-    font-size: 48px; /* Tamanho grande para impacto visual */
-    font-weight: 700; /* Extra bold para destaque */
-    color: var(--color-primary); /* Cor primária da paleta */
-}
-
-/*
-===== ÍCONE DO CÉREBRO =====
-Emoji estilizado que representa a marca StudyPro
-Cor rosa diferenciada para chamar atenção
-Tamanho ligeiramente maior que o texto
-*/
-.brain {
-    color: #ff79cd; /* Rosa vibrante para contraste */
-    margin-right: 10px; /* Espaçamento à direita */
-    font-size: 54px; /* Maior que o texto do logo */
-}
-
-/*
-===== ÁREA DIREITA DO HEADER =====
-Container para controles do lado direito (idioma + voltar)
-Flexível e responsivo para diferentes tamanhos de tela
-*/
-.header-right {
-    display: flex;
-    align-items: center; /* Alinhamento vertical central */
-    gap: 20px; /* Espaçamento entre elementos */
-    flex-wrap: wrap; /* Quebra em telas muito pequenas */
-}
-
-/*
-===== DROPDOWN DE IDIOMA =====
-Container posicionado relativamente para dropdown absoluto
-Base para o sistema de seleção de idioma
-*/
-.language-dropdown {
-    position: relative; /* Necessário para posicionamento absoluto do menu */
-    display: inline-block; /* Comportamento inline com bloco interno */
-}
-
-/*
-===== BOTÃO DO DROPDOWN DE IDIOMA =====
-Botão principal que controla abertura/fechamento do menu
-Design consistente com identidade visual
-Transições suaves para feedback visual
-*/
-.lang-btn {
-    background: #0984e3; /* Azul primário */
-    color: white; /* Texto branco para contraste */
-    border: none; /* Remove borda padrão */
-    padding: 12px 24px; /* Espaçamento interno confortável */
-    border-radius: 10px; /* Bordas arredondadas modernas */
-    font-size: 16px; /* Tamanho de fonte legível */
-    font-weight: 600; /* Semi-bold para destaque */
-    cursor: pointer; /* Cursor de ponteiro */
-    display: flex; /* Layout flexível para ícone + texto */
-    align-items: center; /* Centralização vertical */
-    gap: 8px; /* Espaçamento entre texto e seta */
-    transition: all 0.2s; /* Transição suave em todas as propriedades */
-}
-
-/* Efeito hover para feedback visual */
-.lang-btn:hover {
-    background: #0652a0; /* Tom mais escuro no hover */
-}
-
-/*
-===== SETA DO BOTÃO DE IDIOMA =====
-Elemento visual que indica estado do dropdown
-Animação de rotação quando menu está aberto
-*/
-.lang-btn .arrow {
-    font-size: 12px; /* Tamanho pequeno para não competir com texto */
-    transition: transform 0.3s ease; /* Animação suave de rotação */
-}
-
-/*
-===== MENU SUSPENSO DE IDIOMAS =====
-Dropdown que aparece abaixo do botão
-Inicialmente oculto com opacidade e visibilidade
-Transições suaves para entrada/saída
-*/
-.lang-menu {
-    position: absolute; /* Posicionamento relativo ao container pai */
-    top: 100%; /* Abaixo do botão (100% da altura do botão) */
-    left: 0; /* Alinhado à esquerda do botão */
-    background: white; /* Fundo branco para contraste */
-    border: 1px solid #dfe6e9; /* Borda sutil cinza clara */
-    border-radius: 10px; /* Bordas arredondadas consistentes */
-    list-style: none; /* Remove marcadores de lista */
-    margin: 8px 0 0; /* Pequena margem superior */
-    padding: 8px 0; /* Padding vertical para espaçamento interno */
-    min-width: 100px; /* Largura mínima para boa usabilidade */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Sombra para profundidade */
-    /* Estados iniciais para animação de entrada */
-    opacity: 0; /* Totalmente transparente */
-    visibility: hidden; /* Oculto para leitores de tela */
-    transform: translateY(-10px); /* Levemente acima da posição final */
-    transition: all 0.25s ease; /* Transição suave em todas as propriedades */
-    z-index: 10; /* Garante que fique acima de outros elementos */
-}
-
-/*
-===== MENU ABERTO =====
-Classe aplicada quando dropdown está visível
-Transições fazem o menu aparecer suavemente
-*/
-.lang-menu.show {
-    opacity: 1; /* Totalmente opaco */
-    visibility: visible; /* Visível para leitores de tela */
-    transform: translateY(0); /* Posição final */
-}
-
-/*
-===== OPÇÕES INDIVIDUAIS DO MENU =====
-Cada item clicável no dropdown de idiomas
-Estilo limpo focado na usabilidade
-*/
-.lang-option {
-    width: 100%; /* Ocupa toda a largura disponível */
-    padding: 10px 16px; /* Espaçamento interno confortável */
-    border: none; /* Remove borda padrão */
-    background: none; /* Fundo transparente */
-    text-align: left; /* Alinhamento à esquerda */
-    font-size: 16px; /* Tamanho consistente */
-    cursor: pointer; /* Cursor de ponteiro */
-    color: #2d3436; /* Cor do texto principal */
-}
-
-/* Efeito hover para feedback visual */
-.lang-option:hover {
-    background: #f0f4f8; /* Fundo cinza muito claro */
-}
-
-/*
-===== BOTÃO VOLTAR =====
-Link estilizado como botão para navegação
-Consistente com outros botões da interface
-Cor primária para identificação como ação principal
-*/
-.back-btn {
-    margin-right: 20px;
-    background: #0984e3; /* Azul primário */
-    color: white; /* Texto branco */
-    border: none; /* Sem borda */
-    padding: 12px 24px; /* Espaçamento interno */
-    border-radius: 10px; /* Bordas arredondadas */
-    font-size: 16px; /* Tamanho de fonte */
-    font-weight: 600; /* Semi-bold */
-    cursor: pointer; /* Cursor de ponteiro */
-    text-decoration: none; /* Remove sublinhado de link */
-    transition: all 0.2s; /* Transição suave */
-}
-
-/* Efeito hover */
-.back-btn:hover {
-    background: #0652a0; /* Tom mais escuro */
 }
 
 /*
@@ -760,17 +586,6 @@ Elementos redimensionados para toque e legibilidade
         padding: 20px 10px; /* Padding reduzido para telas pequenas */
     }
 
-    .main-header {
-        flex-direction: column; /* Header vertical */
-        align-items: flex-start; /* Alinhamento à esquerda */
-        margin-bottom: 30px; /* Margem inferior reduzida */
-    }
-
-    .header-right {
-        width: 100%; /* Ocupa largura total */
-        justify-content: space-between; /* Distribuição dos controles */
-    }
-
     h1 {
         font-size: 28px; /* Título ainda menor */
         margin-bottom: 30px; /* Margem reduzida */
@@ -806,19 +621,6 @@ Elementos ainda mais compactos para dispositivos muito pequenos
 Foco em usabilidade e legibilidade máxima
 */
 @media (max-width: 400px) {
-    .main-header {
-        flex-direction: column; /* Confirma layout vertical */
-        gap: 10px; /* Gap mínimo */
-    }
-
-    .logo {
-        font-size: 36px; /* Logo menor */
-    }
-
-    .brain {
-        font-size: 42px; /* Ícone proporcionalmente menor */
-    }
-
     h1 {
         font-size: 24px; /* Título mínimo legível */
     }

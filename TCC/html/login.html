@@ -31,11 +31,10 @@
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 
     <script type="module" src="../scripts/firebaseauth.js"></script>
-    <link rel="stylesheet" href="../css/site-common.css">
     </head>
 <body>
     <!-- CABEÇALHO COM SELETOR DE IDIOMA -->
-    <!-- Header antigo removido - substitu�do por site-common.js -->
+    <!-- Header antigo removido - substitu�do por site-common.js -->
 
 
     <div class="container" id="signIn"> <!-- // Container centralizado para o formulário LOGIN-->
@@ -55,15 +54,6 @@
 
         <button type="button" class="btn" id="submitSignIn" data-i18n="entrar">Entrar</button> <!-- // Botão para enviar o formulário de login -->
         <div class="social-login"> <!-- // Área para login social -->
-            <p data-i18n="social-text">Ou entre com:</p> <!-- // Texto explicativo -->
-            <button class="google-btn" type="button">               
-                <img src="../imagens/logo-google.webp" alt="Google"> Google <!-- // Botão de login com Google -->
-            </button>
-            <button class="facebook-btn" type="button">
-                <img src="../imagens/logo-facebook.PNG" alt="Facebook"> Facebook <!-- // Botão de login com Facebook -->
-            </button>
-            <button class="apple-btn" type="button">
-                <img src="../imagens/logo-apple.webp" alt="Apple"> Apple <!-- // Botão de login com Apple -->
             </button>
         </div>
         
@@ -101,17 +91,7 @@
         </div>
 
         <button type="button" class="btn" id="submitSignUp" data-i18n="cadastrar">Cadastrar</button> <!-- // Botão para enviar o formulário de cadastro -->
-        
         <div class="social-login"> <!-- // Área para cadastro social -->
-            <p data-i18n="social-text">Ou cadastre-se com:</p> <!-- // Texto explicativo -->
-            <button class="google-btn" type="button">
-                <img src="../imagens/logo-google.webp" alt="Google"> Google <!-- // Botão de cadastro com Google -->
-            </button>
-            <button class="facebook-btn" type="button">
-                <img src="../imagens/logo-facebook.PNG" alt="Facebook"> Facebook <!-- // Botão de cadastro com Facebook -->
-            </button>
-            <button class="apple-btn" type="button">
-                <img src="../imagens/logo-apple.webp" alt="Apple"> Apple <!-- // Botão de cadastro com Apple -->
             </button>
         </div>
         
@@ -237,6 +217,5 @@
     </script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
-<script src="../scripts/site-common.js"></script>
 </html>
 
