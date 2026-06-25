@@ -127,7 +127,7 @@ function atualizarPainelDoJogador(data) {
   const { proxNivelXP, xpParaProximo } = getLevelData(xp);
 
   if (photo) {
-    photo.src = data.photoURL || data.avatar || 'https://via.placeholder.com/120';
+    photo.src = data.photoURL || data.avatar || '../imagens/foto-avatar.png';
   }
 
   if (playerName) {
