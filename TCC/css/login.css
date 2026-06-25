@@ -132,29 +132,47 @@ body {
 
 /* Container centralizado */
 .container {
-    background: #ffffff;
+    background: transparent;
     max-width: 400px;
     margin: 20px auto 60px;
+    border: 1px solid #fff;
     padding: 32px 24px;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
     text-align: center;
+    backdrop-filter: blur(100px);
 }
 
 /* Estilo do t�tulo */
 h1 {
-    color: #002855;
+    color: #00b4d8;
     margin-bottom: 24px;
 }
 
-input[type="text"], input[type="email"], input[type="password"],
-.google-btn, .facebook-btn, .apple-btn,
-button, .switch-btn {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+.google-btn,
+.facebook-btn,
+.apple-btn,
+.btn {
     width: 90%;
     max-width: 320px;
     margin: 10px auto;
     display: block;
     box-sizing: border-box;
+}
+
+.cadastro-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+}
+
+.cadastro-link p {
+    margin: 0;
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
@@ -243,20 +261,24 @@ button:hover {
     color: #00b4d8;
     border: none;
     font-weight: bold;
-    text-decoration: none;
-    margin-top: 12px;
     cursor: pointer;
-    transition: color 0.2s;
-    text-align: center;
+
+    /* IMPORTANTE */
+    display: inline !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+
     padding: 0;
     font-size: 1em;
-    display: block;
+    text-decoration: none;
 }
 
 .switch-btn:hover {
+    text-decoration: underline;
     color: #0077b6;
+    background: transparent;
 }
-
 .social-login {
     margin: 18px 0;
 }
@@ -413,40 +435,6 @@ button:hover {
     background: #f0f4f8;
 }
 
-/* Define o fundo azul-escuro para a página de cadastro */
-body {
-    background: #002855; /* // Fundo azul-escuro */
-    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; /* // Fonte principal */
-    margin: 0; /* // Remove margens padrão */
-    color: #ffffff; /* // Define o texto branco para contraste */
-}
-
-/* Container centralizado */
-.container {
-    background: #ffffff; /* // Fundo branco do container */
-    max-width: 400px; /* // Largura confortável */
-    margin: 20px auto 60px; /* // Centraliza vertical e horizontalmente */
-    padding: 32px 24px; /* // Padding interno */
-    border-radius: 12px; /* // Bordas arredondadas */
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12); /* // Sombra suave */
-    text-align: center; /* // Centraliza texto */
-}
-
-/* Estilo do título */
-h1 {
-    color: #002855; /* // Azul-escuro para o título */
-    margin-bottom: 24px; /* // Espaço abaixo do título */
-}
-
-input[type="text"], input[type="email"], input[type="password"],
-.google-btn, .facebook-btn, .apple-btn,
-button, .switch-btn {
-    width: 90%; /* Mesma largura para todos os campos e botões */
-    max-width: 320px; /* Limita largura máxima */
-    margin: 10px auto; /* Espaço vertical e centraliza horizontalmente */
-    display: block; /* Garante que cada elemento fique em uma linha */
-    box-sizing: border-box; /* Inclui padding e borda no tamanho */
-}
 /* ===== INPUT GROUP =====
    Agrupa inputs com ícones */
 .input-group {
@@ -549,23 +537,6 @@ button:hover {
     height: 30px;
 }
 
-.switch-btn {
-    background: transparent;
-    color: #48cae4;
-    border: none;
-    font-weight: bold;
-    text-decoration: none;
-    margin-top: 12px;
-    cursor: pointer;
-    transition: color 0.2s;
-    text-align: center;
-    padding: 0;
-    font-size: 1em;
-    display: block;
-}
-.switch-btn:hover {
-    color: #0096c7;
-}
 .social-login {
     margin: 18px 0;
 }

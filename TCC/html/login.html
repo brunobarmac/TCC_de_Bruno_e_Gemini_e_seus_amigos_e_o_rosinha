@@ -12,26 +12,29 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <!-- Metadados essenciais -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | StudyPro</title> <!-- // Título da aba do navegador -->
-    
+
     <!-- Fonte Poppins para consistência visual -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Estilos da página de login -->
     <link rel="stylesheet" href="../css/login.css"> <!-- // Importa o CSS da página de login -->
-    
+
     <!-- Boxicons para ícones nos inputs -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-    
+
     <!-- i18next para sistema de tradução multilíngue -->
     <script src="https://unpkg.com/i18next@23.15.1/dist/umd/i18next.min.js"></script>
 
     <script type="module" src="../scripts/firebaseauth.js"></script>
-    </head>
+</head>
+
 <body>
     <!-- CABEÇALHO COM SELETOR DE IDIOMA -->
     <!-- Header antigo removido - substitu�do por site-common.js -->
@@ -41,63 +44,79 @@
         <h1 data-i18n="login-title">Bem-vindo ao StudyPro</h1> <!-- // Título principal da página -->
 
         <div id="signInMessage" class="messageDiv"></div>
-        
+
         <div class="input-group">
             <i class="bx bxs-envelope"></i>
-            <input type="email" id="email" placeholder="Email" data-i18n-placeholder="Email" required> <!-- // Campo para e-mail -->
+            <input type="email" id="email" placeholder="Email" data-i18n-placeholder="Email" required>
+            <!-- // Campo para e-mail -->
         </div>
 
         <div class="input-group">
             <i class="bx bxs-lock-alt"></i>
-            <input type="password" id="password" placeholder="Senha" data-i18n-placeholder="Senha" required> <!-- // Campo para senha -->
+            <input type="password" id="password" placeholder="Senha" data-i18n-placeholder="Senha" required>
+            <!-- // Campo para senha -->
         </div>
 
-        <button type="button" class="btn" id="submitSignIn" data-i18n="entrar">Entrar</button> <!-- // Botão para enviar o formulário de login -->
+        <button type="button" class="btn" id="submitSignIn" data-i18n="entrar">Entrar</button>
+        <!-- // Botão para enviar o formulário de login -->
         <div class="social-login"> <!-- // Área para login social -->
             </button>
         </div>
-        
-        
-        <p data-i18n="no-account">Não tem uma conta?</p> <!-- // Texto para quem não tem conta -->
-        <button id="signUpButton" class="switch-btn" data-i18n="cadastrese">Cadastre-se</button> <!-- // Botão para ir para a página de cadastro -->
-        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a> <!-- // Botão para voltar à página inicial -->
+
+        <div class="cadastro-link">
+            <p data-i18n="no-account">Não tem uma conta?</p> <!-- // Texto para quem não tem conta -->
+            <button id="signUpButton" class="switch-btn" data-i18n="cadastrese">Cadastre-se</button>
+            <!-- // Botão para ir para a página de cadastro -->
+        </div>
+        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a>
+        <!-- // Botão para voltar à página inicial -->
     </div>
 
 
 
-    <div class="container" id="signup" style="display: none;"> <!-- // Container centralizado para o formulário CADASTRO-->
+    <div class="container" id="signup" style="display: none;">
+        <!-- // Container centralizado para o formulário CADASTRO-->
         <h1 data-i18n="cadastro-title">Crie sua conta</h1> <!-- // Título principal da página -->
 
         <div id="signUpMessage" class="messageDiv"></div>
-        
+
         <div class="input-group">
             <i class="bx bxs-user"></i>
-            <input type="text" id="fName" placeholder="Nome" data-i18n-placeholder="Nome" required> <!-- // Campo para nome -->
+            <input type="text" id="fName" placeholder="Nome" data-i18n-placeholder="Nome" required>
+            <!-- // Campo para nome -->
         </div>
 
         <div class="input-group">
             <i class="bx bxs-user"></i>
-            <input type="text" id="lName" placeholder="Sobrenome" data-i18n-placeholder="Sobrenome" required> <!-- // Campo para sobrenome -->
+            <input type="text" id="lName" placeholder="Sobrenome" data-i18n-placeholder="Sobrenome" required>
+            <!-- // Campo para sobrenome -->
         </div>
 
         <div class="input-group">
             <i class="bx bxs-envelope"></i>
-            <input type="email" id="rEmail" placeholder="E-mail" data-i18n-placeholder="Email" required> <!-- // Campo para e-mail -->
+            <input type="email" id="rEmail" placeholder="E-mail" data-i18n-placeholder="Email" required>
+            <!-- // Campo para e-mail -->
         </div>
 
         <div class="input-group">
             <i class="bx bxs-lock-alt"></i>
-            <input type="password" id="rPassword" placeholder="Senha" data-i18n-placeholder="Senha" required> <!-- // Campo para senha -->
+            <input type="password" id="rPassword" placeholder="Senha" data-i18n-placeholder="Senha" required>
+            <!-- // Campo para senha -->
         </div>
 
-        <button type="button" class="btn" id="submitSignUp" data-i18n="cadastrar">Cadastrar</button> <!-- // Botão para enviar o formulário de cadastro -->
+        <button type="button" class="btn" id="submitSignUp" data-i18n="cadastrar">Cadastrar</button>
+        <!-- // Botão para enviar o formulário de cadastro -->
         <div class="social-login"> <!-- // Área para cadastro social -->
             </button>
         </div>
-        
+
+    <div class="cadastro-link">
         <p data-i18n="tem-conta">Já tem uma conta?</p> <!-- // Texto para quem já tem conta -->
-        <button id="signInButton" class="switch-btn" data-i18n="entrar">Entrar</button> <!-- // Botão para ir para a página de login -->
-        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a> <!-- // Botão para voltar à página inicial -->
+        <button id="signInButton" class="switch-btn" data-i18n="entrar">Entrar</button>
+    </div>
+    <!-- // Botão para ir para a página de login -->
+    <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a>
+    <!-- // Botão para voltar à página inicial -->
     </div>
 
     <script src="../scripts/script.js"></script>
@@ -113,6 +132,7 @@
             debug: false,
             resources: {
                 // Traduções em Português
+<<<<<<< HEAD
                 pt: { translation: {
                     "login-title": "Bem-vindo ao StudyPro",
                     "cadastro-title": "Crie sua conta",
@@ -166,21 +186,70 @@
                     "Senha": "Contraseña",
                     "Sobrenome": "Apellido"
                 }}
+=======
+                pt: {
+                    translation: {
+                        "login-title": "Bem-vindo ao StudyPro",
+                        "cadastro-title": "Crie sua conta",
+                        "user-email": "Usuário ou E-mail",
+                        "password": "Senha",
+                        "entrar": "Entrar",
+                        "social-text": "Ou entre com:",
+                        "no-account": "Não tem uma conta?",
+                        "cadastrese": "Cadastre-se",
+                        "cadastrar": "Cadastrar",
+                        "tem-conta": "Já tem uma conta?",
+                        "voltar-inicio": "Voltar para a página inicial"
+                    }
+                },
+                // Traduções em Inglês
+                en: {
+                    translation: {
+                        "login-title": "Welcome to StudyPro",
+                        "cadastro-title": "Create your account",
+                        "user-email": "Username or Email",
+                        "password": "Password",
+                        "entrar": "Sign In",
+                        "social-text": "Or sign in with:",
+                        "no-account": "Don't have an account?",
+                        "cadastrese": "Sign Up",
+                        "cadastrar": "Register",
+                        "tem-conta": "Already have an account?",
+                        "voltar-inicio": "Back to homepage"
+                    }
+                },
+                // Traduções em Espanhol
+                es: {
+                    translation: {
+                        "login-title": "Bienvenido a StudyPro",
+                        "cadastro-title": "Crea tu cuenta",
+                        "user-email": "Usuario o Correo Electrónico",
+                        "password": "Contraseña",
+                        "entrar": "Iniciar Sesión",
+                        "social-text": "O inicia sesión con:",
+                        "no-account": "¿No tienes una cuenta?",
+                        "cadastrese": "Regístrate",
+                        "cadastrar": "Registrarse",
+                        "tem-conta": "¿Ya tienes una cuenta?",
+                        "voltar-inicio": "Volver a la página de inicio"
+                    }
+                }
+>>>>>>> d034d080088f7b6bf7eb5a527e5d339366a89341
             }
-        }, function(err, t) {
+        }, function (err, t) {
             updateContent();
         });
 
         // ===== FUNÇÃO: Atualizar Conteúdo da Página =====
         function updateContent() {
             // Atualiza textos com data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(function(element) {
+            document.querySelectorAll('[data-i18n]').forEach(function (element) {
                 const key = element.getAttribute('data-i18n');
                 element.textContent = i18next.t(key);
             });
 
             // Atualiza placeholders com data-i18n-placeholder
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(function(element) {
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function (element) {
                 const key = element.getAttribute('data-i18n-placeholder');
                 element.placeholder = i18next.t(key);
             });
@@ -193,7 +262,7 @@
         const arrow = langToggle.querySelector('.arrow');
 
         // Clique no botão de idioma: abre/fecha menu
-        langToggle.addEventListener('click', function(e) {
+        langToggle.addEventListener('click', function (e) {
             e.stopPropagation();
             langMenu.classList.toggle('show');
             langToggle.classList.toggle('active');
@@ -206,12 +275,16 @@
 
         // Clique em uma opção de idioma
         document.querySelectorAll('.lang-option').forEach(option => {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function () {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase();
+<<<<<<< HEAD
                 localStorage.setItem('studyPro_lang', newLang);
                 localStorage.setItem('i18nextLng', newLang);
                 i18next.changeLanguage(newLang, function() {
+=======
+                i18next.changeLanguage(newLang, function () {
+>>>>>>> d034d080088f7b6bf7eb5a527e5d339366a89341
                     updateContent();
                 });
                 langMenu.classList.remove('show');
@@ -221,7 +294,7 @@
         });
 
         // Clique fora fecha o dropdown
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
                 langMenu.classList.remove('show');
                 langToggle.classList.remove('active');
@@ -232,5 +305,5 @@
     <script src="../scripts/site-common.js"></script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
-</html>
 
+</html>
