@@ -5,31 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pequeno Rosa - Assistente de História</title>
     <link rel="stylesheet" href="pequeno_rosa.css">
-    <style>
-        /* CSS para o botão Limpar Página no canto superior direito */
-        .btn-limpar {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px 15px;
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .btn-limpar:hover {
-            background-color: #cc0000;
-        }
-    </style>
     <link rel="stylesheet" href="../css/site-common.css">
-    </head>
+</head>
 <body>
-    <!-- NOVO BOTÃO AQUI -->
-    <button id="btn-limpar" class="btn-limpar">Limpar Página</button>
+    <button id="btn-limpar" class="btn-limpar">🗑️ Apagar Chat</button>
 
     <div id="chat-mensagens">
         <div class="balao-ia" id="msg-boas-vindas">Olá! Sou o professor Pequeno Rosa. Como posso ajudar você hoje?</div>
@@ -54,7 +33,7 @@
         function formatarTextoIA(texto) {
             return texto
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
-                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')     
+                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')    
                 .replace(/\n/g, '<br>');                          
         }
 
@@ -152,17 +131,17 @@
 
         // --- 8. Lógica do botão Limpar Página ---
         btnLimpar.onclick = () => {
-            // Remove da memória do navegador
-            sessionStorage.removeItem('historico_pequeno_rosa');
-            // Zera o array interno
-            historicoConversa = [];
-            // Reseta a tela (mantendo só a bolha inicial)
-            areaMensagens.innerHTML = `<div class="balao-ia" id="msg-boas-vindas"></div>`;
-            // Reaplica a mensagem de boas-vindas correta
-            configurarBoasVindas();
+            const certeza = confirm("Tem certeza que deseja apagar todo o chat?");
+            
+            if (certeza) {
+                sessionStorage.removeItem('historico_pequeno_rosa');
+                historicoConversa = [];
+                areaMensagens.innerHTML = `<div class="balao-ia" id="msg-boas-vindas"></div>`;
+                configurarBoasVindas();
+            }
         };
 
-        // --- 9. Ponte com a tela de Questões (BÔNUS ANTERIOR) ---
+        // --- 9. Ponte com a tela de Questões ---
         const questaoRecebida = sessionStorage.getItem('questao_transferida');
         if (questaoRecebida) {
             inputPergunta.value = "Por favor, me ajude a analisar e resolver esta questão:\n\n" + questaoRecebida;
@@ -171,8 +150,7 @@
             sessionStorage.removeItem('questao_transferida');
         }
 
-      </script>
+    </script>
 </body>
-<!-- Site common: auto-inject header, footer and translator -->
 <script src="../scripts/site-common.js"></script>
 </html>

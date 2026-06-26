@@ -74,3 +74,21 @@
              font-weight: bold;
              font-size: 16px;
         }
+.btn-limpar {
+    position: absolute;
+    top: 95px; /* Ajustado para fugir da barra azul */
+    right: 20px;
+    z-index: 9999; /* Garante que fique por cima de tudo */
+    padding: 8px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.btn-limpar:hover {
+    background-color: #cc0000;
+}
