@@ -323,7 +323,7 @@
 
   function isHomePage() {
     const path = window.location.pathname.toLowerCase();
-    return path.endsWith('/index.html') || path.endsWith('/index.htm') || path.endsWith('/') || path.endsWith('index.html') || path.endsWith('index.htm');
+    return path.endsWith('../comLogin.html') || path.endsWith('../comLogin.html') || path.endsWith('/') || path.endsWith('../comLogin.html') || path.endsWith('../comLogin.html');
   }
 
   /**
@@ -698,9 +698,9 @@
   function getHomeUrl() {
     const path = window.location.pathname;
     if (path.includes('/html/') || path.includes('/questoes/') || path.includes('/videos/') || path.includes('/IA/')) {
-      return '../index.html';
+      return '../comLogin.html';
     }
-    return 'index.html';
+    return 'comLogin.html';
   }
 
   /**

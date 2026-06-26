@@ -92,7 +92,7 @@
     margin: 6px 0 0;
     padding: 6px 0;
     min-width: 90px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -123,24 +123,47 @@
 }
 
 /* Define o fundo azul-escuro para a p�gina de login */
+html {
+    min-height: 100%;
+}
+
 body {
-    background: #002855;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    background:#002855;
     font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
     margin: 0;
     color: #ffffff;
+    overflow-y: auto;
+}
+
+@media (max-height: 700px) {
+    body {
+        align-items: flex-start;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
 }
 
 /* Container centralizado */
 .container {
-    background: transparent;
+    background: #002855;
+    width: 100%;
     max-width: 400px;
-    margin: 20px auto 60px;
-    border: 1px solid #fff;
+    margin: 0 auto;
     padding: 32px 24px;
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.20);
     text-align: center;
     backdrop-filter: blur(100px);
+    transition:all 0.3s ease;
+}
+
+.container:hover{
+    box-shadow: 0 4px 24px rgba(0, 180, 216, 1)
 }
 
 /* Estilo do t�tulo */
@@ -175,14 +198,19 @@ input[type="password"],
     margin: 0;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     padding: 12px;
     border: none;
     border-radius: 6px;
     font-size: 1em;
 }
 
-button, .google-btn, .facebook-btn, .apple-btn {
+button,
+.google-btn,
+.facebook-btn,
+.apple-btn {
     padding: 12px;
     border-radius: 6px;
     font-size: 1.1em;
@@ -262,6 +290,7 @@ button:hover {
     border: none;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.2s ease;
 
     /* IMPORTANTE */
     display: inline !important;
@@ -279,6 +308,7 @@ button:hover {
     color: #0077b6;
     background: transparent;
 }
+
 .social-login {
     margin: 18px 0;
 }
@@ -405,7 +435,7 @@ button:hover {
     margin: 6px 0 0;
     padding: 6px 0;
     min-width: 90px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -466,13 +496,70 @@ button:hover {
     background: transparent;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+.terms-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 90%;
+    max-width: 320px;
+    margin: 8px auto 0;
+    color: #ffffff;
+    text-align: left;
+}
+
+.terms-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+    accent-color: #00b4d8;
+    flex-shrink: 0;
+}
+
+.terms-label {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #f1f5f9;
+}
+
+.terms-label a {
+    color: #00b4d8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.terms-label a:hover {
+    color: #0077b6;
+    text-decoration: underline;
+}
+
+.messageDiv {
+    min-height: 24px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.messageDiv.error {
+    color: #ffe2e2;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px 12px;
+    border-radius: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     padding: 12px;
     border: none;
     border-radius: 6px;
     font-size: 1em;
 }
-button, .google-btn, .facebook-btn, .apple-btn {
+
+button,
+.google-btn,
+.facebook-btn,
+.apple-btn {
     padding: 12px;
     border-radius: 6px;
     font-size: 1.1em;
@@ -480,14 +567,17 @@ button, .google-btn, .facebook-btn, .apple-btn {
     cursor: pointer;
     transition: background 0.2s;
 }
+
 button {
     background: #48cae4;
     color: #fff;
     margin-top: 10px;
 }
+
 button:hover {
     background: #0096c7;
 }
+
 .google-btn {
     background: #fff;
     color: #444;
@@ -497,9 +587,12 @@ button:hover {
     justify-content: center;
     gap: 8px;
 }
+
 .google-btn:hover {
-    background: #fff; /* Mantém a cor original ao passar o mouse */
+    background: #fff;
+    /* Mantém a cor original ao passar o mouse */
 }
+
 .facebook-btn {
     background: #1877f3;
     color: #fff;
@@ -508,9 +601,12 @@ button:hover {
     justify-content: center;
     gap: 8px;
 }
+
 .facebook-btn:hover {
-    background: #1877f3; /* Mantém a cor original ao passar o mouse */
+    background: #1877f3;
+    /* Mantém a cor original ao passar o mouse */
 }
+
 .apple-btn {
     background: #000;
     color: #fff;
@@ -519,9 +615,12 @@ button:hover {
     justify-content: center;
     gap: 8px;
 }
+
 .apple-btn:hover {
-    background: #000; /* Mantém a cor original ao passar o mouse */
+    background: #000;
+    /* Mantém a cor original ao passar o mouse */
 }
+
 .social-login img {
     width: 28px;
     height: 28px;
@@ -540,6 +639,7 @@ button:hover {
 .social-login {
     margin: 18px 0;
 }
+
 .social-login p {
     margin-bottom: 10px;
     color: #555;
@@ -547,22 +647,36 @@ button:hover {
 
 /* Botão para voltar à página inicial */
 .back-btn {
-    background: #ffffff; /* // Fundo branco */
-    color: #002855; /* // Texto azul-escuro */
-    border: none; /* // Remove borda padrão */
-    padding: 12px 24px; /* // Espaçamento interno */
-    border-radius: 6px; /* // Bordas arredondadas */
-    font-size: 1em; /* // Tamanho da fonte */
-    font-weight: bold; /* // Texto em negrito */
-    text-decoration: none; /* // Remove sublinhado */
-    display: inline-block; /* // Exibe como botão */
-    margin-top: 16px; /* // Espaço acima do botão */
-    cursor: pointer; /* // Cursor de ponteiro */
-    transition: background 0.3s ease; /* // Transição suave ao passar o mouse */
+    background: #ffffff;
+    /* // Fundo branco */
+    color: #002855;
+    /* // Texto azul-escuro */
+    border: none;
+    /* // Remove borda padrão */
+    padding: 12px 24px;
+    /* // Espaçamento interno */
+    border-radius: 6px;
+    /* // Bordas arredondadas */
+    font-size: 1em;
+    /* // Tamanho da fonte */
+    font-weight: bold;
+    /* // Texto em negrito */
+    text-decoration: none;
+    /* // Remove sublinhado */
+    display: inline-block;
+    /* // Exibe como botão */
+    margin-top: 16px;
+    /* // Espaço acima do botão */
+    cursor: pointer;
+    /* // Cursor de ponteiro */
+    transition: background 0.3s ease;
+    /* // Transição suave ao passar o mouse */
 }
 
 /* Efeito ao passar o mouse no botão */
 .back-btn:hover {
-    background: #004080; /* // Azul mais claro */
-    color: #ffffff; /* // Texto branco */
+    background: #004080;
+    /* // Azul mais claro */
+    color: #ffffff;
+    /* // Texto branco */
 }

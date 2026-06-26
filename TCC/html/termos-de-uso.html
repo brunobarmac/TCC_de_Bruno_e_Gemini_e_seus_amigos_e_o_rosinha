@@ -12,8 +12,8 @@
         h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .botoes-acao { margin-top: 30px; display: flex; justify-content: flex-end; gap: 15px; border-top: 2px solid #eee; padding-top: 20px; }
         .btn-termos { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 16px; transition: 0.3s; }
-        .btn-aceitar { background: #007bff; color: white; }
-        .btn-recusar { background: #dc3545; color: white; }
+        .btn-aceitar { background: #00b894; color: white; }
+        .btn-aceitar:hover {background: #025a48;}
     </style>
     </head>
 <body>
@@ -35,25 +35,9 @@
         <p><strong>5. Regras de Conduta:</strong> O uso da plataforma deve ser estritamente educacional.</p>
 
         <div class="botoes-acao">
-            <button class="btn-termos btn-recusar" id="btn-recusar">Recusar</button>
-            <button class="btn-termos btn-aceitar" id="btn-aceitar">Aceitar Termos</button>
+            <button class="btn-termos btn-aceitar" id="btn-aceitar" onclick="window.history.back();">Voltar</button>
         </div>
     </div>
-
-    <script>
-        // Lógica da página de termos
-        document.getElementById('btn-aceitar').addEventListener('click', function() {
-            localStorage.setItem('termosStudyProAceitos', 'true');
-            alert("Obrigado por aceitar! Você será redirecionado.");
-           window.history.back(); // Volta para a página inicial
-        });
-
-        document.getElementById('btn-recusar').addEventListener('click', function() {
-            localStorage.setItem('termosStudyProAceitos', 'false'); // Registra a recusa
-            alert("Você recusou os termos. O aviso continuará aparecendo.");
-            window.history.back(); // Volta para a página inicial
-        });
-    </script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
 </html>

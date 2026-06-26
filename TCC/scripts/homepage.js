@@ -7,7 +7,7 @@ import { getListaTrofeus } from "./gamificacao/conquistas.js";
 const otpVerified = localStorage.getItem("otpVerified");
 
 if (!otpVerified) {
-  window.location.href = "../html/otp.html";
+  window.location.href = "../html/login.html";
 }
 
 const userId = localStorage.getItem('loggedInUserId');
@@ -192,23 +192,55 @@ function atualizarPainelDoJogador(data) {
   }
 }
 
-document.getElementById('logout').addEventListener('click', () => {
+const logoutButton = document.getElementById("logout");
 
-  // remove apenas usuário logado
-  localStorage.removeItem('loggedInUserId');
+if (logoutButton) {
 
-  // contador de logout
-  let logoutCount = localStorage.getItem("logoutCount") || 0;
-  logoutCount++;
-  localStorage.setItem("logoutCount", logoutCount);
+  logoutButton.addEventListener("click", async () => {
 
-  // 🔐 após 3 saídas pede OTP novamente
-  if (logoutCount >= 3) {
-    localStorage.removeItem("otpVerified");
-    localStorage.setItem("logoutCount", 0);
-  }
+    try {
 
-  signOut(auth).then(() => {
-    window.location.href = "../html/login.html";
+      const user = auth.currentUser;
+
+      if (user) {
+
+        const logoutKey = `logoutCount_${user.uid}`;
+
+        let logoutCount =
+          Number(localStorage.getItem(logoutKey)) || 0;
+
+        logoutCount++;
+
+        localStorage.setItem(logoutKey, logoutCount);
+
+        console.log(`Logout nº ${logoutCount}`);
+
+        if (logoutCount >= 3) {
+
+          console.log("OTP expirado.");
+
+          localStorage.removeItem("otpVerified");
+
+          localStorage.setItem(logoutKey, "0");
+
+        }
+
+      }
+
+      localStorage.removeItem("loggedInUserId");
+
+      await signOut(auth);
+
+      window.location.href = "../html/login.html";
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Erro ao sair da conta.");
+
+    }
+
   });
-});
+
+}

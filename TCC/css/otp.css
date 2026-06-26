@@ -14,9 +14,17 @@ body {
     width: 320px;
     padding: 20px;
     border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    background: #002855;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.20);
     text-align: center;
+}
+
+input[type="text"]{
+    border: #00b4d8;
+}
+
+.container:hover{
+    box-shadow: 0 4px 24px rgba(0, 180, 216, 1)
 }
 
 /* Inputs */

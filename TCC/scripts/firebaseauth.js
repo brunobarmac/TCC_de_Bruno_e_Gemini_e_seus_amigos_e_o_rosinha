@@ -19,6 +19,23 @@ if (signUp) {
     const password = document.getElementById('rPassword').value;
     const firstName = document.getElementById('fName').value;
     const lastName = document.getElementById('lName').value;
+    const termsCheckbox = document.getElementById('termsCheckbox');
+    const signUpMessage = document.getElementById('signUpMessage');
+
+    if (!termsCheckbox || !termsCheckbox.checked) {
+      if (signUpMessage) {
+        signUpMessage.textContent = 'Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.';
+        signUpMessage.classList.add('error');
+      } else {
+        alert('Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.');
+      }
+      return;
+    }
+
+    if (signUpMessage) {
+      signUpMessage.textContent = '';
+      signUpMessage.classList.remove('error');
+    }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -34,7 +51,7 @@ if (signUp) {
         pontos: 0,
         xp: 0,
         nivel: 1,
-        trofeus:{},
+        trofeus: {},
 
         estatisticas: {
           questoesRespondidas: 0,
@@ -76,12 +93,15 @@ if (signIn) {
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
+      const logoutKey = `logoutCount_${user.uid}`;
+      const logoutCount = Number(localStorage.getItem(logoutKey)) || 0;
       const otpVerified = localStorage.getItem("otpVerified");
 
       if (
         userSnap.exists() &&
         userSnap.data().phoneVerified &&
-        otpVerified
+        otpVerified &&
+        logoutCount < 3
       ) {
         window.location.href = "./configuracoes.html";
       } else {

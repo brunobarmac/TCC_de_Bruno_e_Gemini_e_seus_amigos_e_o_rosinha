@@ -68,8 +68,6 @@
             <button id="signUpButton" class="switch-btn" data-i18n="cadastrese">Cadastre-se</button>
             <!-- // Botão para ir para a página de cadastro -->
         </div>
-        <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a>
-        <!-- // Botão para voltar à página inicial -->
     </div>
 
 
@@ -104,6 +102,13 @@
             <!-- // Campo para senha -->
         </div>
 
+        <div class="terms-group">
+            <input type="checkbox" id="termsCheckbox" name="termsCheckbox" aria-labelledby="termsLabel">
+            <label for="termsCheckbox" id="termsLabel" class="terms-label">
+                Li e concordo com os <a href="termos-de-uso.html" rel="noopener">Termos de Uso</a> e a <a href="privacidade.html" rel="noopener">Política de Privacidade</a>.
+            </label>
+        </div>
+
         <button type="button" class="btn" id="submitSignUp" data-i18n="cadastrar">Cadastrar</button>
         <!-- // Botão para enviar o formulário de cadastro -->
         <div class="social-login"> <!-- // Área para cadastro social -->
@@ -113,10 +118,6 @@
     <div class="cadastro-link">
         <p data-i18n="tem-conta">Já tem uma conta?</p> <!-- // Texto para quem já tem conta -->
         <button id="signInButton" class="switch-btn" data-i18n="entrar">Entrar</button>
-    </div>
-    <!-- // Botão para ir para a página de login -->
-    <a href="../index.html" class="back-btn" data-i18n="voltar-inicio">Voltar para a página inicial</a>
-    <!-- // Botão para voltar à página inicial -->
     </div>
 
     <script src="../scripts/script.js"></script>
@@ -128,65 +129,10 @@
         // ===== INICIALIZAÇÃO DO i18next =====
         // Configura o sistema de tradução com suporte a Português, Inglês e Espanhol
         i18next.init({
-            lng: localStorage.getItem('studyPro_lang') || localStorage.getItem('i18nextLng') || 'pt', // idioma salvo ou padrão português
+            lng: 'pt', // idioma padrão é português
             debug: false,
             resources: {
                 // Traduções em Português
-<<<<<<< HEAD
-                pt: { translation: {
-                    "login-title": "Bem-vindo ao StudyPro",
-                    "cadastro-title": "Crie sua conta",
-                    "user-email": "Usuário ou E-mail",
-                    "password": "Senha",
-                    "entrar": "Entrar",
-                    "social-text": "Ou entre com:",
-                    "no-account": "Não tem uma conta?",
-                    "cadastrese": "Cadastre-se",
-                    "cadastrar": "Cadastrar",
-                    "tem-conta": "Já tem uma conta?",
-                    "voltar-inicio": "Voltar para a página inicial",
-                    "Email": "Email",
-                    "Nome": "Nome",
-                    "Senha": "Senha",
-                    "Sobrenome": "Sobrenome"
-                }},
-                // Traduções em Inglês
-                en: { translation: {
-                    "login-title": "Welcome to StudyPro",
-                    "cadastro-title": "Create your account",
-                    "user-email": "Username or Email",
-                    "password": "Password",
-                    "entrar": "Sign In",
-                    "social-text": "Or sign in with:",
-                    "no-account": "Don't have an account?",
-                    "cadastrese": "Sign Up",
-                    "cadastrar": "Register",
-                    "tem-conta": "Already have an account?",
-                    "voltar-inicio": "Back to homepage",
-                    "Email": "Email",
-                    "Nome": "Name",
-                    "Senha": "Password",
-                    "Sobrenome": "Last Name"
-                }},
-                // Traduções em Espanhol
-                es: { translation: {
-                    "login-title": "Bienvenido a StudyPro",
-                    "cadastro-title": "Crea tu cuenta",
-                    "user-email": "Usuario o Correo Electrónico",
-                    "password": "Contraseña",
-                    "entrar": "Iniciar Sesión",
-                    "social-text": "O inicia sesión con:",
-                    "no-account": "¿No tienes una cuenta?",
-                    "cadastrese": "Regístrate",
-                    "cadastrar": "Registrarse",
-                    "tem-conta": "¿Ya tienes una cuenta?",
-                    "voltar-inicio": "Volver a la página de inicio",
-                    "Email": "Correo Electrónico",
-                    "Nome": "Nombre",
-                    "Senha": "Contraseña",
-                    "Sobrenome": "Apellido"
-                }}
-=======
                 pt: {
                     translation: {
                         "login-title": "Bem-vindo ao StudyPro",
@@ -234,7 +180,6 @@
                         "voltar-inicio": "Volver a la página de inicio"
                     }
                 }
->>>>>>> d034d080088f7b6bf7eb5a527e5d339366a89341
             }
         }, function (err, t) {
             updateContent();
@@ -278,13 +223,7 @@
             option.addEventListener('click', function () {
                 const newLang = this.getAttribute('data-lang');
                 currentLang.textContent = newLang.toUpperCase();
-<<<<<<< HEAD
-                localStorage.setItem('studyPro_lang', newLang);
-                localStorage.setItem('i18nextLng', newLang);
-                i18next.changeLanguage(newLang, function() {
-=======
                 i18next.changeLanguage(newLang, function () {
->>>>>>> d034d080088f7b6bf7eb5a527e5d339366a89341
                     updateContent();
                 });
                 langMenu.classList.remove('show');
@@ -302,8 +241,6 @@
             }
         });
     </script>
-    <script src="../scripts/site-common.js"></script>
 </body>
 <!-- Site common: auto-inject header, footer and translator -->
-
 </html>
